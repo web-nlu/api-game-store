@@ -12,29 +12,26 @@ import static vn.edu.hcmaf.apigamestore.common.constants.SecurityConstants.*;
 
 @Component
 public class JwtUtil {
-
-
-
     private  final Key key = Keys.hmacShaKeyFor(JWT_SECRET_KEY.getBytes());
 
-    public  String generateToken(String username) {
+    public  String generateToken(String email) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + ONE_MONTH))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-    public  String generateRefreshToken(String username) {
+    public  String generateRefreshToken(String email) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + ONE_YEAR))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public  String getUsernameFromToken(String token) {
+    public  String getEmailFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
