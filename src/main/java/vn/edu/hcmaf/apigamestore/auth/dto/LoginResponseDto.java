@@ -16,9 +16,4 @@ import java.util.List;
 public class LoginResponseDto {
     private String accessToken;
     private String refreshToken;
-    private Long id;
-    private String username;
-    private List<RoleEntity> roles;
-    private String email;
-    private String avatar;
 }

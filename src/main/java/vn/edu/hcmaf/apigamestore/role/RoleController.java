@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.common.dto.BaseResponse;
+import vn.edu.hcmaf.apigamestore.common.dto.SuccessResponse;
 import vn.edu.hcmaf.apigamestore.role.dto.RoleDto;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class RoleController {
 
     @PostMapping("/create")
     public ResponseEntity<BaseResponse> createRole(@RequestBody RoleDto role) {
-        return roleService.save(role.getName());
+        RoleEntity roleEntity = roleService.save(role.getName());
+        return ResponseEntity.ok().body(new SuccessResponse<>("Tạo vai trò thành công", roleEntity));
     }
 }
