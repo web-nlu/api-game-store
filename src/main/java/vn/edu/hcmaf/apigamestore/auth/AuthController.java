@@ -54,9 +54,7 @@ public class AuthController {
   }
   @PostMapping("/refresh-token")
   public ResponseEntity<BaseResponse> refreshToken(@RequestBody @Valid RefreshTokenRequestDto request) {
-    if (!jwtUtil.validateToken(request.getRefreshToken())) {
-      throw new IllegalArgumentException("Invalid token");
-    }
+    jwtUtil.validateToken(request.getRefreshToken());
     String email = jwtUtil.getEmailFromToken(request.getRefreshToken());
     UserEntity userEntity = userService.getUserByEmail(email);
     LoginResponseDto loginResponseDto = authService.refreshToken(userEntity, request.getRefreshToken());
@@ -65,9 +63,7 @@ public class AuthController {
   @PostMapping("/logout")
   public ResponseEntity<BaseResponse> logout(@RequestHeader("Authorization") String token) {
     String finalToken = token.replace("Bearer ", "");
-    if (!jwtUtil.validateToken(finalToken)) {
-      throw new IllegalArgumentException("Invalid token");
-    }
+    jwtUtil.validateToken(finalToken);
     String email = jwtUtil.getEmailFromToken(finalToken);
     UserEntity userEntity = userService.getUserByEmail(email);
     boolean result = authService.logout(userEntity);
