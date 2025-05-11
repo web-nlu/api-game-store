@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataAccessException.class)
-    public ResponseEntity<ErrorResponse> handleDataException(DataException ex) {
+    public ResponseEntity<ErrorResponse> handleDataAccessException(DataAccessException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse(
                         "500",
