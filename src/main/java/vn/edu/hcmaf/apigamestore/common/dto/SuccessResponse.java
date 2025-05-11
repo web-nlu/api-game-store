@@ -6,7 +6,8 @@ import lombok.Data;
 public class SuccessResponse<T> extends BaseResponse {
     private T data;
 
-    public SuccessResponse(String message, T data) {
+    public SuccessResponse(String status, String message, T data) {
+        this.status = status;
         this.message = message;
         this.data = data;
     }
