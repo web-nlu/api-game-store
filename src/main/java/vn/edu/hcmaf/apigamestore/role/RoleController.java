@@ -28,12 +28,13 @@ public class RoleController {
 
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> getAllRoles() {
-        return roleService.getAllRoles();
+        List<RoleEntity> roles = roleService.getAllRoles();
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get all roles successfully", roles));
     }
 
     @PostMapping("/create")
     public ResponseEntity<BaseResponse> createRole(@RequestBody RoleDto role) {
         RoleEntity roleEntity = roleService.save(role.getName());
-        return ResponseEntity.ok().body(new SuccessResponse<>("Tạo vai trò thành công", roleEntity));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Create role success", roleEntity));
     }
 }
