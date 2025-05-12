@@ -122,6 +122,14 @@ public class UserService {
 
   public boolean deleteUser(Long id) {
     String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+    //has ADMIN role or is the user itself
+    if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().noneMatch(
+            authority -> authority.getAuthority().equals("ADMIN"))) {
+      UserEntity currentUserEntity = userRepository.findByEmail(currentUser).orElse(null);
+      if (currentUserEntity == null || !currentUserEntity.getId().equals(id)) {
+        throw new IllegalArgumentException("Bạn không có quyền xóa người dùng này");
+      }
+    }
     UserEntity userEntity = userRepository.findByIdAndIsDeletedFalse(id).orElse(null);
     if (userEntity == null) {
       throw new NullPointerException("Không tìm thấy người dùng");

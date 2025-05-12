@@ -30,9 +30,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Extract the JWT token from the request header
         String jwtToken = getTokenFromRequest(request);
 
-        // Validate the JWT token (this is just a placeholder, implement your own validation logic)
         if (jwtToken != null && jwtUtil.validateToken(jwtToken) ) {
-            String username = jwtUtil.getUsernameFromToken(jwtToken);
+            String username = jwtUtil.getEmailFromToken(jwtToken);
             // Set user in requset context
             UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
             Authentication authentication = new UsernamePasswordAuthenticationToken(

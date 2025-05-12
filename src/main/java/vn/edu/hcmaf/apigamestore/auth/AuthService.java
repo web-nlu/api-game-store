@@ -35,37 +35,39 @@ public class AuthService {
     }
 
     public LoginResponseDto register(RegisterRequestDto requestDto, RoleEntity role) {
-      if (userRepository.existsByEmail(requestDto.getEmail())) {
-          throw new IllegalArgumentException("Username already exists");
-      }
-      UserEntity userEntity = new UserEntity();
-      userEntity.setEmail(requestDto.getEmail());
-      userEntity.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-      userEntity.setRoles(Collections.singletonList(role));
+        if (userRepository.existsByEmail(requestDto.getEmail())) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(requestDto.getEmail());
+        userEntity.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        userEntity.setRoles(Collections.singletonList(role));
+        String refreshToken = jwtUtil.generateRefreshToken(userEntity.getEmail());
+        userEntity.setRefreshToken(refreshToken);
+        userRepository.save(userEntity);
+        String token = jwtUtil.generateToken(userEntity.getEmail());
 
-      userRepository.save(userEntity);
-      String refreshToken = jwtUtil.generateRefreshToken(userEntity.getEmail());
-      String token = jwtUtil.generateToken(userEntity.getEmail());
-
-      return LoginResponseDto.builder()
-        .accessToken(token)
-        .refreshToken(refreshToken)
-        .build();
+        return LoginResponseDto.builder()
+                .accessToken(token)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     public LoginResponseDto login(LoginRequestDto requestDto, UserEntity userEntity) {
-      // Authenticate user
-      Authentication authentication = authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(requestDto.getEmail(), requestDto.getPassword())
-      );
-      SecurityContextHolder.getContext().setAuthentication(authentication);
-      String refreshToken = jwtUtil.generateRefreshToken(userEntity.getEmail());
-      String token = jwtUtil.generateToken(userEntity.getEmail());
-
-      return LoginResponseDto.builder()
-                        .accessToken(token)
-                        .refreshToken(refreshToken)
-                        .build();
+        // Authenticate user
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(requestDto.getEmail(), requestDto.getPassword())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String refreshToken = jwtUtil.generateRefreshToken(userEntity.getEmail());
+        String token = jwtUtil.generateToken(userEntity.getEmail());
+        // Update refresh token in the database
+        userEntity.setRefreshToken(refreshToken);
+        userRepository.save(userEntity);
+        return LoginResponseDto.builder()
+                .accessToken(token)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     public LoginResponseDto refreshToken(UserEntity userEntity, String refreshToken) {
@@ -77,10 +79,11 @@ public class AuthService {
     }
 
     public boolean logout(UserEntity userEntity) {
-      if (userEntity == null) {
-        throw new NullPointerException("User cannot be null");
-      }
-      userRepository.save(userEntity);
-      return true;
+        if (userEntity == null) {
+            throw new NullPointerException("User cannot be null");
+        }
+        userEntity.setRefreshToken(null);
+        userRepository.save(userEntity);
+        return true;
     }
 }

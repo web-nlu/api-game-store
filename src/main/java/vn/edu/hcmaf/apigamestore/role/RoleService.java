@@ -25,8 +25,8 @@ public class RoleService {
         return roleRepository.existsByName(name);
     }
 
-    public ResponseEntity<BaseResponse> getAllRoles() {
-        return ResponseEntity.ok().body(new SuccessResponse<>("Get all roles successfully", roleRepository.findAllByIsDeletedFalse()));
+    public List<RoleEntity> getAllRoles() {
+        return  roleRepository.findAllByIsDeletedFalse();
     }
 
     public RoleEntity save(String role) {
