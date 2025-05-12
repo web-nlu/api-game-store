@@ -35,6 +35,17 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    /**
+     * Check token from header if not valid, return 401 catch by JwtAuthenticationFilter
+     * if valid, return 200 with true
+     * @param token
+     * @return
+     */
+    @GetMapping("/check-token")
+    public ResponseEntity<BaseResponse> checkToken(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Check token success", true));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<BaseResponse> register(@RequestBody @Valid RegisterRequestDto request) {
         log.info("Register attempt for user: {}", request);
@@ -44,7 +55,7 @@ public class AuthController {
         }
         LoginResponseDto loginResponseDto = authService.register(request, roleEntity);
 
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Reregister success", loginResponseDto));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reregister success", loginResponseDto));
     }
 
     @PostMapping("/login")
@@ -52,7 +63,7 @@ public class AuthController {
         log.info("Login attempt for user: {}", request);
         UserEntity user = userService.getUserByEmail(request.getEmail());
         LoginResponseDto dto = authService.login(request, user);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Login success", dto));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Login success", dto));
     }
 
     @PostMapping("/refresh-token")
@@ -66,7 +77,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new ErrorResponse("400", "FAIL", "Invalid refresh token, please login again"));
         }
         LoginResponseDto loginResponseDto = authService.refreshToken(userEntity, request.getRefreshToken());
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get refresh-token success", loginResponseDto));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get refresh-token success", loginResponseDto));
     }
 
     @PostMapping("/logout")
@@ -77,6 +88,6 @@ public class AuthController {
         UserEntity userEntity = userService.getUserByEmail(email);
         boolean result = authService.logout(userEntity);
 
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Logout success", result));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Logout success", result));
     }
 }
