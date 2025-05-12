@@ -18,6 +18,11 @@ public class RoleService {
     public RoleService(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
+
+  public RoleEntity getByName(String name) throws NullPointerException {
+    return roleRepository.findByName(name).orElse(null);
+  }
+
     public RoleEntity findByName(String name) throws NullPointerException {
         return roleRepository.findByName(name).orElseThrow(() -> new NullPointerException(name));
     }

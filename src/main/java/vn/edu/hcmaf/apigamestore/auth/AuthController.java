@@ -38,7 +38,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<BaseResponse> register(@RequestBody @Valid RegisterRequestDto request) {
         log.info("Register attempt for user: {}", request);
-        RoleEntity roleEntity = roleService.findByName("USER");
+        RoleEntity roleEntity = roleService.getByName("USER");
         if (roleEntity == null) {
             roleEntity = roleService.save("USER");
         }

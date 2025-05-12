@@ -35,9 +35,6 @@ public class AuthService {
     }
 
     public LoginResponseDto register(RegisterRequestDto requestDto, RoleEntity role) {
-        if (userRepository.existsByEmail(requestDto.getEmail())) {
-            throw new IllegalArgumentException("Username already exists");
-        }
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(requestDto.getEmail());
         userEntity.setPassword(passwordEncoder.encode(requestDto.getPassword()));
