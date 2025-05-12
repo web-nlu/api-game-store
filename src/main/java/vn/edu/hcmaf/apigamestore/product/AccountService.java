@@ -1,8 +1,12 @@
 package vn.edu.hcmaf.apigamestore.product;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
+import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountFilterRequestDto;
@@ -104,5 +108,9 @@ public class AccountService {
 
     public List<AccountEntity> filterAccounts(AccountFilterRequestDto request) {
         return accountRepository.filterAccounts(request);
+    }
+
+    public Page<AccountEntity> filterAccountsLazyLoading(LazyLoadingRequestDto<AccountFilterRequestDto> request) {
+       return accountRepository.filterAccountsLazyLoading(request);
     }
 }
