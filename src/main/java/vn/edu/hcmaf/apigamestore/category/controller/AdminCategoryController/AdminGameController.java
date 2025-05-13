@@ -1,38 +1,21 @@
-package vn.edu.hcmaf.apigamestore.category.gameEntity;
+package vn.edu.hcmaf.apigamestore.category.controller.AdminCategoryController;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
+import vn.edu.hcmaf.apigamestore.category.gameEntity.GameService;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.AddGameRequestDto;
-import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.GameResponseDto;
 import vn.edu.hcmaf.apigamestore.common.dto.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.dto.SuccessResponse;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/game")
-public class GameController {
+@RequestMapping("/api/admin/game")
+@RequiredArgsConstructor
+public class AdminGameController {
     @Autowired
     private final GameService gameService;
-    public GameController(GameService gameService) {
-        this.gameService = gameService;
-    }
-    @GetMapping("/u/all")
-    public ResponseEntity<BaseResponse> getAllGames() {
-        List<GameEntity> games = gameService.getAllGames();
-        List<GameResponseDto> gameResponseDtos = games.stream()
-                .map((gameEntity -> gameService.toGameResponseDto(gameEntity,false)))
-                .toList();
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all games success", gameResponseDtos));
-    }
-    @GetMapping("/u/{gameId}")
-    public ResponseEntity<BaseResponse> getGameById(@PathVariable long gameId) {
-        GameEntity game = gameService.getGameById(gameId);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get game by id success", gameService.toGameResponseDto(game,true)));
-    }
-
     @PostMapping("/add")
     public ResponseEntity<BaseResponse> addGame(@RequestBody AddGameRequestDto gameRequestDto) {
         GameEntity newGame = gameService.addGame(gameRequestDto);
@@ -48,6 +31,5 @@ public class GameController {
         gameService.deleteGame(Long.parseLong(gameId));
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Delete game success", null));
     }
-
 
 }

@@ -15,9 +15,8 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/role")
+@RequestMapping("/api/admin/role")
 @Validated
-//@PreAuthorize("hasAuthority('ADMIN')")
 public class RoleController {
     @Autowired
     private RoleService roleService;

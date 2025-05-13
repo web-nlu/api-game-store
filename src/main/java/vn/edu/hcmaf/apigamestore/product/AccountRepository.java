@@ -28,4 +28,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long>, A
     List<AccountEntity> filterAccounts(AccountFilterRequestDto dto);
 
     Optional<AccountEntity> findByIdAndIsDeletedFalseAndStatusEquals(Long accountId, String available);
+
+    Optional<AccountEntity> findByIdAndIsDeletedFalse(Long accountId);
 }

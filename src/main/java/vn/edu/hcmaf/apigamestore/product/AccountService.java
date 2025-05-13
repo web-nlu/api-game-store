@@ -32,7 +32,7 @@ public class AccountService {
 
     public AccountDetailDto getAccountDetail(Long id) {
         AccountEntity account = accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
 
         return toDetailDto(account);
     }
@@ -119,5 +119,15 @@ public class AccountService {
 
     public Page<AccountEntity> filterAccountsLazyLoading(LazyLoadingRequestDto<AccountFilterRequestDto> request) {
        return accountRepository.filterAccountsLazyLoading(request);
+    }
+
+    public AccountEntity findByIdAndIsDeletedFalse(Long accountId) {
+        return accountRepository.findByIdAndIsDeletedFalse(accountId)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+    }
+
+    public AccountEntity findById(Long accountId) {
+        return accountRepository.findById(accountId)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
     }
 }
