@@ -42,6 +42,8 @@ public class SecurityConfig {
                                 .requestMatchers("/ping").permitAll()
                                 .requestMatchers("/api/*/u/**").permitAll()
                                 .requestMatchers("/api/accounts/**").permitAll()
+                                .requestMatchers("/api/category/**").hasAuthority("ADMIN")
+                                .requestMatchers("/api/game/**").hasAuthority("ADMIN")
 //                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
 //                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
