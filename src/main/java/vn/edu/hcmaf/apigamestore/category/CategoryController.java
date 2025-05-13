@@ -13,14 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
-    @Autowired
     private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
 
     }
-    @GetMapping("/all")
+    @GetMapping("/u/all")
     public ResponseEntity<BaseResponse> getAllCategories() {
         List<CategoryEntity> categories = categoryService.getAllCategories();
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all categories success", categories));

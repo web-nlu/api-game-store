@@ -1,11 +1,13 @@
 package vn.edu.hcmaf.apigamestore.product;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameRepository;
 import vn.edu.hcmaf.apigamestore.common.dto.BaseResponse;
+import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.common.dto.SuccessResponse;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
@@ -128,6 +130,24 @@ public class AccountController {
                         .game(account.getGame().getName())
                         .build())
                 .toList();
+
+        return ResponseEntity.ok().body(
+                new SuccessResponse<>("SUCCESS", "Filter accounts success", accounts)
+        );
+    }
+    @PostMapping("/accounts/filter-lazyloading")
+    public ResponseEntity<BaseResponse> filterAccountsLazyLoading(@RequestBody LazyLoadingRequestDto<AccountFilterRequestDto> request) {
+        Page<AccountDto> accounts = accountService.filterAccountsLazyLoading(request)
+                .map(account -> AccountDto.builder()
+                        .id(account.getId())
+                        .title(account.getTitle())
+                        .price(account.getPrice())
+                        .category(account.getGame().getCategory().getName())
+                        .image(account.getImage())
+                        .info(account.getInfo())
+                        .game(account.getGame().getName())
+                        .build());
+
 
         return ResponseEntity.ok().body(
                 new SuccessResponse<>("SUCCESS", "Filter accounts success", accounts)

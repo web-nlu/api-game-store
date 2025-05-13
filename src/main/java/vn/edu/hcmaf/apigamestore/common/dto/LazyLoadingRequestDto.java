@@ -11,5 +11,5 @@ public class LazyLoadingRequestDto<T> {
     private int page;
     @NotNull(message = "Size is required")
     private int size;
-    private T sortBy;
+    private T filter;
 }
