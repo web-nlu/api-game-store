@@ -27,8 +27,16 @@ public class CartService {
     private final AccountService accountService;
     private final ObjectMapper objectMapper;
 
-
-
+    public CartResponseDto toCartResponseDto(List<CartEntity> cartEntity) {
+        List<AccountDto> accounts = cartEntity.stream()
+                .map(cartEntity1 -> accountService.toDto(cartEntity1.getAccount()))
+                .toList();
+        return CartResponseDto.builder()
+                .accounts(accounts)
+                .totalPrice(cartEntity.stream().mapToDouble(cartEntity1 -> cartEntity1.getAccount().getPrice()).sum())
+                .totalItems(cartEntity.size())
+                .build();
+    }
     /**
      * Adds an account to the user's cart.
      * This method checks if the user is authenticated and if the account exists.
@@ -63,7 +71,6 @@ public class CartService {
         return true;
     }
     public List<CartEntity> getCurrentUserCart() {
-        System.out.println("getCurrentUserCart=================================");
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userService.getUserByEmail(userName);
         if (user == null) {
@@ -71,15 +78,34 @@ public class CartService {
         }
         return cartRepository.findByUserId(user.getId());
     }
-    public CartResponseDto toCartResponseDto(List<CartEntity> cartEntities) {
-        List<AccountDto> accounts = cartEntities.stream()
-                .map(cartEntity -> accountService.toDto(cartEntity.getAccount()))
-                .toList();
 
-
-        return CartResponseDto.builder()
-                .accounts(accounts)
-                .build();
+    public boolean removeFromCart(Long accountId) {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userService.getUserByEmail(userName);
+        AccountEntity account = accountService.findById(accountId);
+        if (account == null) {
+            throw new IllegalArgumentException("Account not found");
+        }
+        CartEntity cartEntity = cartRepository.findByUserIdAndAccountId(user.getId(), account.getId());
+        if (cartEntity == null) {
+            throw new IllegalArgumentException("Account not in cart");
+        }
+        cartRepository.delete(cartEntity);
+        return true;
     }
 
+    public boolean deleteAllItemInCart(Long accountId) {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userService.getUserByEmail(userName);
+        AccountEntity account = accountService.findById(accountId);
+        if (account == null) {
+            throw new IllegalArgumentException("Account not found");
+        }
+        List<CartEntity> cartEntities = cartRepository.findByUserId(user.getId());
+        if (cartEntities.isEmpty()) {
+            throw new IllegalArgumentException("Cart is empty");
+        }
+        cartRepository.deleteAll(cartEntities);
+        return true;
+    }
 }

@@ -14,4 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class CartResponseDto {
     List<AccountDto> accounts;
+    private double totalPrice;
+    private int totalItems;
 }
