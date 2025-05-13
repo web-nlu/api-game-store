@@ -2,6 +2,7 @@ package vn.edu.hcmaf.apigamestore.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.category.dto.AddCategoryRequestDto;
 import vn.edu.hcmaf.apigamestore.category.dto.CategoryResponseDto;
@@ -39,18 +40,21 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse> addCategory(@RequestBody AddCategoryRequestDto categoryRequestDto) {
         CategoryEntity newCategory = categoryService.addCategory(categoryRequestDto);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Add category success", newCategory));
     }
 
     @PutMapping("/update/{categoryId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse> updateCategory(@RequestBody AddCategoryRequestDto categoryRequestDto, @PathVariable long categoryId) {
         CategoryEntity updatedCategory = categoryService.updateCategory(categoryRequestDto, categoryId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Update category success", updatedCategory));
     }
 
     @DeleteMapping("/delete/{categoryId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse> deleteCategory(@PathVariable String categoryId) {
         categoryService.deleteCategory(Long.parseLong(categoryId));
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Delete category success", null));
