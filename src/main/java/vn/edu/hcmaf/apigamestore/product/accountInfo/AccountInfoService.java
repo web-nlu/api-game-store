@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.product.AccountEntity;
 
 @Service
-@Data
+@RequiredArgsConstructor
 public class AccountInfoService {
-    @Autowired
-    private AccountInfoRepository accountInfoRepository;
+    private final AccountInfoRepository accountInfoRepository;
 
     public AccountInfoDto toDto(AccountInfoEntity accountInfoEntity) {
         return AccountInfoDto.builder()
