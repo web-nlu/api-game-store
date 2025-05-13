@@ -8,10 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import vn.edu.hcmaf.apigamestore.cart.CartEntity;
+import vn.edu.hcmaf.apigamestore.cart.CartService;
+import vn.edu.hcmaf.apigamestore.cart.dto.CartResponseDto;
 import vn.edu.hcmaf.apigamestore.common.dto.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingResponseDto;
 import vn.edu.hcmaf.apigamestore.common.dto.SuccessResponse;
+import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
 
 import javax.swing.text.html.parser.Entity;
@@ -26,6 +30,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CartService cartService;
     @GetMapping("/me")
     public ResponseEntity<BaseResponse> getCurrentUser() {
         UserEntity userEntity = userService.getCurrentUser();
@@ -66,6 +72,5 @@ public class UserController {
         boolean result = userService.deleteUser(userId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Delete User Id: "+userId+ " success",result));
     }
-
 
 }

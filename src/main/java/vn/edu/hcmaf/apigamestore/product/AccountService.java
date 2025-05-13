@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
+import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
@@ -24,10 +26,6 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-
-    public AccountEntity findByIdAndIsDeletedFalseAndStatusEquals(Long id, String status) {
-        return accountRepository.findByIdAndIsDeletedFalseAndStatusEquals(id, status);
-    }
     public List<AccountDto> getAllAccounts() {
         return accountRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
     }
@@ -112,6 +110,11 @@ public class AccountService {
 
     public List<AccountEntity> filterAccounts(AccountFilterRequestDto request) {
         return accountRepository.filterAccounts(request);
+    }
+
+    public AccountEntity findByIdAndIsDeletedFalseAndStatusEquals(Long accountId, String available) {
+        return accountRepository.findByIdAndIsDeletedFalseAndStatusEquals(accountId, available)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
     }
 
     public Page<AccountEntity> filterAccountsLazyLoading(LazyLoadingRequestDto<AccountFilterRequestDto> request) {
