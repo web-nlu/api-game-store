@@ -105,4 +105,9 @@ public class AccountService {
     public List<AccountEntity> filterAccounts(AccountFilterRequestDto request) {
         return accountRepository.filterAccounts(request);
     }
+
+    public AccountEntity findByIdAndIsDeletedFalseAndStatusEquals(Long accountId, String available) {
+        return accountRepository.findByIdAndIsDeletedFalseAndStatusEquals(accountId, available)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+    }
 }

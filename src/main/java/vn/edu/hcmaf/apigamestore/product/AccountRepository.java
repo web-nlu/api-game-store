@@ -8,6 +8,7 @@ import vn.edu.hcmaf.apigamestore.product.dto.AccountFilterRequestDto;
 import vn.edu.hcmaf.apigamestore.product.repo.AccountRepositoryCustom;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<AccountEntity, Long>, AccountRepositoryCustom {
 
@@ -24,4 +25,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long>, A
     @Query("SELECT a FROM AccountEntity a JOIN a.game g WHERE a.title LIKE %:keyword% AND g.id = :gameId")
     List<AccountEntity> findByTitleContainingIgnoreCaseAndGameId(String keyword, String gameId);
     List<AccountEntity> filterAccounts(AccountFilterRequestDto dto);
+
+    Optional<AccountEntity> findByIdAndIsDeletedFalseAndStatusEquals(Long accountId, String available);
 }
