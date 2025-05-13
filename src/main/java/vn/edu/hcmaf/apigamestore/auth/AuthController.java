@@ -1,6 +1,7 @@
 package vn.edu.hcmaf.apigamestore.auth;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,18 +23,12 @@ import vn.edu.hcmaf.apigamestore.user.UserService;
 @RestController
 @RequestMapping("/api/auth/u")
 @Validated
+@RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
     private final RoleService roleService;
     private final UserService userService;
     private final JwtUtil jwtUtil;
-
-    public AuthController(RoleService roleService, AuthService authService, UserService userService, JwtUtil jwtUtil) {
-        this.authService = authService;
-        this.roleService = roleService;
-        this.userService = userService;
-        this.jwtUtil = jwtUtil;
-    }
 
     /**
      * Check token from header if not valid, return 401 catch by JwtAuthenticationFilter

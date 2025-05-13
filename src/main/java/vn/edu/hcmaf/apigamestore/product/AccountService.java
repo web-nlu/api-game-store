@@ -1,12 +1,14 @@
 package vn.edu.hcmaf.apigamestore.product;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
+import vn.edu.hcmaf.apigamestore.category.gameEntity.GameRepository;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final GameRepository gameRepository;
 
     public List<AccountDto> getAllAccounts() {
         return accountRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
@@ -97,14 +100,14 @@ public class AccountService {
     }
 
     public List<AccountEntity> searchAccountsByCategory(String keyword, String categoryId) {
-         return accountRepository.findByTitleContainingIgnoreCaseAndCategoryId(keyword, categoryId);
+        return accountRepository.findByTitleContainingIgnoreCaseAndCategoryId(keyword, categoryId);
     }
 
     public List<AccountEntity> searchAccountsByGame(String keyword, String gameId) {
         return accountRepository.findByTitleContainingIgnoreCaseAndGameId(keyword, gameId);
     }
 
-    public List<AccountEntity>  searchAccountsByCategoryAndGame(String keyword, String categoryId, String gameId, String sort) {
+    public List<AccountEntity> searchAccountsByCategoryAndGame(String keyword, String categoryId, String gameId, String sort) {
         return accountRepository.findByTitleContainingIgnoreCaseAndCategoryId(keyword, categoryId);
     }
 
@@ -118,7 +121,7 @@ public class AccountService {
     }
 
     public Page<AccountEntity> filterAccountsLazyLoading(LazyLoadingRequestDto<AccountFilterRequestDto> request) {
-       return accountRepository.filterAccountsLazyLoading(request);
+        return accountRepository.filterAccountsLazyLoading(request);
     }
 
     public AccountEntity findByIdAndIsDeletedFalse(Long accountId) {
@@ -129,5 +132,32 @@ public class AccountService {
     public AccountEntity findById(Long accountId) {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
+    }
+
+    public AccountEntity addAccount(AccountDetailDto dto) {
+        AccountEntity account = new AccountEntity();
+        account.setTitle(dto.getTitle());
+        account.setPrice(dto.getPrice());
+        account.setSalePrice(dto.getSalePrice());
+        account.setImage(dto.getImage());
+        account.setInfo(dto.getInfo());
+        account.setServer(dto.getServer());
+        account.setImageGallery(dto.getImageGallery());
+        account.setDescription(dto.getDescription());
+        account.setFeatures(dto.getFeatures());
+        account.setLevel(dto.getLevel());
+        account.setStatus(dto.getStatus());
+        account.setWarranty(dto.getWarranty());
+        account.setViewCount(dto.getViewCount() != null ? dto.getViewCount() : 0);
+        account.setSaleCount(dto.getSaleCount() != null ? dto.getSaleCount() : 0);
+        account.setTags(dto.getTags());
+        account.setRating(dto.getRating() != null ? dto.getRating() : 0.0);
+        // Nếu bạn truyền vào game theo tên (String), cần fetch entity từ DB
+        if (dto.getGame() != null) {
+            GameEntity game = gameRepository.findByName(dto.getGame())
+                    .orElseThrow(() -> new IllegalArgumentException("Game not found: " + dto.getGame()));
+            account.setGame(game);
+        }
+        return accountRepository.save(account);
     }
 }

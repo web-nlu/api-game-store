@@ -14,7 +14,6 @@ import vn.edu.hcmaf.apigamestore.common.dto.SuccessResponse;
 @RequestMapping("/api/admin/game")
 @RequiredArgsConstructor
 public class AdminGameController {
-    @Autowired
     private final GameService gameService;
     @PostMapping("/add")
     public ResponseEntity<BaseResponse> addGame(@RequestBody AddGameRequestDto gameRequestDto) {

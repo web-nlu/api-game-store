@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.category.CategoryEntity;
+import vn.edu.hcmaf.apigamestore.category.CategoryRepository;
 import vn.edu.hcmaf.apigamestore.category.CategoryService;
+import vn.edu.hcmaf.apigamestore.category.dto.CategoryResponseDto;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.AddGameRequestDto;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.GameResponseDto;
 import vn.edu.hcmaf.apigamestore.product.AccountService;
@@ -17,11 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GameService {
     private final GameRepository gameRepository;
-    private  @Lazy CategoryService   categoryService;
-    private  @Lazy AccountService accountService;
+    private final CategoryRepository categoryRepository;
+    private final AccountService accountService;
 
 
-    public GameResponseDto toGameResponseDto(GameEntity gameEntity,boolean includeAccounts) {
+    public GameResponseDto toGameResponseDto(GameEntity gameEntity, boolean includeAccounts) {
         GameResponseDto gameResponseDto = GameResponseDto.builder()
                 .id(gameEntity.getId())
                 .name(gameEntity.getName())
@@ -35,6 +37,7 @@ public class GameService {
         }
         return gameResponseDto;
     }
+
     public List<GameEntity> getAllGames() {
         return gameRepository.findByIsDeletedFalse();
     }
@@ -42,6 +45,7 @@ public class GameService {
     public List<GameEntity> getGamesByCategoryId(long categoryId) {
         return gameRepository.findByCategoryIdAndIsDeletedFalse(categoryId);
     }
+
     public GameEntity getGameById(long gameId) {
         GameEntity gameEntity = gameRepository.findByIdAndIsDeletedFalse(gameId);
         if (gameEntity == null) {
@@ -49,11 +53,12 @@ public class GameService {
         }
         return gameEntity;
     }
+
     public GameEntity addGame(AddGameRequestDto gameRequestDto) {
         GameEntity gameEntity = new GameEntity();
         gameEntity.setName(gameRequestDto.getName());
         // check category
-        CategoryEntity categoryEntity = categoryService.getCategoryById(gameRequestDto.getCategoryId());
+        CategoryEntity categoryEntity = categoryRepository.findByIdAndIsDeletedFalse(gameRequestDto.getCategoryId());
         if (categoryEntity == null) {
             throw new IllegalArgumentException("Category not found with id: " + gameRequestDto.getCategoryId());
         }
@@ -69,7 +74,7 @@ public class GameService {
         GameEntity existingGame = gameRepository.findByIdAndIsDeletedFalse(gameId);
         existingGame.setName(gameRequestDto.getName());
         // check category
-        CategoryEntity categoryEntity = categoryService.getCategoryById(gameRequestDto.getCategoryId());
+        CategoryEntity categoryEntity = categoryRepository.findByIdAndIsDeletedFalse(gameRequestDto.getCategoryId());
         if (categoryEntity == null) {
             throw new IllegalArgumentException("Category not found with id: " + gameRequestDto.getCategoryId());
         }

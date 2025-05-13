@@ -1,5 +1,6 @@
 package vn.edu.hcmaf.apigamestore.user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,17 +21,12 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
   private final UserRepository userRepository;
   private final RoleService roleService;
   private final PasswordEncoder passwordEncoder;
 
-  @Autowired
-  public UserService(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
-    this.userRepository = userRepository;
-    this.roleService = roleService;
-    this.passwordEncoder = passwordEncoder;
-  }
 
   public List<UserEntity> getAllUsers() {
     return userRepository.findAll();

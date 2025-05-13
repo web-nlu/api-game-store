@@ -19,4 +19,6 @@ public interface GameRepository extends JpaRepository<GameEntity, Long> {
     List<GameEntity> findByCategoryIdAndIsDeletedFalse(long categoryId);
 
     List<GameEntity> findByIsDeletedFalse();
+
+    Optional<GameEntity> findByName(String game);
 }

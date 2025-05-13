@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
 import vn.edu.hcmaf.apigamestore.common.BaseEntity;
+import vn.edu.hcmaf.apigamestore.product.accountInfo.AccountInfoEntity;
 import vn.edu.hcmaf.apigamestore.review.ReviewEntity;
 
 import java.util.List;
@@ -52,4 +53,6 @@ public class AccountEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewEntity> reviews;
+
+
 }

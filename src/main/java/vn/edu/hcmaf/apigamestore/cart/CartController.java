@@ -1,5 +1,6 @@
 package vn.edu.hcmaf.apigamestore.cart;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cart")
+@RequiredArgsConstructor
 public class CartController {
-
     private final CartService cartService;
-
-    @Autowired
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
-
     @GetMapping("/me")
     public ResponseEntity<BaseResponse> getCurrentUserCart() {
         List<CartEntity> cartEntities = cartService.getCurrentUserCart();

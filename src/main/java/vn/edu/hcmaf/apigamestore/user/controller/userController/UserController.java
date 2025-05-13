@@ -32,30 +32,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @GetMapping("/all")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ResponseEntity<BaseResponse> getAllUsers() {
-//        List<UserEntity> users = userService.getAllUsers();
-//        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get all User info success", users));
-//    }
-//    @PostMapping("/all-lazyloading")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ResponseEntity<BaseResponse> getAllUsersLazyLoading(@RequestBody @Valid LazyLoadingRequestDto<Sort> lazyLoadingRequestDto) {
-//      LazyLoadingResponseDto<List<UserEntity>> users = userService.getAllUsersLazyLoading(lazyLoadingRequestDto);
-//      return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get all User info success (lazyloading)", users));
-//    }
-//    @GetMapping("/id/{userId}")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ResponseEntity<BaseResponse> getUserById(@PathVariable Long userId) {
-//      UserEntity userEntity = userService.getUserById(userId);
-//      return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get User Id : "+ userId+" info success", userEntity));
-//    }
-//    @GetMapping("/username/{username}")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ResponseEntity<BaseResponse> getUserByUsername(@PathVariable String username) {
-//      UserEntity userEntity = userService.getUserByEmail(username);
-//      return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get User Name : "+ username+" info success", userEntity));
-//    }
     @GetMapping("/me")
     public ResponseEntity<BaseResponse> getCurrentUser() {
         UserEntity userEntity = userService.getCurrentUser();
