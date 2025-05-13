@@ -10,6 +10,8 @@ import vn.edu.hcmaf.apigamestore.product.repo.AccountRepositoryCustom;
 import java.util.List;
 
 public interface AccountRepository extends JpaRepository<AccountEntity, Long>, AccountRepositoryCustom {
+    // Find an account by its ID and ensure it is not deleted and status is available mean = 1
+    AccountEntity findByIdAndIsDeletedFalseAndStatusEquals(Long id, String status);
 
     List<AccountEntity> findByGame(GameEntity game);
 

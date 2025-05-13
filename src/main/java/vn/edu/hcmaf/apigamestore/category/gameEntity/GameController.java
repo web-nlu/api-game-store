@@ -3,6 +3,8 @@ package vn.edu.hcmaf.apigamestore.category.gameEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.AddGameRequestDto;
+import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.GameResponseDto;
 import vn.edu.hcmaf.apigamestore.common.dto.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.dto.SuccessResponse;
 
@@ -19,16 +21,25 @@ public class GameController {
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> getAllGames() {
         List<GameEntity> games = gameService.getAllGames();
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all games success", games));
+        List<GameResponseDto> gameResponseDtos = games.stream()
+                .map((gameEntity -> gameEntity.toGameResponseDto(false)))
+                .toList();
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all games success", gameResponseDtos));
     }
+    @GetMapping("/{gameId}")
+    public ResponseEntity<BaseResponse> getGameById(@PathVariable long gameId) {
+        GameEntity game = gameService.getGameById(gameId);
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get game by id success", game.toGameResponseDto(true)));
+    }
+
     @PostMapping("/add")
-    public ResponseEntity<BaseResponse> addGame(GameEntity gameEntity) {
-        GameEntity newGame = gameService.addGame(gameEntity);
+    public ResponseEntity<BaseResponse> addGame(@RequestBody AddGameRequestDto gameRequestDto) {
+        GameEntity newGame = gameService.addGame(gameRequestDto);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Add game success", newGame));
     }
-    @PutMapping("/update")
-    public ResponseEntity<BaseResponse> updateGame(GameEntity gameEntity) {
-        GameEntity updatedGame = gameService.updateGame(gameEntity);
+    @PutMapping("/update/{gameId}")
+    public ResponseEntity<BaseResponse> updateGame(@RequestBody AddGameRequestDto gameRequestDto, @RequestParam long gameId) {
+        GameEntity updatedGame = gameService.updateGame(gameRequestDto, gameId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Update game success", updatedGame));
     }
     @DeleteMapping("/delete/{gameId}")

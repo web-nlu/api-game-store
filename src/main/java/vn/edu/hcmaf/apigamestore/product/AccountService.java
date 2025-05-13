@@ -20,6 +20,9 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
+    public AccountEntity findByIdAndIsDeletedFalseAndStatusEquals(Long id, String status) {
+        return accountRepository.findByIdAndIsDeletedFalseAndStatusEquals(id, status);
+    }
     public List<AccountDto> getAllAccounts() {
         return accountRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
     }
