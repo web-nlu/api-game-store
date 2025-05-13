@@ -36,18 +36,5 @@ public class GameEntity extends BaseEntity {
     private List<AccountEntity> accounts;
 
     //mapper
-    public GameResponseDto toGameResponseDto(boolean includeAccounts) {
-        GameResponseDto gameResponseDto = GameResponseDto.builder()
-                .id(this.id)
-                .name(this.name)
-                .categoryId(this.category.getId())
-                .accounts(new ArrayList<>())
-                .build();
-        if (includeAccounts) {
-            this.accounts.forEach(account -> {
-                gameResponseDto.getAccounts().add(account.toAccountDto());
-            });
-        }
-        return gameResponseDto;
-    }
+
 }

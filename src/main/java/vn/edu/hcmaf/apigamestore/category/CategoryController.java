@@ -28,7 +28,7 @@ public class CategoryController {
     public ResponseEntity<BaseResponse> getAllCategories() {
         List<CategoryEntity> categories = categoryService.getAllCategories();
         List<CategoryResponseDto> categoryResponseDtos = categories.stream()
-                .map((categoryEntity -> categoryEntity.toCategoryResponseDto(false)))
+                .map((categoryEntity -> categoryService.toCategoryResponseDto(categoryEntity,false)))
                 .toList();
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all categories success", categoryResponseDtos));
     }
@@ -36,7 +36,7 @@ public class CategoryController {
     @GetMapping("/{categoryId}")
     public ResponseEntity<BaseResponse> getCategoryById(@PathVariable long categoryId) {
         CategoryEntity category = categoryService.getCategoryById(categoryId);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get category by id success", category.toCategoryResponseDto(true)));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get category by id success", categoryService.toCategoryResponseDto(category,true)));
     }
 
     @PostMapping("/add")

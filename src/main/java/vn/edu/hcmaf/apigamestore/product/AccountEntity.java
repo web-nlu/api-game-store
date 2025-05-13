@@ -54,15 +54,5 @@ public class AccountEntity extends BaseEntity {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewEntity> reviews;
     // mapper
-    public AccountDto toAccountDto() {
-        return AccountDto.builder()
-                .id(this.id)
-                .title(this.title)
-                .price(this.price)
-                .category(this.game.getCategory().getName())
-                .image(this.image)
-                .info(this.info)
-                .game(this.game.getName())
-                .build();
-    }
+
 }

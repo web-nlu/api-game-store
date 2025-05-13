@@ -1,19 +1,38 @@
 package vn.edu.hcmaf.apigamestore.category;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.category.dto.AddCategoryRequestDto;
+import vn.edu.hcmaf.apigamestore.category.dto.CategoryResponseDto;
+import vn.edu.hcmaf.apigamestore.category.gameEntity.GameService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private  @Lazy GameService gameService;
 
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+
+    public CategoryResponseDto toCategoryResponseDto(CategoryEntity categoryEntity,boolean includeGames) {
+        CategoryResponseDto categoryResponseDto = CategoryResponseDto.builder()
+                .id(categoryEntity.getId())
+                .name(categoryEntity.getName())
+                .icon(categoryEntity.getIcon())
+                .games(new ArrayList<>())
+                .build();
+        System.out.println("CategoryEntity.toCategoryResponseDto: " + categoryResponseDto);
+        if (includeGames) {
+            categoryEntity.getGames().forEach(game -> {
+                categoryResponseDto.getGames().add(gameService.toGameResponseDto(game,true));
+            });
+        }
+        return categoryResponseDto;
     }
-
     public List<CategoryEntity> getAllCategories() {
         return categoryRepository.findByIsDeletedFalse();
     }

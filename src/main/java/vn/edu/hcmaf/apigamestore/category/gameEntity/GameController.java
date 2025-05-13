@@ -23,14 +23,14 @@ public class GameController {
     public ResponseEntity<BaseResponse> getAllGames() {
         List<GameEntity> games = gameService.getAllGames();
         List<GameResponseDto> gameResponseDtos = games.stream()
-                .map((gameEntity -> gameEntity.toGameResponseDto(false)))
+                .map((gameEntity -> gameService.toGameResponseDto(gameEntity,false)))
                 .toList();
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all games success", gameResponseDtos));
     }
     @GetMapping("/{gameId}")
     public ResponseEntity<BaseResponse> getGameById(@PathVariable long gameId) {
         GameEntity game = gameService.getGameById(gameId);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get game by id success", game.toGameResponseDto(true)));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get game by id success", gameService.toGameResponseDto(game,true)));
     }
 
     @PostMapping("/add")

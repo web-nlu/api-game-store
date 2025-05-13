@@ -32,19 +32,5 @@ public class CategoryEntity extends BaseEntity {
     private List<GameEntity> games;
 
     // mapper
-    public CategoryResponseDto toCategoryResponseDto(boolean includeGames) {
- CategoryResponseDto categoryResponseDto = CategoryResponseDto.builder()
-                .id(this.id)
-                .name(this.name)
-                .icon(this.icon)
-                .games(new ArrayList<>())
-                .build();
-        System.out.println("CategoryEntity.toCategoryResponseDto: " + categoryResponseDto);
-        if (includeGames) {
-            this.games.forEach(game -> {
-                categoryResponseDto.getGames().add(game.toGameResponseDto(true));
-            });
-        }
-        return categoryResponseDto;
-    }
+
 }
