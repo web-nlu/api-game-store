@@ -15,7 +15,8 @@ import vn.edu.hcmaf.apigamestore.user.UserService;
 
 import java.util.List;
 
-@RestController("/api/admin/user")
+@RestController
+@RequestMapping("/api/admin/user")
 @Validated
 public class AdminUserController {
     @Autowired
