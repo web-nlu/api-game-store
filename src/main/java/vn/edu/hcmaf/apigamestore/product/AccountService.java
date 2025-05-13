@@ -31,7 +31,7 @@ public class AccountService {
         return toDetailDto(account);
     }
 
-    private AccountDto toDto(AccountEntity entity) {
+    public AccountDto toDto(AccountEntity entity) {
         return AccountDto.builder()
                 .id(entity.getId())
                 .title(entity.getTitle())
@@ -43,7 +43,7 @@ public class AccountService {
                 .build();
     }
 
-    private AccountDetailDto toDetailDto(AccountEntity entity) {
+    public AccountDetailDto toDetailDto(AccountEntity entity) {
         return AccountDetailDto.builder()
                 .id(entity.getId())
                 .title(entity.getTitle())
