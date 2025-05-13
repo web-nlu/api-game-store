@@ -20,7 +20,7 @@ import vn.edu.hcmaf.apigamestore.user.UserService;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth/u")
 @Validated
 public class AuthController {
     private final AuthService authService;
@@ -46,7 +46,7 @@ public class AuthController {
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Check token success", true));
     }
 
-    @PostMapping("/u/register")
+    @PostMapping("/register")
     public ResponseEntity<BaseResponse> register(@RequestBody @Valid RegisterRequestDto request) {
         log.info("Register attempt for user: {}", request);
         RoleEntity roleEntity = roleService.getByName("USER");
@@ -58,7 +58,7 @@ public class AuthController {
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reregister success", loginResponseDto));
     }
 
-    @PostMapping("/u/login")
+    @PostMapping("/login")
     public ResponseEntity<BaseResponse> login(@RequestBody @Valid LoginRequestDto request) {
         log.info("Login attempt for user: {}", request);
         UserEntity user = userService.getUserByEmail(request.getEmail());
@@ -66,7 +66,7 @@ public class AuthController {
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Login success", dto));
     }
 
-    @PostMapping("/u/refresh-token")
+    @PostMapping("/refresh-token")
     public ResponseEntity<BaseResponse> refreshToken(@RequestBody @Valid RefreshTokenRequestDto request) {
         jwtUtil.validateToken(request.getRefreshToken());
         String email = jwtUtil.getEmailFromToken(request.getRefreshToken());
