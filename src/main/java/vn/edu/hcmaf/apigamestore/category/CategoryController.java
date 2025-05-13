@@ -24,7 +24,7 @@ public class CategoryController {
 
     }
 
-    @GetMapping("/all")
+    @GetMapping("/u/all")
     public ResponseEntity<BaseResponse> getAllCategories() {
         List<CategoryEntity> categories = categoryService.getAllCategories();
         List<CategoryResponseDto> categoryResponseDtos = categories.stream()
@@ -33,28 +33,25 @@ public class CategoryController {
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all categories success", categoryResponseDtos));
     }
 
-    @GetMapping("/{categoryId}")
+    @GetMapping("/u/{categoryId}")
     public ResponseEntity<BaseResponse> getCategoryById(@PathVariable long categoryId) {
         CategoryEntity category = categoryService.getCategoryById(categoryId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get category by id success", categoryService.toCategoryResponseDto(category,true)));
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse> addCategory(@RequestBody AddCategoryRequestDto categoryRequestDto) {
         CategoryEntity newCategory = categoryService.addCategory(categoryRequestDto);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Add category success", newCategory));
     }
 
     @PutMapping("/update/{categoryId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse> updateCategory(@RequestBody AddCategoryRequestDto categoryRequestDto, @PathVariable long categoryId) {
         CategoryEntity updatedCategory = categoryService.updateCategory(categoryRequestDto, categoryId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Update category success", updatedCategory));
     }
 
     @DeleteMapping("/delete/{categoryId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse> deleteCategory(@PathVariable String categoryId) {
         categoryService.deleteCategory(Long.parseLong(categoryId));
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Delete category success", null));

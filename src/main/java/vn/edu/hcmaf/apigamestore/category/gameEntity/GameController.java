@@ -19,7 +19,7 @@ public class GameController {
     public GameController(GameService gameService) {
         this.gameService = gameService;
     }
-    @GetMapping("/all")
+    @GetMapping("/u/all")
     public ResponseEntity<BaseResponse> getAllGames() {
         List<GameEntity> games = gameService.getAllGames();
         List<GameResponseDto> gameResponseDtos = games.stream()
@@ -27,26 +27,23 @@ public class GameController {
                 .toList();
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all games success", gameResponseDtos));
     }
-    @GetMapping("/{gameId}")
+    @GetMapping("/u/{gameId}")
     public ResponseEntity<BaseResponse> getGameById(@PathVariable long gameId) {
         GameEntity game = gameService.getGameById(gameId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get game by id success", gameService.toGameResponseDto(game,true)));
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse> addGame(@RequestBody AddGameRequestDto gameRequestDto) {
         GameEntity newGame = gameService.addGame(gameRequestDto);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Add game success", newGame));
     }
     @PutMapping("/update/{gameId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse> updateGame(@RequestBody AddGameRequestDto gameRequestDto, @RequestParam long gameId) {
         GameEntity updatedGame = gameService.updateGame(gameRequestDto, gameId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Update game success", updatedGame));
     }
     @DeleteMapping("/delete/{gameId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BaseResponse> deleteGame(@PathVariable String gameId) {
         gameService.deleteGame(Long.parseLong(gameId));
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Delete game success", null));
