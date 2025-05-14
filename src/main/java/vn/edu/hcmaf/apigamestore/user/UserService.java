@@ -13,6 +13,7 @@ import vn.edu.hcmaf.apigamestore.common.dto.*;
 import vn.edu.hcmaf.apigamestore.role.RoleRepository;
 import vn.edu.hcmaf.apigamestore.role.RoleService;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
+import vn.edu.hcmaf.apigamestore.user.dto.UserResponseDTO;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -136,5 +137,15 @@ public class UserService {
     userEntity.setDeletedBy(currentUser);
     userRepository.save(userEntity);
     return true;
+  }
+
+  public UserResponseDTO toDto(UserEntity userEntity) {
+    UserResponseDTO userResponseDTO = new UserResponseDTO();
+    userResponseDTO.setId(userEntity.getId());
+    userResponseDTO.setEmail(userEntity.getEmail());
+    userResponseDTO.setUsername(userEntity.getUsername());
+    userResponseDTO.setPhoneNumber(userEntity.getPhoneNumber());
+    userResponseDTO.setAvatar(userEntity.getAvatar());
+    return userResponseDTO;
   }
 }

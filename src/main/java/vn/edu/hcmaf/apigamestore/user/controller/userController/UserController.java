@@ -35,7 +35,7 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<BaseResponse> getCurrentUser() {
         UserEntity userEntity = userService.getCurrentUser();
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get User info success", userEntity));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get User info success", userService.toDto(userEntity)));
     }
     @PutMapping("/{userId}")
     public ResponseEntity<BaseResponse> updateUser(@RequestBody @Valid  UpdateUserDto updateUserDto, @PathVariable Long userId) {
