@@ -90,13 +90,9 @@ public class CartService {
         return true;
     }
 
-    public boolean deleteAllItemInCart(Long accountId) {
+    public boolean deleteAllItemInCart() {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userService.getUserByEmail(userName);
-        AccountEntity account = accountService.findById(accountId);
-        if (account == null) {
-            throw new IllegalArgumentException("Account not found");
-        }
         List<CartEntity> cartEntities = cartRepository.findByUserId(user.getId());
         if (cartEntities.isEmpty()) {
             throw new IllegalArgumentException("Cart is empty");

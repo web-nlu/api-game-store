@@ -29,8 +29,8 @@ public class CartController {
     public ResponseEntity<BaseResponse> removeFromCart(@PathVariable Long accountId) {
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Remove from cart success", cartService.removeFromCart(accountId)));
     }
-    @DeleteMapping("/remove-all/{accountId}")
-    public ResponseEntity<BaseResponse> deleteAllItemInCart(@PathVariable Long accountId) {
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Delete cart success", cartService.deleteAllItemInCart(accountId)));
+    @DeleteMapping("/remove-all")
+    public ResponseEntity<BaseResponse> deleteAllItemInCart() {
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Delete cart success", cartService.deleteAllItemInCart()));
     }
 }
