@@ -12,6 +12,7 @@ import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.AddGameRequestDto;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.GameResponseDto;
 import vn.edu.hcmaf.apigamestore.product.AccountService;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class GameService {
         GameEntity gameEntity = gameRepository.findByIdAndIsDeletedFalse(gameId);
         if (gameEntity != null) {
             gameEntity.setDeleted(true);
-            gameEntity.setDeletedAt(String.valueOf(java.time.LocalDateTime.now()));
+            gameEntity.setDeletedAt(Timestamp.valueOf(java.time.LocalDateTime.now()));
             gameEntity.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             gameRepository.save(gameEntity);
         } else {

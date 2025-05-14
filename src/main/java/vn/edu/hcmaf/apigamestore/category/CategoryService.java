@@ -8,6 +8,7 @@ import vn.edu.hcmaf.apigamestore.category.dto.AddCategoryRequestDto;
 import vn.edu.hcmaf.apigamestore.category.dto.CategoryResponseDto;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameService;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class CategoryService {
         CategoryEntity categoryEntity = categoryRepository.findByIdAndIsDeletedFalse(categoryId);
         if (categoryEntity != null) {
             categoryEntity.setDeleted(true);
-            categoryEntity.setDeletedAt(String.valueOf(java.time.LocalDateTime.now()));
+            categoryEntity.setDeletedAt(Timestamp.valueOf(java.time.LocalDateTime.now()));
             categoryEntity.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             categoryRepository.save(categoryEntity);
         } else {

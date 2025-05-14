@@ -14,6 +14,7 @@ import vn.edu.hcmaf.apigamestore.role.RoleRepository;
 import vn.edu.hcmaf.apigamestore.role.RoleService;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -131,7 +132,7 @@ public class UserService {
       throw new NullPointerException("Không tìm thấy người dùng");
     }
     userEntity.setDeleted(true);
-    userEntity.setDeletedAt(String.valueOf(LocalDateTime.now()));
+    userEntity.setDeletedAt(Timestamp.valueOf(LocalDateTime.now()));
     userEntity.setDeletedBy(currentUser);
     userRepository.save(userEntity);
     return true;

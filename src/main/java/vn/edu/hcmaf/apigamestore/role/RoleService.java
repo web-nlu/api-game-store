@@ -8,6 +8,7 @@ import vn.edu.hcmaf.apigamestore.common.dto.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.dto.SuccessResponse;
 
 import javax.management.relation.RoleNotFoundException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +51,7 @@ public class RoleService {
 
       roleEntity.setDeleted(true);
       roleEntity.setDeletedBy(username);
-      roleEntity.setDeletedAt(String.valueOf(LocalDateTime.now()));
+      roleEntity.setDeletedAt(Timestamp.valueOf(LocalDateTime.now()));
       roleRepository.save(roleEntity);
       return true;
     }

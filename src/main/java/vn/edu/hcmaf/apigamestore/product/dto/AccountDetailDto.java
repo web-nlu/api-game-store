@@ -29,8 +29,8 @@ public class AccountDetailDto {
     private Integer level;
     private String status;
     private String warranty;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Long createdAt;
+    private Long updatedAt;
     private Integer viewCount;
     private Integer saleCount;
     private List<String> tags;
