@@ -1,5 +1,6 @@
 package vn.edu.hcmaf.apigamestore.role;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -7,17 +8,16 @@ import vn.edu.hcmaf.apigamestore.common.dto.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.dto.SuccessResponse;
 
 import javax.management.relation.RoleNotFoundException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RoleService {
-    private final RoleRepository roleRepository;
+    @Autowired
+    private  RoleRepository roleRepository;
 
-    public RoleService(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
 
   public RoleEntity getByName(String name) throws NullPointerException {
     return roleRepository.findByName(name).orElse(null);
@@ -51,7 +51,7 @@ public class RoleService {
 
       roleEntity.setDeleted(true);
       roleEntity.setDeletedBy(username);
-      roleEntity.setDeletedAt(String.valueOf(LocalDateTime.now()));
+      roleEntity.setDeletedAt(Timestamp.valueOf(LocalDateTime.now()));
       roleRepository.save(roleEntity);
       return true;
     }

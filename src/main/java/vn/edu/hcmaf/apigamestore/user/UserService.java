@@ -1,5 +1,6 @@
 package vn.edu.hcmaf.apigamestore.user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import vn.edu.hcmaf.apigamestore.role.RoleRepository;
 import vn.edu.hcmaf.apigamestore.role.RoleService;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -20,17 +22,12 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
   private final UserRepository userRepository;
   private final RoleService roleService;
   private final PasswordEncoder passwordEncoder;
 
-  @Autowired
-  public UserService(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
-    this.userRepository = userRepository;
-    this.roleService = roleService;
-    this.passwordEncoder = passwordEncoder;
-  }
 
   public List<UserEntity> getAllUsers() {
     return userRepository.findAll();
@@ -135,7 +132,7 @@ public class UserService {
       throw new NullPointerException("Không tìm thấy người dùng");
     }
     userEntity.setDeleted(true);
-    userEntity.setDeletedAt(String.valueOf(LocalDateTime.now()));
+    userEntity.setDeletedAt(Timestamp.valueOf(LocalDateTime.now()));
     userEntity.setDeletedBy(currentUser);
     userRepository.save(userEntity);
     return true;

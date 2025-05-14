@@ -20,7 +20,6 @@ import java.util.List;
 @RequestMapping("/api/category/u")
 @RequiredArgsConstructor
 public class CategoryController {
-    @Autowired
     private final CategoryService categoryService;
 
 

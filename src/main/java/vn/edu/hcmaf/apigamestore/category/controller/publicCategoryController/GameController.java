@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping("/api/game/u")
 @RequiredArgsConstructor
 public class GameController {
-    @Autowired
     private final GameService gameService;
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> getAllGames() {

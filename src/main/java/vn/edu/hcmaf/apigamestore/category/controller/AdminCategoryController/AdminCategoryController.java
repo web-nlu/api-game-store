@@ -13,7 +13,6 @@ import vn.edu.hcmaf.apigamestore.common.dto.SuccessResponse;
 @RequestMapping("/api/admin/category")
 @RequiredArgsConstructor
 public class AdminCategoryController {
-    @Autowired
     private final CategoryService categoryService;
     @PostMapping("/add")
     public ResponseEntity<BaseResponse> addCategory(@RequestBody AddCategoryRequestDto categoryRequestDto) {

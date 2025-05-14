@@ -8,6 +8,7 @@ import vn.edu.hcmaf.apigamestore.category.dto.AddCategoryRequestDto;
 import vn.edu.hcmaf.apigamestore.category.dto.CategoryResponseDto;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameService;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-    private  @Lazy GameService gameService;
+    private final GameService gameService;
 
 
-    public CategoryResponseDto toCategoryResponseDto(CategoryEntity categoryEntity,boolean includeGames) {
+    public CategoryResponseDto toCategoryResponseDto(CategoryEntity categoryEntity, boolean includeGames) {
         CategoryResponseDto categoryResponseDto = CategoryResponseDto.builder()
                 .id(categoryEntity.getId())
                 .name(categoryEntity.getName())
@@ -28,11 +29,12 @@ public class CategoryService {
         System.out.println("CategoryEntity.toCategoryResponseDto: " + categoryResponseDto);
         if (includeGames) {
             categoryEntity.getGames().forEach(game -> {
-                categoryResponseDto.getGames().add(gameService.toGameResponseDto(game,true));
+                categoryResponseDto.getGames().add(gameService.toGameResponseDto(game, true));
             });
         }
         return categoryResponseDto;
     }
+
     public List<CategoryEntity> getAllCategories() {
         return categoryRepository.findByIsDeletedFalse();
     }
@@ -48,7 +50,7 @@ public class CategoryService {
         return categoryRepository.save(categoryEntity);
     }
 
-    public CategoryEntity updateCategory(AddCategoryRequestDto addCategoryRequestDto , long categoryId) {
+    public CategoryEntity updateCategory(AddCategoryRequestDto addCategoryRequestDto, long categoryId) {
         // Check if the category exists before updating
         if (!categoryRepository.existsByIdAndIsDeletedFalse(categoryId)) {
             throw new RuntimeException("Category not found with id: " + categoryId);
@@ -68,7 +70,7 @@ public class CategoryService {
         CategoryEntity categoryEntity = categoryRepository.findByIdAndIsDeletedFalse(categoryId);
         if (categoryEntity != null) {
             categoryEntity.setDeleted(true);
-            categoryEntity.setDeletedAt(String.valueOf(java.time.LocalDateTime.now()));
+            categoryEntity.setDeletedAt(Timestamp.valueOf(java.time.LocalDateTime.now()));
             categoryEntity.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
             categoryRepository.save(categoryEntity);
         } else {

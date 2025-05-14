@@ -19,13 +19,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    // Inject the CartRepository and any other dependencies you need
     private final CartRepository cartRepository;
-    @Lazy
     private final UserService userService;
-    @Lazy
     private final AccountService accountService;
-    private final ObjectMapper objectMapper;
 
     public CartResponseDto toCartResponseDto(List<CartEntity> cartEntity) {
         List<AccountDto> accounts = cartEntity.stream()

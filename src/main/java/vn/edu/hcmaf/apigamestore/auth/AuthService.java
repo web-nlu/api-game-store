@@ -1,5 +1,6 @@
 package vn.edu.hcmaf.apigamestore.auth;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,18 +22,12 @@ import java.util.Collections;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil = new JwtUtil();
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public AuthService(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public LoginResponseDto register(RegisterRequestDto requestDto, RoleEntity role) {
         UserEntity userEntity = new UserEntity();
