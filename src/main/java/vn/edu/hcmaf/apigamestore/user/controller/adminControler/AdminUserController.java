@@ -27,7 +27,7 @@ public class AdminUserController {
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get all User info success", users));
     }
     @PostMapping("/all-lazyloading")
-    public ResponseEntity<BaseResponse> getAllUsersLazyLoading(@RequestBody @Valid LazyLoadingRequestDto<Sort> lazyLoadingRequestDto) {
+    public ResponseEntity<BaseResponse> getAllUsersLazyLoading(@RequestBody @Valid LazyLoadingRequestDto lazyLoadingRequestDto) {
         LazyLoadingResponseDto<List<UserEntity>> users = userService.getAllUsersLazyLoading(lazyLoadingRequestDto);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get all User info success (lazyloading)", users));
     }

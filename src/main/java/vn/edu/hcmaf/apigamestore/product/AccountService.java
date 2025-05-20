@@ -120,7 +120,7 @@ public class AccountService {
                 .orElseThrow(() -> new RuntimeException("Account not found"));
     }
 
-    public Page<AccountEntity> filterAccountsLazyLoading(LazyLoadingRequestDto<AccountFilterRequestDto> request) {
+    public Page<AccountEntity> filterAccountsLazyLoading(AccountFilterRequestDto request) {
         return accountRepository.filterAccountsLazyLoading(request);
     }
 

@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface AccountRepositoryCustom {
     List<AccountEntity> filterAccounts(AccountFilterRequestDto dto);
-    public Page<AccountEntity> filterAccountsLazyLoading(LazyLoadingRequestDto<AccountFilterRequestDto> request);
+    public Page<AccountEntity> filterAccountsLazyLoading(AccountFilterRequestDto request);
 }
