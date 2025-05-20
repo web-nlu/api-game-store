@@ -25,6 +25,12 @@ public class BaseEntity {
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Timestamp.valueOf(LocalDateTime.now());
+        this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
+        this.isDeleted = false;
+    }
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = Timestamp.valueOf(LocalDateTime.now());

@@ -1,5 +1,6 @@
 package vn.edu.hcmaf.apigamestore.role;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,9 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class RoleService {
-    @Autowired
-    private  RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
 
   public RoleEntity getByName(String name) throws NullPointerException {

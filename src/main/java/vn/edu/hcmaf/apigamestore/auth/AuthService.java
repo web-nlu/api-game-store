@@ -15,6 +15,8 @@ import vn.edu.hcmaf.apigamestore.auth.dto.LoginResponseDto;
 import vn.edu.hcmaf.apigamestore.auth.dto.request.RegisterRequestDto;
 import vn.edu.hcmaf.apigamestore.common.util.JwtUtil;
 import vn.edu.hcmaf.apigamestore.role.RoleEntity;
+import vn.edu.hcmaf.apigamestore.role.RoleRepository;
+import vn.edu.hcmaf.apigamestore.role.UserRole.UserRoleEntity;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserRepository;
 
@@ -26,6 +28,7 @@ import java.util.Collections;
 public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final JwtUtil jwtUtil = new JwtUtil();
     private final PasswordEncoder passwordEncoder;
 
@@ -33,7 +36,13 @@ public class AuthService {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(requestDto.getEmail());
         userEntity.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        userEntity.setRoles(Collections.singletonList(role));
+
+        UserRoleEntity userRoleEntity = new UserRoleEntity();
+        userRoleEntity.setUser(userEntity);
+        userRoleEntity.setRole(role);
+
+        userEntity.setUserRoles(Collections.singletonList(userRoleEntity));
+
         String refreshToken = jwtUtil.generateRefreshToken(userEntity.getEmail());
         userEntity.setRefreshToken(refreshToken);
         userRepository.save(userEntity);
