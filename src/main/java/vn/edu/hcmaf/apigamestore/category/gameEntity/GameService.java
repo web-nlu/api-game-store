@@ -14,6 +14,7 @@ import vn.edu.hcmaf.apigamestore.product.AccountService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -98,4 +99,7 @@ public class GameService {
     }
 
 
+    public List<GameEntity> getGamesByCategory(long categoryId) {
+    return gameRepository.findByCategoryIdAndIsDeletedFalse(categoryId);
+    }
 }

@@ -31,7 +31,13 @@ public class GameController {
         GameEntity game = gameService.getGameById(gameId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get game by id success", gameService.toGameResponseDto(game,true)));
     }
-
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<BaseResponse> getGamesByCategory(@PathVariable long categoryId) {
+        List<GameResponseDto> gameResponseDtos = gameService.getGamesByCategory(categoryId).stream()
+                .map(gameEntity -> gameService.toGameResponseDto(gameEntity, false))
+                .toList();
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get games by category success", gameResponseDtos));
+    }
 
 
 
