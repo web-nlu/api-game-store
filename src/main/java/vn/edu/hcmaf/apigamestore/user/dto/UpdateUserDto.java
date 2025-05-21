@@ -8,8 +8,8 @@ import vn.edu.hcmaf.apigamestore.role.RoleEntity;
 
 @Data
 public class UpdateUserDto {
-    @Size(min = 6, message = "Mật khẩu phải có ít nhất 6 ký tự")
-    private String password;
+//    @Size(min = 6, message = "Mật khẩu phải có ít nhất 6 ký tự")
+//    private String password;
 
     @Email(message = "Email không hợp lệ")
     private String email;
@@ -29,5 +29,5 @@ public class UpdateUserDto {
 //    )
     private String avatar;
 
-    private String[] roles;
+//    private String[] roles;
 }

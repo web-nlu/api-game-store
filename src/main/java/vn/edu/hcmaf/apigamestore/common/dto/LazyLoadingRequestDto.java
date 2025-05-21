@@ -5,11 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class LazyLoadingRequestDto<T> {
+public class LazyLoadingRequestDto {
     //validation
     @NotNull(message = "Page is required")
-    private int page;
+    protected Integer page;
     @NotNull(message = "Size is required")
-    private int size;
-    private T filter;
+    protected Integer size;
+
 }

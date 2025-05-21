@@ -82,7 +82,7 @@ public class AccountPublicController {
                 new SuccessResponse<>("SUCCESS", "Search Account by keyword : " + keyword + " and Game Id : " + gameId + " success", accounts));
     }
 
-    @PostMapping("/accounts/filter")
+    @PostMapping("/filter")
     public ResponseEntity<BaseResponse> filterAccounts(@RequestBody @Valid AccountFilterRequestDto request) {
         List<AccountDto> accounts = accountService.filterAccounts(request).stream()
                 .map(accountService::toDto).toList();
@@ -91,8 +91,8 @@ public class AccountPublicController {
         );
     }
 
-    @PostMapping("/accounts/filter-lazyloading")
-    public ResponseEntity<BaseResponse> filterAccountsLazyLoading(@RequestBody @Valid LazyLoadingRequestDto<AccountFilterRequestDto> request) {
+    @GetMapping("/filter-lazyloading")
+    public ResponseEntity<BaseResponse> filterAccountsLazyLoading(@ModelAttribute @Valid AccountFilterRequestDto request) {
         Page<AccountDto> accounts = accountService.filterAccountsLazyLoading(request)
                 .map(accountService::toDto);
         return ResponseEntity.ok().body(

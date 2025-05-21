@@ -47,10 +47,9 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
     }
 
     @Override
-    public Page<AccountEntity> filterAccountsLazyLoading(LazyLoadingRequestDto<AccountFilterRequestDto> request) {
+    public Page<AccountEntity> filterAccountsLazyLoading(AccountFilterRequestDto request) {
         int page = request.getPage();
         int size = request.getSize();
-        AccountFilterRequestDto dto = request.getFilter();
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 
@@ -60,12 +59,12 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
         Join<?, ?> game = account.join("game");
         Join<?, ?> category = game.join("category");
 
-        List<Predicate> predicates = buildPredicates(cb, account, game, category, dto);
+        List<Predicate> predicates = buildPredicates(cb, account, game, category, request);
         cq.where(predicates.toArray(new Predicate[0]));
 
         // Sắp xếp
-        if (dto.getSortBy() != null) {
-            switch (dto.getSortBy()) {
+        if (request.getSortBy() != null) {
+            switch (request.getSortBy()) {
                 case "price_asc" -> cq.orderBy(cb.asc(account.get("price")));
                 case "price_desc" -> cq.orderBy(cb.desc(account.get("price")));
                 case "title_asc" -> cq.orderBy(cb.asc(account.get("title")));
@@ -80,7 +79,7 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
         List<AccountEntity> results = query.getResultList();
 
         // Truy vấn đếm tổng số bản ghi
-        Long total = countTotalRecords(cb, dto);
+        Long total = countTotalRecords(cb, request);
 
         return new PageImpl<>(results, PageRequest.of(page - 1, size), total);
     }
