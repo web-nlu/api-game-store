@@ -12,6 +12,7 @@ import vn.edu.hcmaf.apigamestore.user.UserEntity;
 @Table(name = "user_roles")
 public class UserRoleEntity extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
