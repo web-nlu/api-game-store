@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @MappedSuperclass
+// This class serves as a base entity for all entities in the application, providing common fields and lifecycle methods.
 public class BaseEntity {
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
@@ -24,14 +25,20 @@ public class BaseEntity {
     private Timestamp createdAt;
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
+    /* * The `BaseEntity` class is a base class for all entities in the application.
+     * It provides common fields such as `isDeleted`, `deletedAt`, `deletedBy`, `createdAt`, and `updatedAt`.
+     * It also includes lifecycle methods to automatically set the timestamps when an entity is created or updated.
+     */
 
     @PrePersist
+    // This method is called before the entity is persisted to the database.
     protected void onCreate() {
         this.createdAt = Timestamp.valueOf(LocalDateTime.now());
         this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
         this.isDeleted = false;
     }
     @PreUpdate
+    // This method is called before the entity is updated in the database.
     protected void onUpdate() {
         this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
     }

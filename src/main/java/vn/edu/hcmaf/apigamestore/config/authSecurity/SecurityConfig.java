@@ -22,16 +22,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-
-
     CustomUserDetailService customUserDetailService;
-
-
     @Autowired
     public SecurityConfig(CustomUserDetailService customUserDetailService) {
         this.customUserDetailService = customUserDetailService;
     }
-
+    /**
+     * This method configures the security filter chain for the application.
+     * It sets up CORS, CSRF, session management, and authorization rules.
+     *
+     * @param http The HttpSecurity object to configure
+     * @return The configured SecurityFilterChain
+     * @throws Exception If an error occurs during configuration
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -39,12 +42,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                                 .requestMatchers("/ping").permitAll()
                                 .requestMatchers("/api/*/u/**").permitAll()
                                 .requestMatchers("/api/accounts/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-//                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-//                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -73,28 +75,48 @@ public class SecurityConfig {
                                     // Log:
                                 })
                 );
-
-
-        // Add custom JWT authentication filter here
+        // Add custom JWT authentication filter before the UsernamePasswordAuthenticationFilter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
+    /**
+     * This method provides the AuthenticationManager bean for the application.
+     * It is used to authenticate users based on their credentials.
+     *
+     * @param config The AuthenticationConfiguration object
+     * @return The AuthenticationManager bean
+     * @throws Exception If an error occurs during configuration
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
+    /**
+     * This method provides the PasswordEncoder bean for the application.
+     * It is used to encode passwords securely.
+     *
+     * @return The PasswordEncoder bean
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    /**
+     * This method provides the JwtAuthenticationFilter bean for the application.
+     * It is used to authenticate requests using JWT tokens.
+     *
+     * @return The JwtAuthenticationFilter bean
+     */
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
-
+    /**
+     * This method configures CORS for the application.
+     * It allows all origins, methods, and headers, and allows credentials.
+     *
+     * @return The UrlBasedCorsConfigurationSource with the configured CORS settings
+     */
     UrlBasedCorsConfigurationSource corsConfigurationSource() {
       CorsConfiguration corsConfiguration = new CorsConfiguration();
       corsConfiguration.addAllowedOriginPattern("*");

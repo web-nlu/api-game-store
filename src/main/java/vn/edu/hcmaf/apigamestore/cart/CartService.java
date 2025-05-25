@@ -23,6 +23,13 @@ public class CartService {
     private final UserService userService;
     private final AccountService accountService;
 
+
+    /* * Converts a list of CartEntity objects to a CartResponseDto.
+     * This method maps each CartEntity to an AccountDto and calculates the total price and total items.
+     *
+     * @param cartEntity The list of CartEntity objects to convert.
+     * @return A CartResponseDto containing the accounts, total price, and total items.
+     */
     public CartResponseDto toCartResponseDto(List<CartEntity> cartEntity) {
         List<AccountDto> accounts = cartEntity.stream()
                 .map(cartEntity1 -> accountService.toDto(cartEntity1.getAccount()))
@@ -66,6 +73,13 @@ public class CartService {
 
         return true;
     }
+    /**
+     * Retrieves the current user's cart.
+     * This method checks if the user is authenticated and returns a list of CartEntity objects.
+     *
+     * @return A list of CartEntity objects representing the current user's cart.
+     * @throws IllegalArgumentException if the user is not authenticated.
+     */
     public List<CartEntity> getCurrentUserCart() {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userService.getUserByEmail(userName);
@@ -75,6 +89,15 @@ public class CartService {
         return cartRepository.findByUserId(user.getId());
     }
 
+    /**
+     * Removes an account from the user's cart.
+     * This method checks if the user is authenticated and if the account exists in the cart.
+     * If the account is not found in the cart, an exception is thrown.
+     *
+     * @param accountId The ID of the account to remove from the cart.
+     * @return true if the account was successfully removed from the cart.
+     * @throws IllegalArgumentException if the user is not authenticated, the account is not found, or the account is not in the cart.
+     */
     public boolean removeFromCart(Long accountId) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userService.getUserByEmail(userName);
@@ -89,7 +112,15 @@ public class CartService {
         cartRepository.delete(cartEntity);
         return true;
     }
-
+    /**
+     * Deletes all items in the user's cart.
+     * This method checks if the user is authenticated and retrieves all CartEntity objects for the user.
+     * If the cart is empty, an exception is thrown.
+     *
+     * @param accountId The ID of the account whose cart items will be deleted.
+     * @return true if all items were successfully deleted from the cart.
+     * @throws IllegalArgumentException if the user is not authenticated, the account is not found, or the cart is empty.
+     */
     public boolean deleteAllItemInCart(Long accountId) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userService.getUserByEmail(userName);

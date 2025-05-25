@@ -1,4 +1,4 @@
-package vn.edu.hcmaf.apigamestore.common.dto;
+package vn.edu.hcmaf.apigamestore.common.response;
 
 import lombok.Data;
 

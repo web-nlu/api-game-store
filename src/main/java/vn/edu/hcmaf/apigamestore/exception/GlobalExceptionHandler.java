@@ -1,25 +1,27 @@
 package vn.edu.hcmaf.apigamestore.exception;
 
-import jakarta.el.MethodNotFoundException;
-import jakarta.validation.ValidationException;
-import org.hibernate.exception.DataException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import vn.edu.hcmaf.apigamestore.common.dto.BaseResponse;
-import vn.edu.hcmaf.apigamestore.common.dto.ErrorResponse;
+import vn.edu.hcmaf.apigamestore.common.response.BaseResponse;
+import vn.edu.hcmaf.apigamestore.common.response.ErrorResponse;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-
+/** * Global exception handler for the API Game Store.
+ * This class handles various exceptions that may occur during the execution of the application.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    /**
+     * Handles validation exceptions that occur when method arguments are not valid.
+     *
+     * @param ex the MethodArgumentNotValidException
+     * @return a ResponseEntity containing an ErrorResponse with validation error details
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
         List<String> errors = ex.getBindingResult()
@@ -35,7 +37,12 @@ public class GlobalExceptionHandler {
                 errors.toString()
         ));
     }
-
+    /**
+     * Handles DataAccessException, which is thrown when there is an issue with database access.
+     *
+     * @param ex the DataAccessException
+     * @return a ResponseEntity containing an ErrorResponse with database error details
+     */
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<ErrorResponse> handleDataAccessException(DataAccessException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -46,7 +53,12 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // Xử lý ngoại lệ AuthenticationException
+    /**
+     * Handles AuthenticationException, which is thrown when there is an authentication failure.
+     *
+     * @param ex the AuthenticationException
+     * @return a ResponseEntity containing an ErrorResponse with authentication error details
+     */
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<BaseResponse> handleAuthException(AuthenticationException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -56,14 +68,24 @@ public class GlobalExceptionHandler {
                         ex.getMessage()
                 ));
     }
-
+    /**
+     * Handles NoSuchElementException, which is thrown when an element is not found.
+     *
+     * @param ex the NoSuchElementException
+     * @return a ResponseEntity containing an ErrorResponse with not found error details
+     */
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse("404", "Not found", ex.getMessage()));
     }
 
-    // Xử lý ngoại lệ IllegalArgumentException (ví dụ cho đăng ký sai)
+    /**
+     * Handles IllegalArgumentException, which is thrown when an illegal argument is passed.
+     *
+     * @param ex the IllegalArgumentException
+     * @return a ResponseEntity containing an ErrorResponse with illegal argument error details
+     */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
         return ResponseEntity.badRequest().body(new ErrorResponse(
@@ -73,7 +95,12 @@ public class GlobalExceptionHandler {
         ));
     }
 
-    // Xử lý tất cả các ngoại lệ còn lại (fallback)
+    /**
+     * Handles general exceptions that are not specifically handled by other methods.
+     *
+     * @param ex the Exception
+     * @return a ResponseEntity containing an ErrorResponse with internal server error details
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(
