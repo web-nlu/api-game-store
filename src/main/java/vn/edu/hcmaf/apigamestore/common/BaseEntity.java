@@ -25,6 +25,10 @@ public class BaseEntity {
     private Timestamp createdAt;
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
+    @Column(name = "created_by")
+    private String createdBy;
+    @Column(name = "updated_by")
+    private String updatedBy;
     /* * The `BaseEntity` class is a base class for all entities in the application.
      * It provides common fields such as `isDeleted`, `deletedAt`, `deletedBy`, `createdAt`, and `updatedAt`.
      * It also includes lifecycle methods to automatically set the timestamps when an entity is created or updated.

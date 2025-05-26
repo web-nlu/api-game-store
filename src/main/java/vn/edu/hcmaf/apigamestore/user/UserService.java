@@ -19,6 +19,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class UserService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity userEntity = userRepository.findByEmail(username).orElse(null);
         if (userEntity == null) {
-            throw new IllegalArgumentException("Người dùng không tồn tại");
+            throw new IllegalArgumentException("user with email " + username + " not found");
         }
         userEntity.setPassword(null);
         return userEntity;
@@ -71,7 +73,7 @@ public class UserService {
     public UserEntity getUserById(Long id) {
         UserEntity userEntity = userRepository.findById(id).orElse(null);
         if (userEntity == null) {
-            throw new NullPointerException("Không tìm thấy người dùng");
+            throw new NullPointerException("user with id " + id + " not found");
         }
         userEntity.setPassword(null);
         return userEntity;
@@ -89,17 +91,13 @@ public class UserService {
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userRepository.findByIdAndIsDeletedFalse(id).orElse(null);
         if (user == null) {
-            throw new NullPointerException("Không tìm thấy người dùng");
+            throw new NullPointerException("user with id " + id + " not found");
         }
 
         if (!currentUser.equals(user.getEmail()) || SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().noneMatch(
                 authority -> authority.getAuthority().equals("ADMIN"))) {
             throw new IllegalArgumentException("");
         }
-        // logic change password khac nhau
-//    if (updateUserDto.getPassword() != null) {
-//      user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
-//    }
         if (updateUserDto.getEmail() != null) {
             user.setEmail(updateUserDto.getEmail());
         }
@@ -112,47 +110,87 @@ public class UserService {
         if (updateUserDto.getAvatar() != null) {
             user.setAvatar(updateUserDto.getAvatar());
         }
-        // yeu cau admin moi co quyen cap quyen
-//    if (updateUserDto.getRoles() != null) {
-//      Arrays.stream(updateUserDto.getRoles())
-//        .forEach(role -> {
-//          if (roleService.existsByName(role)) {
-//            user.getUserRoles().add(roleService.findByName(role));
-//          }
-//        });
-//    }
-
         return userRepository.save(user);
     }
-
+    /**
+     * Update the password of a user by their ID.
+     * The password is encoded before saving.
+     *
+     * @param password The new password to set for the user
+     * @param id       The ID of the user whose password is to be updated
+     * @return Updated UserEntity with the new password
+     */
     public UserEntity updatePassUser(String password, Long id) {
         UserEntity userEntity = userRepository.findByIdAndIsDeletedFalse(id).orElse(null);
         if (userEntity == null) {
-            throw new NullPointerException("Không tìm thấy người dùng");
+            throw new IllegalArgumentException("user with id " + id + " not found");
         }
-        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        userEntity.setPassword(passwordEncoder.encode(password));
+        // update token logic
         return userRepository.save(userEntity);
     }
-
-    public UserEntity updateRolesUser(List<Long> newRoleIds, Long id) {
+    /**
+     * Update user roles based on the provided roleUpdateMap.
+     * If a role is active (true), it will be added to the user.
+     * If a role is inactive (false), it will be softly deleted from the user's roles.
+     *
+     * roleUpdateMap should contain role IDs as keys and their active status (true/false) as values.
+     * true means the role should be added to the user,
+     * false means the role should be removed (soft deleted) from the user.
+     * if user already has the role, and it is active, do not add it into roleUpdateMap, because it is already active, and this method will not add it again.
+     *
+     * @param roleUpdateMap Map of role IDs and their active status
+     * @param id            User ID
+     * @return Updated UserEntity
+     */
+    public UserEntity updateRolesUser(Map<Long,Boolean> roleUpdateMap, Long id) {
         UserEntity userEntity = userRepository.findByIdAndIsDeletedFalse(id).orElse(null);
         if (userEntity == null) {
-            throw new NullPointerException("Không tìm thấy người dùng");
-        }
-        // xoa het role cu, them lai role moi
-        userEntity.getUserRoles().clear();
-
-        List<RoleEntity> roles = roleRepository.findAllById(newRoleIds);
-
-        for (RoleEntity role : roles) {
-            UserRoleEntity userRole = new UserRoleEntity();
-            userRole.setUser(userEntity);
-            userRole.setRole(role);
-            userEntity.getUserRoles().add(userRole);
+            throw new IllegalArgumentException("user with id " + id + " not found");
         }
 
+        List<RoleEntity> allRoles = roleRepository.findAllByIdInAndIsDeletedFalse(roleUpdateMap.keySet());
+        Map<Long, RoleEntity> roleMap = allRoles.stream().collect(Collectors.toMap(RoleEntity::getId, r -> r));
 
-        return userRepository.save(userEntity);
+        List<UserRoleEntity> existingUserRoles = userRoleRepository.findAllByUserAndIsDeletedFalse(userEntity);
+        Map<Long, UserRoleEntity> userRoleMap = existingUserRoles.stream()
+                .collect(Collectors.toMap(ur -> ur.getRole().getId(), ur -> ur));
+
+
+        for (Map.Entry<Long, Boolean> entry : roleUpdateMap.entrySet()) {
+            Long roleId = entry.getKey();
+            Boolean isActive = entry.getValue();
+
+            RoleEntity roleEntity = roleMap.get(roleId);
+            if (roleEntity == null) {
+                throw new IllegalArgumentException("Role with id " + roleId + " not found");
+            }
+
+            UserRoleEntity userRole = userRoleMap.get(roleId);
+
+            // if the user already has the role, and the role is active, do not add it into roleUpdateMap, because it is already active, and this method will not add it again.
+            // if the user does not have the role, and the role is active, add it
+            if (userRole == null && isActive) {
+                // add new role
+                UserRoleEntity newUserRole = new UserRoleEntity();
+                newUserRole.setUser(userEntity);
+                newUserRole.setRole(roleEntity);
+                newUserRole.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+                newUserRole.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+                newUserRole.setDeleted(false);
+                userRoleRepository.save(newUserRole);
+
+            } else if (userRole != null) {
+                if (!isActive) {
+                    // Soft delete
+                    userRole.setDeleted(true);
+                    userRole.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+                    userRole.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+                    userRoleRepository.save(userRole);
+                }
+            }
+        }
+        return userEntity;
     }
 
     public boolean deleteUser(Long id) {
