@@ -99,22 +99,6 @@ public class AccountService {
         return accountRepository.findByTitleContainingIgnoreCase(keyword);
     }
 
-    public List<AccountEntity> searchAccountsByCategory(String keyword, String categoryId) {
-        return accountRepository.findByTitleContainingIgnoreCaseAndCategoryId(keyword, categoryId);
-    }
-
-    public List<AccountEntity> searchAccountsByGame(String keyword, String gameId) {
-        return accountRepository.findByTitleContainingIgnoreCaseAndGameId(keyword, gameId);
-    }
-
-    public List<AccountEntity> searchAccountsByCategoryAndGame(String keyword, String categoryId, String gameId, String sort) {
-        return accountRepository.findByTitleContainingIgnoreCaseAndCategoryId(keyword, categoryId);
-    }
-
-    public List<AccountEntity> filterAccounts(AccountFilterRequestDto request) {
-        return accountRepository.filterAccounts(request);
-    }
-
     public AccountEntity findByIdAndIsDeletedFalseAndStatusEquals(Long accountId, String available) {
         return accountRepository.findByIdAndIsDeletedFalseAndStatusEquals(accountId, available)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
@@ -152,7 +136,7 @@ public class AccountService {
         account.setSaleCount(dto.getSaleCount() != null ? dto.getSaleCount() : 0);
         account.setTags(dto.getTags());
         account.setRating(dto.getRating() != null ? dto.getRating() : 0.0);
-        // Nếu bạn truyền vào game theo tên (String), cần fetch entity từ DB
+
         if (dto.getGame() != null) {
             GameEntity game = gameRepository.findByName(dto.getGame())
                     .orElseThrow(() -> new IllegalArgumentException("Game not found: " + dto.getGame()));

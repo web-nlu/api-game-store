@@ -9,6 +9,5 @@ import vn.edu.hcmaf.apigamestore.product.dto.AccountFilterRequestDto;
 import java.util.List;
 
 public interface AccountRepositoryCustom {
-    List<AccountEntity> filterAccounts(AccountFilterRequestDto dto);
     public Page<AccountEntity> filterAccountsLazyLoading(AccountFilterRequestDto request);
 }

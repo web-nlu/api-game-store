@@ -43,6 +43,12 @@ public class UserService {
         return userEntity;
     }
 
+    /**
+     * Get all users with lazy loading support.
+     *
+     * @param lazyLoadingRequestDto
+     * @return LazyLoadingResponseDto containing a list of UserEntity objects and pagination information.
+     */
     public LazyLoadingResponseDto<List<UserEntity>> getAllUsersLazyLoading(LazyLoadingRequestDto lazyLoadingRequestDto) {
         int page = lazyLoadingRequestDto.getPage();
         int size = lazyLoadingRequestDto.getSize();
@@ -127,6 +133,7 @@ public class UserService {
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         return userRepository.save(userEntity);
     }
+
     public UserEntity updateRolesUser(List<Long> newRoleIds, Long id) {
         UserEntity userEntity = userRepository.findByIdAndIsDeletedFalse(id).orElse(null);
         if (userEntity == null) {

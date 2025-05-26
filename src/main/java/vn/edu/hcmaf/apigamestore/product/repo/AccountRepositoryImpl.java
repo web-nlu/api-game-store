@@ -20,32 +20,13 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @Override
-    public List<AccountEntity> filterAccounts(AccountFilterRequestDto dto) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<AccountEntity> cq = cb.createQuery(AccountEntity.class);
-        Root<AccountEntity> account = cq.from(AccountEntity.class);
-        Join<?, ?> game = account.join("game");
-        Join<?, ?> category = game.join("category");
-
-        List<Predicate> predicates = buildPredicates(cb, account, game, category, dto);
-
-        cq.where(predicates.toArray(new Predicate[0]));
-
-        // Sắp xếp nếu có
-        if (dto.getSortBy() != null) {
-            switch (dto.getSortBy()) {
-                case "price_asc" -> cq.orderBy(cb.asc(account.get("price")));
-                case "price_desc" -> cq.orderBy(cb.desc(account.get("price")));
-                case "title_asc" -> cq.orderBy(cb.asc(account.get("title")));
-                case "title_desc" -> cq.orderBy(cb.desc(account.get("title")));
-            }
-        }
-
-        return entityManager.createQuery(cq).getResultList();
-    }
-
+    /**
+     * This method filters accounts with lazy loading support based on the provided criteria in AccountFilterRequestDto.
+     * It uses Criteria API to build dynamic queries and supports pagination.
+     *
+     * @param request The filter criteria for accounts with pagination details.
+     * @return A Page of AccountEntity objects that match the filter criteria.
+     */
     @Override
     public Page<AccountEntity> filterAccountsLazyLoading(AccountFilterRequestDto request) {
         int page = request.getPage();
@@ -83,7 +64,16 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
 
         return new PageImpl<>(results, PageRequest.of(page - 1, size), total);
     }
-
+    /**
+     * Builds a list of predicates based on the filter criteria provided in AccountFilterRequestDto.
+     *
+     * @param cb The CriteriaBuilder instance used to create predicates.
+     * @param account The root of the AccountEntity.
+     * @param game The join to the GameEntity.
+     * @param category The join to the CategoryEntity.
+     * @param filter The filter criteria for accounts.
+     * @return A list of predicates that can be used in the query.
+     */
     private List<Predicate> buildPredicates(CriteriaBuilder cb, Root<AccountEntity> account,
                                             Join<?, ?> game, Join<?, ?> category,
                                             AccountFilterRequestDto filter) {
@@ -115,7 +105,13 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
 
         return predicates;
     }
-
+    /**
+     * Counts the total number of records that match the filter criteria.
+     *
+     * @param cb The CriteriaBuilder instance used to create the count query.
+     * @param filter The filter criteria for accounts.
+     * @return The total count of records matching the filter criteria.
+     */
     private long countTotalRecords(CriteriaBuilder cb, AccountFilterRequestDto filter) {
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<AccountEntity> countRoot = countQuery.from(AccountEntity.class);
