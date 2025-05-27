@@ -13,6 +13,8 @@ import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingResponseDto;
 import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserService;
+import vn.edu.hcmaf.apigamestore.user.dto.UpdateRoleUserDto;
+import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ import java.util.List;
  */
 public class AdminUserController {
     private final UserService userService;
+
     /**
      * Retrieves all users in the system.
      *
@@ -35,8 +38,9 @@ public class AdminUserController {
     @Operation(summary = "Get all users", description = "Retrieve a list of all users in the system.")
     public ResponseEntity<BaseResponse> getAllUsers() {
         List<UserEntity> users = userService.getAllUsers();
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get all User info success", users));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all User info success", users));
     }
+
     /**
      * Retrieves all users with lazy loading support.
      *
@@ -47,8 +51,9 @@ public class AdminUserController {
     @Operation(summary = "Get all users with lazy loading", description = "Retrieve a list of all users in the system with lazy loading support.")
     public ResponseEntity<BaseResponse> getAllUsersLazyLoading(@RequestBody @Valid LazyLoadingRequestDto lazyLoadingRequestDto) {
         LazyLoadingResponseDto<List<UserEntity>> users = userService.getAllUsersLazyLoading(lazyLoadingRequestDto);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get all User info success (lazyloading)", users));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all User info success (lazyloading)", users));
     }
+
     /**
      * Retrieves user information by user ID.
      *
@@ -59,8 +64,9 @@ public class AdminUserController {
     @Operation(summary = "Get user by ID", description = "Retrieve user information by user ID.")
     public ResponseEntity<BaseResponse> getUserById(@PathVariable Long userId) {
         UserEntity userEntity = userService.getUserById(userId);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get User Id : "+ userId+" info success", userEntity));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get User Id : " + userId + " info success", userEntity));
     }
+
     /**
      * Retrieves user information by username (email).
      *
@@ -71,6 +77,22 @@ public class AdminUserController {
     @Operation(summary = "Get user by username", description = "Retrieve user information by username (email).")
     public ResponseEntity<BaseResponse> getUserByUsername(@PathVariable String username) {
         UserEntity userEntity = userService.getUserByEmail(username);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS","Get User Name : "+ username+" info success", userEntity));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get User Name : " + username + " info success", userEntity));
+    }
+
+    /**
+     * Updates user information by user ID.
+     * <p>
+     * if user already has the role, and it is active, do not add it into updateRoleUserDto, because it is already active, and this method will not add it again.
+     *
+     * @param updateRoleUserDto UpdateRoleUserDto containing the details to update.
+     * @param userId            The ID of the user to update.
+     * @return ResponseEntity containing the updated UserEntity wrapped in a SuccessResponse.
+     */
+    @PutMapping("id/{userId}/update-role")
+    @Operation(summary = "Update user role", description = "Update the role of a user by user ID.")
+    public ResponseEntity<BaseResponse> updateUserRole(@RequestBody UpdateRoleUserDto updateRoleUserDto, @PathVariable Long userId) {
+        UserEntity userEntity = userService.updateRolesUser(updateRoleUserDto.getRoleUpdateMap(), userId);
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Update User Id: " + userId, userEntity.getActiveRoles()));
     }
 }

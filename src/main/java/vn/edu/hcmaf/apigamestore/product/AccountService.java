@@ -17,6 +17,7 @@ import vn.edu.hcmaf.apigamestore.product.dto.AccountFilterRequestDto;
 import vn.edu.hcmaf.apigamestore.review.ReviewEntity;
 import vn.edu.hcmaf.apigamestore.review.dto.ReviewDto;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -143,5 +144,16 @@ public class AccountService {
             account.setGame(game);
         }
         return accountRepository.save(account);
+    }
+
+    public void updateAccountStatus(Long id, String status) {
+        AccountEntity account = accountRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+
+        account.setStatus(status);
+        account.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        accountRepository.save(account);
+
+
     }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import vn.edu.hcmaf.apigamestore.cart.CartEntity;
 import vn.edu.hcmaf.apigamestore.common.BaseEntity;
+import vn.edu.hcmaf.apigamestore.order.OrderEntity;
 import vn.edu.hcmaf.apigamestore.role.RoleEntity;
 import vn.edu.hcmaf.apigamestore.role.UserRole.UserRoleEntity;
 
@@ -36,6 +37,10 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<CartEntity> cartItems;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<OrderEntity> orders;
 
     @Transient
     public List<RoleEntity> getActiveRoles() {
