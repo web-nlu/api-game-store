@@ -7,16 +7,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long>  {
-  Optional<UserEntity> findByEmail(String email);
-   Optional<UserEntity> findById(Long id);
-   Boolean existsByUsername(String username);
-   
-   List<UserEntity> findAllByIsDeletedFalse(Pageable pageable);
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    Optional<UserEntity> findByEmail(String email);
 
-   Long countByIsDeletedFalse();
+    Optional<UserEntity> findById(Long id);
 
-   Optional<UserEntity> findByIdAndIsDeletedFalse(Long id);
+    Boolean existsByUsername(String username);
 
-  boolean existsByEmail(String email);
+    List<UserEntity> findAllByIsDeletedFalse(Pageable pageable);
+
+    Long countByIsDeletedFalse();
+
+    Optional<UserEntity> findByIdAndIsDeletedFalse(Long id);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByEmailAndIsDeletedFalse(String email);
+
+    Optional<UserEntity> findByEmailAndIsDeletedFalse(String email);
 }

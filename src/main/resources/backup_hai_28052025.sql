@@ -1,0 +1,1344 @@
+/*
+ Navicat Premium Dump SQL
+
+ Source Server         : Api-game-store
+ Source Server Type    : PostgreSQL
+ Source Server Version : 170004 (170004)
+ Source Host           : localhost:5432
+ Source Catalog        : Api-game-store
+ Source Schema         : public
+
+ Target Server Type    : PostgreSQL
+ Target Server Version : 170004 (170004)
+ File Encoding         : 65001
+
+ Date: 28/05/2025 06:05:10
+*/
+
+
+-- ----------------------------
+-- Sequence structure for account_info_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."account_info_id_seq";
+CREATE SEQUENCE "public"."account_info_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for accounts_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."accounts_id_seq";
+CREATE SEQUENCE "public"."accounts_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for cart_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."cart_id_seq";
+CREATE SEQUENCE "public"."cart_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for categories_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."categories_id_seq";
+CREATE SEQUENCE "public"."categories_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for games_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."games_id_seq";
+CREATE SEQUENCE "public"."games_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for order_details_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."order_details_id_seq";
+CREATE SEQUENCE "public"."order_details_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for orders_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."orders_id_seq";
+CREATE SEQUENCE "public"."orders_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for reviews_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."reviews_id_seq";
+CREATE SEQUENCE "public"."reviews_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for roles_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."roles_id_seq";
+CREATE SEQUENCE "public"."roles_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for slugs_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."slugs_id_seq";
+CREATE SEQUENCE "public"."slugs_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for user_roles_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."user_roles_id_seq";
+CREATE SEQUENCE "public"."user_roles_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for users_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."users_id_seq";
+CREATE SEQUENCE "public"."users_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Table structure for account_entity_features
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."account_entity_features";
+CREATE TABLE "public"."account_entity_features" (
+  "account_entity_id" int8 NOT NULL,
+  "features" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of account_entity_features
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for account_entity_image_gallery
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."account_entity_image_gallery";
+CREATE TABLE "public"."account_entity_image_gallery" (
+  "account_entity_id" int8 NOT NULL,
+  "image_gallery" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of account_entity_image_gallery
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for account_entity_tags
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."account_entity_tags";
+CREATE TABLE "public"."account_entity_tags" (
+  "account_entity_id" int8 NOT NULL,
+  "tags" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of account_entity_tags
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for account_info
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."account_info";
+CREATE TABLE "public"."account_info" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamptz(6) NOT NULL,
+  "deleted_at" timestamptz(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "is_deleted" bool NOT NULL,
+  "updated_at" timestamptz(6) NOT NULL,
+  "email" varchar(255) COLLATE "pg_catalog"."default",
+  "password" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "status" varchar(255) COLLATE "pg_catalog"."default",
+  "username" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "account_id" int8,
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of account_info
+-- ----------------------------
+INSERT INTO "public"."account_info" VALUES (2, '2025-05-28 04:45:59+00', NULL, NULL, 'f', '2025-05-28 04:46:04+00', NULL, '123', NULL, 'acc1', 22, NULL, NULL);
+INSERT INTO "public"."account_info" VALUES (3, '2025-05-28 04:45:59+00', NULL, NULL, 'f', '2025-05-27 22:31:01.65461+00', NULL, '123', 'SOLD', 'acc2', 23, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for accounts
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."accounts";
+CREATE TABLE "public"."accounts" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamptz(6) NOT NULL DEFAULT now(),
+  "deleted_at" timestamptz(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "is_deleted" bool NOT NULL DEFAULT false,
+  "updated_at" timestamptz(6) NOT NULL DEFAULT now(),
+  "description" text COLLATE "pg_catalog"."default",
+  "image" varchar(255) COLLATE "pg_catalog"."default",
+  "info" varchar(255) COLLATE "pg_catalog"."default",
+  "level" int4,
+  "price" float8,
+  "rating" float8,
+  "sale_count" int4,
+  "sale_price" float8,
+  "server" varchar(255) COLLATE "pg_catalog"."default",
+  "status" varchar(255) COLLATE "pg_catalog"."default",
+  "title" varchar(255) COLLATE "pg_catalog"."default",
+  "view_count" int4,
+  "warranty" varchar(255) COLLATE "pg_catalog"."default",
+  "game_id" int8,
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of accounts
+-- ----------------------------
+INSERT INTO "public"."accounts" VALUES (8, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 28, giá tốt.', NULL, NULL, 28, 404964, 3.9, 49, 385614, 'Asia', 'pending', 'Tài khoản Liên Minh Huyền Thoại #8', 401, '3 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (9, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 12, giá tốt.', NULL, NULL, 12, 247220, 3.1, 0, 214182, 'VN2', 'sold', 'Tài khoản Liên Minh Huyền Thoại #9', 24, '7 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (10, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 14, giá tốt.', NULL, NULL, 14, 115541, 4.4, 14, 98743, 'Asia', 'sold', 'Tài khoản Liên Minh Huyền Thoại #10', 330, '7 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (11, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 28, giá tốt.', NULL, NULL, 28, 407175, 3.8, 10, 384630, 'VN1', 'sold', 'Tài khoản Liên Minh Huyền Thoại #11', 263, '3 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (12, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 36, giá tốt.', NULL, NULL, 36, 366492, 4.7, 9, 327607, 'VN2', 'pending', 'Tài khoản Liên Minh Huyền Thoại #12', 73, '3 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (13, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 21, giá tốt.', NULL, NULL, 21, 168993, 3.6, 11, 134430, 'Asia', 'sold', 'Tài khoản Liên Minh Huyền Thoại #13', 276, '30 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (15, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 37, giá tốt.', NULL, NULL, 37, 256249, 3.4, 6, 234039, 'VN1', 'pending', 'Tài khoản Liên Minh Huyền Thoại #15', 363, '30 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (16, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 42, giá tốt.', NULL, NULL, 42, 285044, 4.4, 0, 235935, 'Global', 'sold', 'Tài khoản Liên Minh Huyền Thoại #16', 285, '7 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (17, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 27, giá tốt.', NULL, NULL, 27, 249249, 3.4, 35, 201629, 'VN2', 'pending', 'Tài khoản Liên Minh Huyền Thoại #17', 442, '3 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (18, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 12, giá tốt.', NULL, NULL, 12, 143722, 4.7, 21, 132151, 'VN2', 'pending', 'Tài khoản Liên Minh Huyền Thoại #18', 233, '30 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (19, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 48, giá tốt.', NULL, NULL, 48, 231015, 4.7, 21, 199796, 'VN2', 'pending', 'Tài khoản Liên Minh Huyền Thoại #19', 232, '7 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (20, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 50, giá tốt.', NULL, NULL, 50, 332434, 4.1, 27, 284670, 'VN1', 'available', 'Tài khoản Liên Minh Huyền Thoại #20', 83, '7 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (24, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 39, giá tốt.', NULL, NULL, 39, 433620, 4.2, 44, 402970, 'Global', 'sold', 'Tài khoản Mobile Legends #4', 144, '30 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (25, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 33, giá tốt.', NULL, NULL, 33, 265252, 3.7, 16, 242365, 'VN1', 'sold', 'Tài khoản Mobile Legends #5', 257, '3 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (26, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 29, giá tốt.', NULL, NULL, 29, 185542, 3, 21, 140180, 'Asia', 'pending', 'Tài khoản Mobile Legends #6', 407, '7 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (27, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 38, giá tốt.', NULL, NULL, 38, 378122, 4.2, 19, 331595, 'Asia', 'sold', 'Tài khoản Mobile Legends #7', 400, '30 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (2, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 15, giá tốt.', NULL, NULL, 15, 205739, 4.8, 25, 185504, 'Asia', 'pending', 'Tài khoản Liên Minh Huyền Thoại #2', 108, '30 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (21, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 33, giá tốt.', NULL, NULL, 33, 178101, 4.3, 28, 162143, 'VN2', 'pending', 'Tài khoản Mobile Legends #1', 350, '30 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (3, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 25, giá tốt.', NULL, NULL, 25, 307221, 4.3, 25, 257744, 'Global', 'pending', 'Tài khoản Liên Minh Huyền Thoại #3', 495, '7 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (5, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 43, giá tốt.', NULL, NULL, 43, 167845, 4.3, 40, 133198, 'VN2', 'available', 'Tài khoản Liên Minh Huyền Thoại #5', 14, '7 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (6, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 19, giá tốt.', NULL, NULL, 19, 405216, 4, 6, 359472, 'VN1', 'available', 'Tài khoản Liên Minh Huyền Thoại #6', 130, '3 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (7, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 43, giá tốt.', NULL, NULL, 43, 217956, 3.2, 42, 173170, 'VN2', 'sold', 'Tài khoản Liên Minh Huyền Thoại #7', 250, '3 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (4, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 48, giá tốt.', NULL, NULL, 48, 291247, 4.5, 49, 245874, 'Global', 'sold', 'Tài khoản Liên Minh Huyền Thoại #4', 83, '3 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (28, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 47, giá tốt.', NULL, NULL, 47, 226560, 3.6, 23, 183933, 'VN2', 'available', 'Tài khoản Mobile Legends #8', 361, '7 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (36, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 47, giá tốt.', NULL, NULL, 47, 351780, 3.7, 18, 324259, 'Asia', 'pending', 'Tài khoản Mobile Legends #16', 91, '30 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (37, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 35, giá tốt.', NULL, NULL, 35, 355507, 3.7, 45, 321135, 'VN2', 'available', 'Tài khoản Mobile Legends #17', 121, '30 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (40, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 31, giá tốt.', NULL, NULL, 31, 270163, 4, 7, 257068, 'Global', 'sold', 'Tài khoản Mobile Legends #20', 450, '7 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (41, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 32, giá tốt.', NULL, NULL, 32, 355563, 3.1, 1, 339073, 'Global', 'available', 'Tài khoản DOTA 2 #1', 287, '7 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (42, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 19, giá tốt.', NULL, NULL, 19, 253301, 4.7, 4, 242596, 'VN1', 'available', 'Tài khoản DOTA 2 #2', 427, '30 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (43, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 40, giá tốt.', NULL, NULL, 40, 130409, 4.7, 21, 109215, 'Global', 'pending', 'Tài khoản DOTA 2 #3', 487, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (45, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 18, giá tốt.', NULL, NULL, 18, 339413, 4.8, 22, 311293, 'Asia', 'sold', 'Tài khoản DOTA 2 #5', 297, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (46, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 21, giá tốt.', NULL, NULL, 21, 261694, 4.4, 16, 217663, 'Global', 'pending', 'Tài khoản DOTA 2 #6', 455, '30 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (23, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-27 22:31:01.638376+00', 'Tài khoản Mobile Legends cấp 31, giá tốt.', NULL, NULL, 31, 432582, 3, 32, 403239, 'VN2', 'SOLD', 'Tài khoản Mobile Legends #3', 430, '3 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (47, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 20, giá tốt.', NULL, NULL, 20, 187751, 3.8, 38, 146723, 'Asia', 'pending', 'Tài khoản DOTA 2 #7', 336, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (48, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 11, giá tốt.', NULL, NULL, 11, 230678, 4.3, 26, 215160, 'VN2', 'available', 'Tài khoản DOTA 2 #8', 162, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (49, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 22, giá tốt.', NULL, NULL, 22, 211871, 4.5, 4, 166886, 'VN1', 'pending', 'Tài khoản DOTA 2 #9', 167, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (50, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 45, giá tốt.', NULL, NULL, 45, 479136, 3.2, 28, 452362, 'Asia', 'sold', 'Tài khoản DOTA 2 #10', 436, '7 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (53, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 25, giá tốt.', NULL, NULL, 25, 447478, 3.6, 30, 432978, 'VN1', 'sold', 'Tài khoản DOTA 2 #13', 187, '30 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (54, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 39, giá tốt.', NULL, NULL, 39, 352899, 4.7, 44, 309924, 'VN1', 'pending', 'Tài khoản DOTA 2 #14', 111, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (55, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 45, giá tốt.', NULL, NULL, 45, 425769, 3, 31, 387664, 'VN1', 'available', 'Tài khoản DOTA 2 #15', 129, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (57, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 30, giá tốt.', NULL, NULL, 30, 252498, 3.4, 43, 226883, 'VN2', 'available', 'Tài khoản DOTA 2 #17', 243, '30 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (58, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 21, giá tốt.', NULL, NULL, 21, 347988, 3.2, 26, 315762, 'VN1', 'sold', 'Tài khoản DOTA 2 #18', 56, '30 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (30, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 17, giá tốt.', NULL, NULL, 17, 283212, 4.7, 21, 243421, 'Asia', 'available', 'Tài khoản Mobile Legends #10', 483, '3 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (44, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 24, giá tốt.', NULL, NULL, 24, 314518, 4.9, 13, 272784, 'Asia', 'available', 'Tài khoản DOTA 2 #4', 488, '7 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (52, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 38, giá tốt.', NULL, NULL, 38, 415049, 3.5, 8, 381309, 'VN2', 'sold', 'Tài khoản DOTA 2 #12', 44, '30 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (32, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 47, giá tốt.', NULL, NULL, 47, 259746, 3.6, 49, 246721, 'Asia', 'available', 'Tài khoản Mobile Legends #12', 173, '7 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (34, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 18, giá tốt.', NULL, NULL, 18, 464244, 4.5, 3, 436212, 'VN2', 'sold', 'Tài khoản Mobile Legends #14', 401, '7 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (35, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 40, giá tốt.', NULL, NULL, 40, 461990, 4.8, 42, 419427, 'Global', 'sold', 'Tài khoản Mobile Legends #15', 156, '30 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (38, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 25, giá tốt.', NULL, NULL, 25, 282312, 4.1, 0, 249193, 'Global', 'available', 'Tài khoản Mobile Legends #18', 240, '30 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (39, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 30, giá tốt.', NULL, NULL, 30, 342500, 4.3, 48, 316232, 'VN1', 'pending', 'Tài khoản Mobile Legends #19', 487, '3 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (33, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 37, giá tốt.', NULL, NULL, 37, 254654, 3.6, 0, 229949, 'Asia', 'pending', 'Tài khoản Mobile Legends #13', 476, '3 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (31, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 49, giá tốt.', NULL, NULL, 49, 420364, 4.1, 13, 408268, 'Asia', 'available', 'Tài khoản Mobile Legends #11', 21, '3 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (56, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 24, giá tốt.', NULL, NULL, 24, 383316, 3.8, 13, 342987, 'Global', 'pending', 'Tài khoản DOTA 2 #16', 489, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (64, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 31, giá tốt.', NULL, NULL, 31, 478727, 4.6, 30, 464386, 'VN1', 'available', 'Tài khoản Heroes of the Storm #4', 268, '3 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (67, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 50, giá tốt.', NULL, NULL, 50, 337448, 4.2, 44, 321236, 'Global', 'pending', 'Tài khoản Heroes of the Storm #7', 393, '30 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (102, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 27, giá tốt.', NULL, NULL, 27, 232853, 3.4, 7, 220830, 'Global', 'pending', 'Tài khoản PUBG #2', 53, '3 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (68, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 45, giá tốt.', NULL, NULL, 45, 373830, 3.1, 24, 327608, 'Asia', 'available', 'Tài khoản Heroes of the Storm #8', 113, '7 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (69, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 15, giá tốt.', NULL, NULL, 15, 451492, 3.2, 13, 425193, 'Asia', 'sold', 'Tài khoản Heroes of the Storm #9', 400, '30 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (70, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 12, giá tốt.', NULL, NULL, 12, 402893, 4.1, 23, 368856, 'VN1', 'available', 'Tài khoản Heroes of the Storm #10', 215, '7 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (71, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 27, giá tốt.', NULL, NULL, 27, 117076, 3.8, 1, 70357, 'Asia', 'pending', 'Tài khoản Heroes of the Storm #11', 321, '3 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (72, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 47, giá tốt.', NULL, NULL, 47, 418848, 4.6, 34, 394497, 'VN2', 'sold', 'Tài khoản Heroes of the Storm #12', 356, '30 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (73, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 15, giá tốt.', NULL, NULL, 15, 181930, 4.4, 37, 135504, 'VN2', 'pending', 'Tài khoản Heroes of the Storm #13', 306, '3 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (74, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 24, giá tốt.', NULL, NULL, 24, 219912, 3.8, 47, 199641, 'Asia', 'sold', 'Tài khoản Heroes of the Storm #14', 343, '30 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (75, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 14, giá tốt.', NULL, NULL, 14, 158313, 3.4, 19, 129394, 'Global', 'pending', 'Tài khoản Heroes of the Storm #15', 439, '7 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (78, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 31, giá tốt.', NULL, NULL, 31, 157570, 3.6, 18, 141030, 'Asia', 'sold', 'Tài khoản Heroes of the Storm #18', 106, '3 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (79, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 45, giá tốt.', NULL, NULL, 45, 227502, 3.4, 7, 210934, 'Asia', 'pending', 'Tài khoản Heroes of the Storm #19', 442, '7 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (80, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 13, giá tốt.', NULL, NULL, 13, 373731, 4.7, 49, 335087, 'Global', 'pending', 'Tài khoản Heroes of the Storm #20', 393, '7 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (81, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 49, giá tốt.', NULL, NULL, 49, 180226, 3.4, 36, 148980, 'VN2', 'pending', 'Tài khoản Arena of Valor #1', 23, '30 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (82, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 48, giá tốt.', NULL, NULL, 48, 163399, 4.9, 9, 133905, 'VN2', 'available', 'Tài khoản Arena of Valor #2', 276, '3 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (85, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 26, giá tốt.', NULL, NULL, 26, 247717, 3.5, 40, 220012, 'VN2', 'available', 'Tài khoản Arena of Valor #5', 466, '3 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (86, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 50, giá tốt.', NULL, NULL, 50, 243464, 4.4, 2, 232052, 'VN2', 'sold', 'Tài khoản Arena of Valor #6', 457, '3 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (60, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 44, giá tốt.', NULL, NULL, 44, 380703, 4.4, 38, 361116, 'VN1', 'sold', 'Tài khoản DOTA 2 #20', 255, '30 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (77, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 36, giá tốt.', NULL, NULL, 36, 109081, 3.2, 32, 67877, 'VN1', 'available', 'Tài khoản Heroes of the Storm #17', 459, '7 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (84, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 33, giá tốt.', NULL, NULL, 33, 448617, 3.8, 4, 423406, 'VN1', 'available', 'Tài khoản Arena of Valor #4', 141, '7 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (61, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 26, giá tốt.', NULL, NULL, 26, 259972, 3.5, 30, 217613, 'VN2', 'pending', 'Tài khoản Heroes of the Storm #1', 132, '3 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (63, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 17, giá tốt.', NULL, NULL, 17, 146076, 4, 17, 114010, 'Asia', 'pending', 'Tài khoản Heroes of the Storm #3', 185, '7 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (65, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 49, giá tốt.', NULL, NULL, 49, 367665, 3.9, 20, 327204, 'Asia', 'sold', 'Tài khoản Heroes of the Storm #5', 170, '3 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (66, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 49, giá tốt.', NULL, NULL, 49, 304125, 4.9, 9, 255099, 'VN1', 'sold', 'Tài khoản Heroes of the Storm #6', 415, '30 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (62, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 20, giá tốt.', NULL, NULL, 20, 390421, 3.3, 25, 375817, 'Asia', 'available', 'Tài khoản Heroes of the Storm #2', 260, '7 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (83, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 48, giá tốt.', NULL, NULL, 48, 458957, 4.1, 23, 433858, 'Global', 'pending', 'Tài khoản Arena of Valor #3', 454, '3 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (93, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 35, giá tốt.', NULL, NULL, 35, 476067, 3.3, 33, 442285, 'VN1', 'pending', 'Tài khoản Arena of Valor #13', 186, '3 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (94, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 38, giá tốt.', NULL, NULL, 38, 183049, 4, 7, 146003, 'VN2', 'pending', 'Tài khoản Arena of Valor #14', 466, '3 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (96, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 45, giá tốt.', NULL, NULL, 45, 390094, 3.3, 0, 361537, 'VN1', 'available', 'Tài khoản Arena of Valor #16', 214, '3 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (97, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 26, giá tốt.', NULL, NULL, 26, 435314, 4.6, 8, 401523, 'Global', 'available', 'Tài khoản Arena of Valor #17', 386, '30 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (98, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 22, giá tốt.', NULL, NULL, 22, 337354, 4.6, 25, 295896, 'VN1', 'pending', 'Tài khoản Arena of Valor #18', 122, '7 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (100, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 15, giá tốt.', NULL, NULL, 15, 327336, 3.4, 46, 299415, 'Asia', 'available', 'Tài khoản Arena of Valor #20', 433, '3 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (101, '2025-05-14 04:07:15.112+00', NULL, 'z', 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 30, giá tốt.', NULL, NULL, 30, 336128, 4.6, 27, 324864, 'VN2', 'available', 'Tài khoản PUBG #1', 378, '30 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (103, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 11, giá tốt.', NULL, NULL, 11, 376819, 4.1, 6, 362423, 'Asia', 'available', 'Tài khoản PUBG #3', 331, '7 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (104, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 22, giá tốt.', NULL, NULL, 22, 375235, 3.3, 9, 363253, 'VN2', 'pending', 'Tài khoản PUBG #4', 382, '30 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (105, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 12, giá tốt.', NULL, NULL, 12, 391779, 4.5, 19, 375045, 'Asia', 'pending', 'Tài khoản PUBG #5', 239, '3 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (106, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 33, giá tốt.', NULL, NULL, 33, 319448, 3.6, 40, 284263, 'Asia', 'available', 'Tài khoản PUBG #6', 417, '30 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (108, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 16, giá tốt.', NULL, NULL, 16, 435501, 3.8, 16, 401316, 'Asia', 'sold', 'Tài khoản PUBG #8', 400, '7 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (109, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 17, giá tốt.', NULL, NULL, 17, 294221, 3.4, 31, 250659, 'VN2', 'available', 'Tài khoản PUBG #9', 89, '30 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (110, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 35, giá tốt.', NULL, NULL, 35, 390604, 3.3, 50, 343439, 'VN2', 'available', 'Tài khoản PUBG #10', 425, '30 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (111, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 28, giá tốt.', NULL, NULL, 28, 304221, 3.1, 16, 261817, 'VN1', 'sold', 'Tài khoản PUBG #11', 238, '3 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (112, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 44, giá tốt.', NULL, NULL, 44, 219753, 3.5, 46, 207814, 'Global', 'available', 'Tài khoản PUBG #12', 393, '3 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (113, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 15, giá tốt.', NULL, NULL, 15, 229512, 3.3, 45, 198764, 'Asia', 'available', 'Tài khoản PUBG #13', 374, '7 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (115, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 22, giá tốt.', NULL, NULL, 22, 296667, 4.1, 26, 264860, 'VN1', 'available', 'Tài khoản PUBG #15', 390, '3 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (117, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 34, giá tốt.', NULL, NULL, 34, 436139, 3.1, 0, 413117, 'Asia', 'pending', 'Tài khoản PUBG #17', 445, '7 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (118, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 47, giá tốt.', NULL, NULL, 47, 130360, 3.6, 48, 94475, 'Asia', 'available', 'Tài khoản PUBG #18', 212, '7 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (88, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 29, giá tốt.', NULL, NULL, 29, 311969, 3.4, 30, 301926, 'Asia', 'sold', 'Tài khoản Arena of Valor #8', 184, '7 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (107, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 44, giá tốt.', NULL, NULL, 44, 215778, 3.4, 39, 186935, 'VN1', 'sold', 'Tài khoản PUBG #7', 67, '30 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (114, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 17, giá tốt.', NULL, NULL, 17, 410587, 4.4, 33, 367363, 'Global', 'sold', 'Tài khoản PUBG #14', 22, '7 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (89, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 34, giá tốt.', NULL, NULL, 34, 180889, 3.6, 18, 158757, 'VN1', 'available', 'Tài khoản Arena of Valor #9', 278, '30 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (91, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 32, giá tốt.', NULL, NULL, 32, 421512, 4.2, 38, 402787, 'VN1', 'pending', 'Tài khoản Arena of Valor #11', 145, '7 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (92, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 20, giá tốt.', NULL, NULL, 20, 116507, 4.1, 13, 68421, 'VN2', 'sold', 'Tài khoản Arena of Valor #12', 402, '3 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (95, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 31, giá tốt.', NULL, NULL, 31, 186753, 3.2, 32, 145254, 'Global', 'available', 'Tài khoản Arena of Valor #15', 175, '7 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (90, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 29, giá tốt.', NULL, NULL, 29, 271216, 4.1, 50, 248234, 'VN2', 'pending', 'Tài khoản Arena of Valor #10', 255, '30 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (116, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 44, giá tốt.', NULL, NULL, 44, 315218, 4.5, 22, 270015, 'VN1', 'pending', 'Tài khoản PUBG #16', 108, '7 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (126, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 23, giá tốt.', NULL, NULL, 23, 395715, 3.2, 13, 371827, 'Asia', 'available', 'Tài khoản Valorant #6', 242, '7 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (127, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 37, giá tốt.', NULL, NULL, 37, 154266, 3.9, 28, 110181, 'Global', 'pending', 'Tài khoản Valorant #7', 67, '7 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (128, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 26, giá tốt.', NULL, NULL, 26, 409884, 4.7, 21, 375889, 'VN2', 'available', 'Tài khoản Valorant #8', 440, '30 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (130, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 15, giá tốt.', NULL, NULL, 15, 102718, 4, 42, 82415, 'VN1', 'sold', 'Tài khoản Valorant #10', 477, '7 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (131, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 49, giá tốt.', NULL, NULL, 49, 330716, 3.9, 20, 311001, 'VN2', 'sold', 'Tài khoản Valorant #11', 62, '7 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (132, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 21, giá tốt.', NULL, NULL, 21, 260584, 3.4, 12, 212186, 'VN1', 'sold', 'Tài khoản Valorant #12', 274, '30 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (133, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 30, giá tốt.', NULL, NULL, 30, 264815, 3.6, 27, 245776, 'Asia', 'pending', 'Tài khoản Valorant #13', 400, '30 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (134, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 21, giá tốt.', NULL, NULL, 21, 234931, 4.4, 27, 194871, 'Asia', 'pending', 'Tài khoản Valorant #14', 377, '30 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (135, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 30, giá tốt.', NULL, NULL, 30, 263757, 3.1, 18, 231187, 'VN2', 'pending', 'Tài khoản Valorant #15', 62, '3 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (136, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 27, giá tốt.', NULL, NULL, 27, 475672, 4.1, 27, 452184, 'Global', 'pending', 'Tài khoản Valorant #16', 233, '3 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (137, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 15, giá tốt.', NULL, NULL, 15, 311278, 4.8, 29, 277361, 'Asia', 'pending', 'Tài khoản Valorant #17', 55, '7 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (138, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 40, giá tốt.', NULL, NULL, 40, 131011, 4.1, 9, 115471, 'VN2', 'pending', 'Tài khoản Valorant #18', 115, '30 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (139, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 25, giá tốt.', NULL, NULL, 25, 168642, 4.6, 7, 136785, 'Asia', 'pending', 'Tài khoản Valorant #19', 324, '3 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (140, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 44, giá tốt.', NULL, NULL, 44, 155595, 4.4, 28, 109300, 'VN2', 'pending', 'Tài khoản Valorant #20', 218, '30 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (141, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 41, giá tốt.', NULL, NULL, 41, 394153, 4.3, 6, 360316, 'VN1', 'available', 'Tài khoản Call of Duty #1', 381, '7 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (143, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 50, giá tốt.', NULL, NULL, 50, 206560, 4, 9, 187297, 'Global', 'available', 'Tài khoản Call of Duty #3', 361, '30 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (144, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 22, giá tốt.', NULL, NULL, 22, 287439, 3.9, 14, 245757, 'VN2', 'pending', 'Tài khoản Call of Duty #4', 483, '3 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (145, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 49, giá tốt.', NULL, NULL, 49, 377153, 3.8, 29, 349450, 'VN2', 'sold', 'Tài khoản Call of Duty #5', 151, '3 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (147, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 26, giá tốt.', NULL, NULL, 26, 226151, 3.8, 17, 192051, 'Global', 'available', 'Tài khoản Call of Duty #7', 127, '7 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (148, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 48, giá tốt.', NULL, NULL, 48, 235105, 3.6, 40, 192527, 'VN1', 'available', 'Tài khoản Call of Duty #8', 221, '7 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (120, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 14, giá tốt.', NULL, NULL, 14, 332823, 4.2, 39, 303037, 'VN1', 'pending', 'Tài khoản PUBG #20', 453, '7 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (142, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 17, giá tốt.', NULL, NULL, 17, 192777, 4.6, 46, 161069, 'Asia', 'available', 'Tài khoản Call of Duty #2', 159, '30 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (149, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 12, giá tốt.', NULL, NULL, 12, 440822, 4.4, 38, 406310, 'VN2', 'sold', 'Tài khoản Call of Duty #9', 383, '3 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (121, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 37, giá tốt.', NULL, NULL, 37, 332176, 4.6, 8, 310999, 'VN2', 'sold', 'Tài khoản Valorant #1', 24, '30 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (123, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 36, giá tốt.', NULL, NULL, 36, 244126, 4, 2, 230386, 'VN2', 'pending', 'Tài khoản Valorant #3', 484, '7 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (124, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 48, giá tốt.', NULL, NULL, 48, 453754, 4.6, 43, 427345, 'VN1', 'available', 'Tài khoản Valorant #4', 481, '3 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (125, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 47, giá tốt.', NULL, NULL, 47, 317775, 4.7, 22, 273934, 'Global', 'pending', 'Tài khoản Valorant #5', 17, '7 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (122, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 37, giá tốt.', NULL, NULL, 37, 134316, 4.5, 5, 104521, 'VN1', 'pending', 'Tài khoản Valorant #2', 368, '30 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (146, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 44, giá tốt.', NULL, NULL, 44, 238893, 4.4, 33, 223274, 'VN2', 'sold', 'Tài khoản Call of Duty #6', 77, '3 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (157, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 38, giá tốt.', NULL, NULL, 38, 385988, 3.2, 35, 341029, 'VN2', 'available', 'Tài khoản Call of Duty #17', 339, '7 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (158, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 46, giá tốt.', NULL, NULL, 46, 302736, 4.2, 46, 261710, 'VN1', 'available', 'Tài khoản Call of Duty #18', 32, '7 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (160, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 45, giá tốt.', NULL, NULL, 45, 397332, 3.3, 42, 352192, 'Global', 'pending', 'Tài khoản Call of Duty #20', 106, '3 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (161, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 44, giá tốt.', NULL, NULL, 44, 376688, 3.1, 30, 330300, 'VN1', 'sold', 'Tài khoản Apex Legends #1', 221, '30 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (162, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 24, giá tốt.', NULL, NULL, 24, 293914, 3.7, 39, 273727, 'VN1', 'sold', 'Tài khoản Apex Legends #2', 347, '7 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (163, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 10, giá tốt.', NULL, NULL, 10, 113591, 3.4, 14, 99861, 'VN2', 'sold', 'Tài khoản Apex Legends #3', 62, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (164, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 15, giá tốt.', NULL, NULL, 15, 390668, 4, 8, 348614, 'Global', 'sold', 'Tài khoản Apex Legends #4', 282, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (165, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 22, giá tốt.', NULL, NULL, 22, 395152, 4.8, 49, 363653, 'VN1', 'pending', 'Tài khoản Apex Legends #5', 464, '7 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (166, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 13, giá tốt.', NULL, NULL, 13, 235618, 4.4, 28, 224981, 'VN1', 'pending', 'Tài khoản Apex Legends #6', 91, '30 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (167, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 34, giá tốt.', NULL, NULL, 34, 462892, 3.2, 1, 428722, 'VN2', 'available', 'Tài khoản Apex Legends #7', 390, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (169, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 11, giá tốt.', NULL, NULL, 11, 304422, 3.5, 2, 291363, 'VN2', 'pending', 'Tài khoản Apex Legends #9', 129, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (170, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 45, giá tốt.', NULL, NULL, 45, 106384, 4.1, 47, 76619, 'VN2', 'sold', 'Tài khoản Apex Legends #10', 413, '30 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (172, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 17, giá tốt.', NULL, NULL, 17, 400019, 4.3, 9, 375751, 'Asia', 'sold', 'Tài khoản Apex Legends #12', 31, '7 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (173, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 39, giá tốt.', NULL, NULL, 39, 468776, 3.9, 47, 426871, 'Global', 'available', 'Tài khoản Apex Legends #13', 482, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (174, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 24, giá tốt.', NULL, NULL, 24, 165510, 5, 17, 121972, 'VN1', 'available', 'Tài khoản Apex Legends #14', 279, '7 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (176, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 27, giá tốt.', NULL, NULL, 27, 260050, 4.6, 42, 249357, 'Asia', 'pending', 'Tài khoản Apex Legends #16', 73, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (177, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 10, giá tốt.', NULL, NULL, 10, 370566, 3.7, 36, 346058, 'VN2', 'available', 'Tài khoản Apex Legends #17', 212, '7 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (179, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 41, giá tốt.', NULL, NULL, 41, 491986, 3.3, 4, 481106, 'VN1', 'pending', 'Tài khoản Apex Legends #19', 257, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (180, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 14, giá tốt.', NULL, NULL, 14, 138972, 3.4, 46, 106437, 'VN1', 'sold', 'Tài khoản Apex Legends #20', 305, '30 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (151, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 44, giá tốt.', NULL, NULL, 44, 186166, 4.7, 8, 170231, 'VN1', 'sold', 'Tài khoản Call of Duty #11', 483, '30 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (168, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 44, giá tốt.', NULL, NULL, 44, 317766, 4, 36, 293290, 'Global', 'pending', 'Tài khoản Apex Legends #8', 89, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (175, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 37, giá tốt.', NULL, NULL, 37, 467945, 3.2, 50, 454583, 'VN2', 'available', 'Tài khoản Apex Legends #15', 126, '7 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (152, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 36, giá tốt.', NULL, NULL, 36, 264512, 4.3, 14, 214565, 'Asia', 'pending', 'Tài khoản Call of Duty #12', 270, '7 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (154, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 37, giá tốt.', NULL, NULL, 37, 491373, 3.2, 12, 449096, 'Asia', 'available', 'Tài khoản Call of Duty #14', 48, '30 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (155, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 26, giá tốt.', NULL, NULL, 26, 296601, 4.4, 5, 279656, 'VN2', 'pending', 'Tài khoản Call of Duty #15', 357, '3 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (159, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 46, giá tốt.', NULL, NULL, 46, 240867, 4.3, 5, 214766, 'Asia', 'available', 'Tài khoản Call of Duty #19', 293, '3 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (153, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 46, giá tốt.', NULL, NULL, 46, 123004, 4.4, 23, 102884, 'VN1', 'pending', 'Tài khoản Call of Duty #13', 152, '30 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (171, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 30, giá tốt.', NULL, NULL, 30, 137269, 4.8, 24, 101846, 'Asia', 'pending', 'Tài khoản Apex Legends #11', 101, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (187, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 43, giá tốt.', NULL, NULL, 43, 242947, 3.6, 21, 211035, 'Global', 'sold', 'Tài khoản Genshin Impact #7', 372, '30 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (189, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 19, giá tốt.', NULL, NULL, 19, 155230, 4.9, 16, 121561, 'Global', 'pending', 'Tài khoản Genshin Impact #9', 153, '3 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (191, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 20, giá tốt.', NULL, NULL, 20, 234691, 4.4, 11, 215954, 'Global', 'available', 'Tài khoản Genshin Impact #11', 239, '7 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (192, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 49, giá tốt.', NULL, NULL, 49, 417180, 4.2, 34, 379360, 'VN2', 'pending', 'Tài khoản Genshin Impact #12', 165, '7 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (193, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 41, giá tốt.', NULL, NULL, 41, 297091, 3.1, 36, 256770, 'VN1', 'pending', 'Tài khoản Genshin Impact #13', 267, '30 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (194, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 10, giá tốt.', NULL, NULL, 10, 470539, 4.7, 24, 458259, 'Global', 'pending', 'Tài khoản Genshin Impact #14', 199, '3 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (195, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 30, giá tốt.', NULL, NULL, 30, 181097, 3.3, 1, 154295, 'Asia', 'sold', 'Tài khoản Genshin Impact #15', 434, '30 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (196, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 48, giá tốt.', NULL, NULL, 48, 119901, 4.9, 16, 95607, 'Asia', 'available', 'Tài khoản Genshin Impact #16', 389, '7 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (198, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 25, giá tốt.', NULL, NULL, 25, 311272, 4.6, 4, 285448, 'Global', 'sold', 'Tài khoản Genshin Impact #18', 237, '3 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (200, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 23, giá tốt.', NULL, NULL, 23, 307097, 4.4, 43, 264308, 'Global', 'sold', 'Tài khoản Genshin Impact #20', 437, '7 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (201, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 18, giá tốt.', NULL, NULL, 18, 418969, 3.5, 22, 390992, 'VN1', 'pending', 'Tài khoản World of Warcraft #1', 162, '3 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (202, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 12, giá tốt.', NULL, NULL, 12, 373642, 3.5, 35, 332464, 'Asia', 'sold', 'Tài khoản World of Warcraft #2', 252, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (203, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 32, giá tốt.', NULL, NULL, 32, 443082, 3, 50, 397267, 'VN1', 'pending', 'Tài khoản World of Warcraft #3', 174, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (204, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 32, giá tốt.', NULL, NULL, 32, 133074, 3.6, 48, 94906, 'VN2', 'available', 'Tài khoản World of Warcraft #4', 361, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (206, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 44, giá tốt.', NULL, NULL, 44, 213263, 4.3, 24, 198410, 'Asia', 'sold', 'Tài khoản World of Warcraft #6', 255, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (207, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 43, giá tốt.', NULL, NULL, 43, 415398, 4.9, 29, 388392, 'Asia', 'available', 'Tài khoản World of Warcraft #7', 79, '7 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (208, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 11, giá tốt.', NULL, NULL, 11, 340072, 4.2, 23, 327918, 'Global', 'pending', 'Tài khoản World of Warcraft #8', 378, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (209, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 21, giá tốt.', NULL, NULL, 21, 237253, 3.7, 20, 208616, 'Global', 'available', 'Tài khoản World of Warcraft #9', 426, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (182, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 19, giá tốt.', NULL, NULL, 19, 256725, 3.8, 46, 211990, 'VN1', 'sold', 'Tài khoản Genshin Impact #2', 437, '7 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (197, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 11, giá tốt.', NULL, NULL, 11, 188097, 4.3, 4, 164681, 'Asia', 'available', 'Tài khoản Genshin Impact #17', 498, '3 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (205, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 44, giá tốt.', NULL, NULL, 44, 360200, 4.3, 10, 319216, 'VN1', 'pending', 'Tài khoản World of Warcraft #5', 459, '3 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (183, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 26, giá tốt.', NULL, NULL, 26, 110184, 3.6, 35, 64287, 'VN2', 'sold', 'Tài khoản Genshin Impact #3', 55, '7 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (185, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 29, giá tốt.', NULL, NULL, 29, 309180, 4.6, 34, 293302, 'VN2', 'pending', 'Tài khoản Genshin Impact #5', 109, '7 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (188, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 26, giá tốt.', NULL, NULL, 26, 102206, 3.2, 15, 63014, 'Asia', 'sold', 'Tài khoản Genshin Impact #8', 29, '3 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (190, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 20, giá tốt.', NULL, NULL, 20, 115491, 4.9, 46, 94005, 'Asia', 'available', 'Tài khoản Genshin Impact #10', 237, '30 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (186, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 22, giá tốt.', NULL, NULL, 22, 403460, 4.2, 9, 379928, 'Global', 'sold', 'Tài khoản Genshin Impact #6', 475, '3 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (184, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 23, giá tốt.', NULL, NULL, 23, 223330, 3.1, 42, 193422, 'Global', 'pending', 'Tài khoản Genshin Impact #4', 353, '30 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (217, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 21, giá tốt.', NULL, NULL, 21, 382730, 4.6, 25, 371801, 'VN2', 'available', 'Tài khoản World of Warcraft #17', 22, '7 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (218, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 15, giá tốt.', NULL, NULL, 15, 201338, 3.3, 44, 163330, 'Asia', 'pending', 'Tài khoản World of Warcraft #18', 197, '7 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (219, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 27, giá tốt.', NULL, NULL, 27, 378004, 4.7, 34, 342135, 'Asia', 'pending', 'Tài khoản World of Warcraft #19', 248, '3 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (220, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 45, giá tốt.', NULL, NULL, 45, 427477, 3.4, 35, 407552, 'Asia', 'available', 'Tài khoản World of Warcraft #20', 38, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (221, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 37, giá tốt.', NULL, NULL, 37, 133826, 4, 11, 114005, 'Global', 'sold', 'Tài khoản Final Fantasy XIV #1', 340, '7 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (222, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 16, giá tốt.', NULL, NULL, 16, 321157, 3.9, 37, 308253, 'Asia', 'pending', 'Tài khoản Final Fantasy XIV #2', 400, '3 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (223, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 47, giá tốt.', NULL, NULL, 47, 499830, 4.8, 29, 469277, 'VN1', 'pending', 'Tài khoản Final Fantasy XIV #3', 405, '7 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (224, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 49, giá tốt.', NULL, NULL, 49, 166758, 4.8, 21, 128871, 'VN2', 'sold', 'Tài khoản Final Fantasy XIV #4', 222, '3 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (226, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 16, giá tốt.', NULL, NULL, 16, 128063, 3.6, 34, 100494, 'Asia', 'available', 'Tài khoản Final Fantasy XIV #6', 291, '3 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (227, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 34, giá tốt.', NULL, NULL, 34, 425232, 3.7, 10, 395315, 'VN2', 'sold', 'Tài khoản Final Fantasy XIV #7', 184, '3 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (228, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 43, giá tốt.', NULL, NULL, 43, 287540, 5, 1, 273405, 'Asia', 'sold', 'Tài khoản Final Fantasy XIV #8', 490, '3 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (229, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 46, giá tốt.', NULL, NULL, 46, 362996, 4.9, 0, 322989, 'Asia', 'pending', 'Tài khoản Final Fantasy XIV #9', 385, '30 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (230, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 19, giá tốt.', NULL, NULL, 19, 361771, 4.3, 26, 350369, 'Global', 'pending', 'Tài khoản Final Fantasy XIV #10', 435, '7 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (232, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 36, giá tốt.', NULL, NULL, 36, 126532, 3.7, 32, 77987, 'Asia', 'available', 'Tài khoản Final Fantasy XIV #12', 303, '30 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (233, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 32, giá tốt.', NULL, NULL, 32, 135067, 3.5, 9, 106767, 'VN2', 'pending', 'Tài khoản Final Fantasy XIV #13', 424, '30 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (234, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 48, giá tốt.', NULL, NULL, 48, 290016, 4.6, 44, 257612, 'VN1', 'sold', 'Tài khoản Final Fantasy XIV #14', 73, '3 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (235, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 12, giá tốt.', NULL, NULL, 12, 430109, 3.2, 14, 399490, 'VN1', 'sold', 'Tài khoản Final Fantasy XIV #15', 376, '3 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (236, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 14, giá tốt.', NULL, NULL, 14, 472050, 3.6, 43, 432524, 'VN2', 'sold', 'Tài khoản Final Fantasy XIV #16', 244, '30 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (237, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 48, giá tốt.', NULL, NULL, 48, 115178, 4.1, 4, 100121, 'Asia', 'available', 'Tài khoản Final Fantasy XIV #17', 90, '30 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (211, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 12, giá tốt.', NULL, NULL, 12, 180304, 3.8, 44, 154719, 'Global', 'sold', 'Tài khoản World of Warcraft #11', 93, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (231, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 43, giá tốt.', NULL, NULL, 43, 123844, 4.1, 11, 111198, 'Global', 'pending', 'Tài khoản Final Fantasy XIV #11', 311, '7 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (238, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 34, giá tốt.', NULL, NULL, 34, 445200, 3.1, 18, 431343, 'VN2', 'available', 'Tài khoản Final Fantasy XIV #18', 375, '7 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (212, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 49, giá tốt.', NULL, NULL, 49, 338827, 4.4, 14, 311720, 'VN2', 'pending', 'Tài khoản World of Warcraft #12', 298, '3 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (214, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 50, giá tốt.', NULL, NULL, 50, 406808, 3.2, 3, 359461, 'VN2', 'available', 'Tài khoản World of Warcraft #14', 178, '3 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (215, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 36, giá tốt.', NULL, NULL, 36, 429082, 4, 30, 401736, 'Asia', 'available', 'Tài khoản World of Warcraft #15', 471, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (216, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 50, giá tốt.', NULL, NULL, 50, 340734, 4.7, 10, 324044, 'VN1', 'available', 'Tài khoản World of Warcraft #16', 240, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (213, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 11, giá tốt.', NULL, NULL, 11, 163220, 4.6, 46, 132034, 'Asia', 'pending', 'Tài khoản World of Warcraft #13', 145, '30 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (244, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 26, giá tốt.', NULL, NULL, 26, 321244, 4.6, 11, 291885, 'Global', 'pending', 'Tài khoản Elder Scrolls Online #4', 33, '30 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (247, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 50, giá tốt.', NULL, NULL, 50, 441120, 4.7, 40, 410242, 'Global', 'sold', 'Tài khoản Elder Scrolls Online #7', 174, '7 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (248, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 47, giá tốt.', NULL, NULL, 47, 287470, 4.8, 25, 240939, 'Global', 'available', 'Tài khoản Elder Scrolls Online #8', 297, '3 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (249, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 10, giá tốt.', NULL, NULL, 10, 108698, 4.2, 36, 83419, 'Asia', 'sold', 'Tài khoản Elder Scrolls Online #9', 335, '30 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (250, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 49, giá tốt.', NULL, NULL, 49, 319479, 4.9, 13, 303381, 'Global', 'available', 'Tài khoản Elder Scrolls Online #10', 224, '30 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (251, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 27, giá tốt.', NULL, NULL, 27, 175472, 3.9, 50, 151825, 'Asia', 'sold', 'Tài khoản Elder Scrolls Online #11', 75, '7 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (252, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 33, giá tốt.', NULL, NULL, 33, 218878, 4.5, 41, 181412, 'Asia', 'pending', 'Tài khoản Elder Scrolls Online #12', 45, '3 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (253, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 24, giá tốt.', NULL, NULL, 24, 494808, 4.3, 0, 450815, 'VN1', 'sold', 'Tài khoản Elder Scrolls Online #13', 85, '3 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (254, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 38, giá tốt.', NULL, NULL, 38, 286854, 4, 47, 251272, 'VN2', 'pending', 'Tài khoản Elder Scrolls Online #14', 446, '7 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (255, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 48, giá tốt.', NULL, NULL, 48, 350150, 4.9, 15, 300494, 'Asia', 'sold', 'Tài khoản Elder Scrolls Online #15', 182, '3 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (256, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 14, giá tốt.', NULL, NULL, 14, 400766, 3.3, 41, 353548, 'VN1', 'available', 'Tài khoản Elder Scrolls Online #16', 396, '3 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (259, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 10, giá tốt.', NULL, NULL, 10, 460091, 4, 38, 418443, 'VN1', 'pending', 'Tài khoản Elder Scrolls Online #19', 434, '3 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (260, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 47, giá tốt.', NULL, NULL, 47, 295042, 4.1, 10, 256142, 'Global', 'pending', 'Tài khoản Elder Scrolls Online #20', 472, '3 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (261, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 36, giá tốt.', NULL, NULL, 36, 102717, 4.4, 1, 56227, 'VN1', 'available', 'Tài khoản Lost Ark #1', 182, '3 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (263, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 31, giá tốt.', NULL, NULL, 31, 365314, 4.6, 14, 349016, 'VN1', 'available', 'Tài khoản Lost Ark #3', 92, '7 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (264, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 10, giá tốt.', NULL, NULL, 10, 270486, 4, 44, 233100, 'VN1', 'available', 'Tài khoản Lost Ark #4', 157, '7 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (266, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 28, giá tốt.', NULL, NULL, 28, 106167, 4.5, 17, 59203, 'VN1', 'pending', 'Tài khoản Lost Ark #6', 105, '7 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (267, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 48, giá tốt.', NULL, NULL, 48, 486798, 3.6, 24, 453347, 'VN2', 'sold', 'Tài khoản Lost Ark #7', 96, '7 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (240, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 29, giá tốt.', NULL, NULL, 29, 271020, 4.5, 27, 260314, 'VN2', 'sold', 'Tài khoản Final Fantasy XIV #20', 349, '7 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (257, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 37, giá tốt.', NULL, NULL, 37, 461719, 3.4, 2, 444721, 'VN2', 'pending', 'Tài khoản Elder Scrolls Online #17', 393, '30 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (265, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 41, giá tốt.', NULL, NULL, 41, 371525, 4.8, 22, 340187, 'VN1', 'available', 'Tài khoản Lost Ark #5', 291, '30 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (241, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 33, giá tốt.', NULL, NULL, 33, 132327, 4.2, 47, 84464, 'Global', 'pending', 'Tài khoản Elder Scrolls Online #1', 422, '30 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (243, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 27, giá tốt.', NULL, NULL, 27, 388918, 4, 11, 348830, 'VN2', 'sold', 'Tài khoản Elder Scrolls Online #3', 346, '30 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (245, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 19, giá tốt.', NULL, NULL, 19, 300340, 3.9, 44, 269036, 'Asia', 'pending', 'Tài khoản Elder Scrolls Online #5', 461, '30 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (246, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 28, giá tốt.', NULL, NULL, 28, 491707, 3.5, 20, 472134, 'VN2', 'available', 'Tài khoản Elder Scrolls Online #6', 34, '7 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (242, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 48, giá tốt.', NULL, NULL, 48, 475681, 3.1, 33, 449806, 'Global', 'available', 'Tài khoản Elder Scrolls Online #2', 165, '7 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (262, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 41, giá tốt.', NULL, NULL, 41, 283699, 4, 26, 243958, 'Asia', 'sold', 'Tài khoản Lost Ark #2', 17, '3 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (273, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 16, giá tốt.', NULL, NULL, 16, 141682, 4.7, 49, 126236, 'VN2', 'sold', 'Tài khoản Lost Ark #13', 48, '3 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (277, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 41, giá tốt.', NULL, NULL, 41, 443907, 4.2, 31, 425150, 'VN2', 'pending', 'Tài khoản Lost Ark #17', 308, '3 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (278, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 14, giá tốt.', NULL, NULL, 14, 452630, 3.2, 11, 416263, 'VN1', 'available', 'Tài khoản Lost Ark #18', 457, '7 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (279, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 41, giá tốt.', NULL, NULL, 41, 391044, 3.6, 31, 350224, 'VN2', 'pending', 'Tài khoản Lost Ark #19', 243, '3 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (280, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 13, giá tốt.', NULL, NULL, 13, 475527, 3.5, 24, 453505, 'VN2', 'available', 'Tài khoản Lost Ark #20', 76, '3 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (281, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 32, giá tốt.', NULL, NULL, 32, 216418, 4.7, 8, 181920, 'VN1', 'pending', 'Tài khoản Age of Empires #1', 464, '7 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (282, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 19, giá tốt.', NULL, NULL, 19, 427213, 3.9, 10, 388404, 'VN2', 'pending', 'Tài khoản Age of Empires #2', 330, '7 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (284, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 44, giá tốt.', NULL, NULL, 44, 388654, 3.7, 48, 371299, 'VN1', 'pending', 'Tài khoản Age of Empires #4', 299, '3 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (285, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 16, giá tốt.', NULL, NULL, 16, 289432, 4, 0, 246473, 'Asia', 'pending', 'Tài khoản Age of Empires #5', 160, '3 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (286, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 36, giá tốt.', NULL, NULL, 36, 100315, 4.5, 48, 61941, 'Asia', 'sold', 'Tài khoản Age of Empires #6', 182, '3 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (287, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 37, giá tốt.', NULL, NULL, 37, 409825, 3, 19, 390062, 'VN1', 'pending', 'Tài khoản Age of Empires #7', 453, '3 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (289, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 32, giá tốt.', NULL, NULL, 32, 323155, 4.6, 47, 296210, 'VN1', 'available', 'Tài khoản Age of Empires #9', 116, '7 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (290, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 40, giá tốt.', NULL, NULL, 40, 229655, 3, 16, 205907, 'Asia', 'pending', 'Tài khoản Age of Empires #10', 479, '3 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (291, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 26, giá tốt.', NULL, NULL, 26, 449135, 3.1, 16, 415724, 'Asia', 'sold', 'Tài khoản Age of Empires #11', 141, '30 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (292, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 50, giá tốt.', NULL, NULL, 50, 463320, 3.7, 37, 430744, 'Asia', 'pending', 'Tài khoản Age of Empires #12', 216, '7 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (293, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 46, giá tốt.', NULL, NULL, 46, 260913, 4.1, 21, 243427, 'VN1', 'pending', 'Tài khoản Age of Empires #13', 188, '3 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (294, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 31, giá tốt.', NULL, NULL, 31, 487447, 4, 12, 456233, 'Asia', 'sold', 'Tài khoản Age of Empires #14', 172, '30 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (296, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 38, giá tốt.', NULL, NULL, 38, 460594, 3, 18, 414985, 'VN2', 'sold', 'Tài khoản Age of Empires #16', 314, '3 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (297, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 31, giá tốt.', NULL, NULL, 31, 194688, 4.9, 43, 175175, 'Global', 'available', 'Tài khoản Age of Empires #17', 130, '7 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (269, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 48, giá tốt.', NULL, NULL, 48, 246436, 3.2, 24, 198899, 'VN2', 'available', 'Tài khoản Lost Ark #9', 44, '30 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (288, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 35, giá tốt.', NULL, NULL, 35, 173686, 4.3, 5, 155125, 'VN1', 'available', 'Tài khoản Age of Empires #8', 381, '7 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (295, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 48, giá tốt.', NULL, NULL, 48, 403702, 4.9, 49, 390615, 'Asia', 'available', 'Tài khoản Age of Empires #15', 218, '3 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (270, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 38, giá tốt.', NULL, NULL, 38, 130977, 3.3, 3, 114393, 'Asia', 'sold', 'Tài khoản Lost Ark #10', 425, '7 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (272, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 37, giá tốt.', NULL, NULL, 37, 243448, 4.6, 27, 232535, 'VN2', 'pending', 'Tài khoản Lost Ark #12', 231, '30 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (275, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 33, giá tốt.', NULL, NULL, 33, 414034, 5, 8, 372779, 'VN2', 'pending', 'Tài khoản Lost Ark #15', 392, '3 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (276, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 45, giá tốt.', NULL, NULL, 45, 445242, 4, 2, 396866, 'Asia', 'sold', 'Tài khoản Lost Ark #16', 346, '30 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (271, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 11, giá tốt.', NULL, NULL, 11, 195079, 3.6, 45, 166217, 'Global', 'sold', 'Tài khoản Lost Ark #11', 418, '3 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (274, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 41, giá tốt.', NULL, NULL, 41, 404744, 3.5, 0, 366568, 'VN2', 'pending', 'Tài khoản Lost Ark #14', 347, '30 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (303, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 18, giá tốt.', NULL, NULL, 18, 233063, 4.8, 7, 207377, 'VN2', 'available', 'Tài khoản StarCraft II #3', 448, '3 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (307, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 45, giá tốt.', NULL, NULL, 45, 218835, 4, 30, 173027, 'Asia', 'pending', 'Tài khoản StarCraft II #7', 140, '30 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (308, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 40, giá tốt.', NULL, NULL, 40, 197403, 4.6, 4, 153146, 'VN2', 'pending', 'Tài khoản StarCraft II #8', 304, '30 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (309, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 22, giá tốt.', NULL, NULL, 22, 178119, 3.9, 44, 161174, 'Global', 'pending', 'Tài khoản StarCraft II #9', 216, '30 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (310, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 50, giá tốt.', NULL, NULL, 50, 342241, 4, 49, 299125, 'Global', 'pending', 'Tài khoản StarCraft II #10', 409, '3 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (311, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 28, giá tốt.', NULL, NULL, 28, 468385, 3.7, 39, 445018, 'Asia', 'sold', 'Tài khoản StarCraft II #11', 472, '7 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (312, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 25, giá tốt.', NULL, NULL, 25, 426304, 4, 22, 383151, 'Asia', 'available', 'Tài khoản StarCraft II #12', 230, '30 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (313, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 17, giá tốt.', NULL, NULL, 17, 324809, 4, 18, 284284, 'VN1', 'available', 'Tài khoản StarCraft II #13', 317, '30 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (314, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 31, giá tốt.', NULL, NULL, 31, 178842, 3.1, 41, 161404, 'VN2', 'sold', 'Tài khoản StarCraft II #14', 335, '3 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (316, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 49, giá tốt.', NULL, NULL, 49, 237050, 4.1, 11, 217147, 'VN2', 'available', 'Tài khoản StarCraft II #16', 39, '30 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (317, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 33, giá tốt.', NULL, NULL, 33, 279042, 4.7, 0, 252340, 'VN1', 'available', 'Tài khoản StarCraft II #17', 212, '7 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (319, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 23, giá tốt.', NULL, NULL, 23, 239211, 4.6, 2, 202050, 'Asia', 'available', 'Tài khoản StarCraft II #19', 31, '7 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (320, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 12, giá tốt.', NULL, NULL, 12, 321162, 4.5, 7, 310799, 'VN1', 'sold', 'Tài khoản StarCraft II #20', 114, '7 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (321, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 14, giá tốt.', NULL, NULL, 14, 364912, 3.6, 6, 346737, 'Global', 'sold', 'Tài khoản Civilization VI #1', 152, '3 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (322, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 23, giá tốt.', NULL, NULL, 23, 437591, 3.5, 39, 425548, 'Global', 'sold', 'Tài khoản Civilization VI #2', 107, '7 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (323, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 24, giá tốt.', NULL, NULL, 24, 362007, 3.3, 22, 316578, 'Asia', 'pending', 'Tài khoản Civilization VI #3', 273, '3 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (324, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 14, giá tốt.', NULL, NULL, 14, 472415, 3.3, 1, 459821, 'Asia', 'available', 'Tài khoản Civilization VI #4', 428, '30 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (326, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 27, giá tốt.', NULL, NULL, 27, 150014, 4.8, 15, 119595, 'VN2', 'pending', 'Tài khoản Civilization VI #6', 293, '7 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (299, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 11, giá tốt.', NULL, NULL, 11, 316444, 4.6, 9, 273789, 'VN1', 'pending', 'Tài khoản Age of Empires #19', 307, '7 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (306, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 49, giá tốt.', NULL, NULL, 49, 168874, 4.5, 16, 149922, 'VN2', 'sold', 'Tài khoản StarCraft II #6', 12, '30 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (318, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 16, giá tốt.', NULL, NULL, 16, 185961, 4.4, 27, 152871, 'Asia', 'pending', 'Tài khoản StarCraft II #18', 272, '7 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (325, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 50, giá tốt.', NULL, NULL, 50, 315813, 4.9, 31, 270321, 'VN2', 'sold', 'Tài khoản Civilization VI #5', 101, '30 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (302, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 47, giá tốt.', NULL, NULL, 47, 358840, 3.9, 31, 320423, 'VN2', 'sold', 'Tài khoản StarCraft II #2', 264, '3 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (304, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 19, giá tốt.', NULL, NULL, 19, 390976, 3.2, 30, 366391, 'VN2', 'pending', 'Tài khoản StarCraft II #4', 321, '30 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (305, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 34, giá tốt.', NULL, NULL, 34, 482010, 4.8, 18, 435639, 'VN2', 'available', 'Tài khoản StarCraft II #5', 444, '3 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (300, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 33, giá tốt.', NULL, NULL, 33, 447466, 3.1, 42, 421770, 'VN2', 'pending', 'Tài khoản Age of Empires #20', 270, '3 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (301, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 41, giá tốt.', NULL, NULL, 41, 401695, 3, 25, 371392, 'Global', 'sold', 'Tài khoản StarCraft II #1', 289, '3 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (327, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 25, giá tốt.', NULL, NULL, 25, 379907, 4.7, 45, 335605, 'Asia', 'sold', 'Tài khoản Civilization VI #7', 224, '3 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (336, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 50, giá tốt.', NULL, NULL, 50, 252005, 4.6, 11, 233344, 'Global', 'available', 'Tài khoản Civilization VI #16', 147, '3 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (337, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 14, giá tốt.', NULL, NULL, 14, 369583, 3.3, 9, 338314, 'VN2', 'pending', 'Tài khoản Civilization VI #17', 166, '30 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (338, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 49, giá tốt.', NULL, NULL, 49, 485639, 4.9, 21, 454612, 'Global', 'pending', 'Tài khoản Civilization VI #18', 25, '7 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (339, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 43, giá tốt.', NULL, NULL, 43, 291151, 3.5, 5, 248027, 'Global', 'sold', 'Tài khoản Civilization VI #19', 355, '30 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (341, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 30, giá tốt.', NULL, NULL, 30, 316512, 3, 35, 296846, 'Asia', 'sold', 'Tài khoản Total War #1', 148, '7 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (342, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 13, giá tốt.', NULL, NULL, 13, 170067, 3.3, 18, 121475, 'VN1', 'available', 'Tài khoản Total War #2', 372, '3 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (344, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 34, giá tốt.', NULL, NULL, 34, 119785, 4.2, 11, 75402, 'Asia', 'pending', 'Tài khoản Total War #4', 416, '7 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (345, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 18, giá tốt.', NULL, NULL, 18, 214239, 3.9, 45, 190152, 'VN2', 'pending', 'Tài khoản Total War #5', 388, '7 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (346, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 33, giá tốt.', NULL, NULL, 33, 206418, 4.5, 11, 195960, 'VN1', 'sold', 'Tài khoản Total War #6', 80, '3 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (348, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 41, giá tốt.', NULL, NULL, 41, 469782, 3.8, 29, 442519, 'VN1', 'pending', 'Tài khoản Total War #8', 447, '30 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (349, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 34, giá tốt.', NULL, NULL, 34, 305884, 3.5, 34, 290672, 'Global', 'available', 'Tài khoản Total War #9', 394, '3 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (350, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 11, giá tốt.', NULL, NULL, 11, 468561, 4, 8, 452244, 'Global', 'available', 'Tài khoản Total War #10', 496, '30 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (351, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 18, giá tốt.', NULL, NULL, 18, 204941, 4.4, 1, 175487, 'VN1', 'available', 'Tài khoản Total War #11', 113, '30 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (352, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 48, giá tốt.', NULL, NULL, 48, 223709, 3.4, 23, 194693, 'VN2', 'available', 'Tài khoản Total War #12', 396, '3 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (353, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 36, giá tốt.', NULL, NULL, 36, 308884, 4.7, 43, 263575, 'Global', 'pending', 'Tài khoản Total War #13', 471, '30 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (355, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 44, giá tốt.', NULL, NULL, 44, 188005, 3.9, 19, 144992, 'VN2', 'available', 'Tài khoản Total War #15', 79, '30 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (356, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 17, giá tốt.', NULL, NULL, 17, 428206, 3.3, 42, 414904, 'VN2', 'available', 'Tài khoản Total War #16', 121, '30 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (357, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 23, giá tốt.', NULL, NULL, 23, 212224, 4.5, 36, 186343, 'Global', 'pending', 'Tài khoản Total War #17', 92, '7 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (329, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 16, giá tốt.', NULL, NULL, 16, 201910, 4.1, 25, 179602, 'VN1', 'sold', 'Tài khoản Civilization VI #9', 379, '3 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (330, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 14, giá tốt.', NULL, NULL, 14, 123887, 3.9, 15, 110708, 'VN1', 'sold', 'Tài khoản Civilization VI #10', 458, '30 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (347, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 30, giá tốt.', NULL, NULL, 30, 125310, 3.2, 10, 77007, 'Global', 'sold', 'Tài khoản Total War #7', 482, '30 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (354, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 23, giá tốt.', NULL, NULL, 23, 156137, 3.7, 9, 126375, 'VN1', 'sold', 'Tài khoản Total War #14', 319, '7 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (333, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 38, giá tốt.', NULL, NULL, 38, 365858, 3.5, 22, 333716, 'Asia', 'available', 'Tài khoản Civilization VI #13', 10, '3 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (334, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 42, giá tốt.', NULL, NULL, 42, 135050, 4.3, 37, 96811, 'VN2', 'pending', 'Tài khoản Civilization VI #14', 213, '3 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (335, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 16, giá tốt.', NULL, NULL, 16, 216753, 3.3, 40, 206420, 'VN1', 'available', 'Tài khoản Civilization VI #15', 53, '7 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (331, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 19, giá tốt.', NULL, NULL, 19, 431268, 3.6, 43, 395927, 'Asia', 'pending', 'Tài khoản Civilization VI #11', 382, '3 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (332, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 14, giá tốt.', NULL, NULL, 14, 446635, 3.5, 21, 398826, 'VN1', 'sold', 'Tài khoản Civilization VI #12', 386, '30 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (340, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 46, giá tốt.', NULL, NULL, 46, 226885, 4.2, 21, 192018, 'VN2', 'available', 'Tài khoản Civilization VI #20', 214, '7 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (366, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 45, giá tốt.', NULL, NULL, 45, 497113, 4.5, 12, 464750, 'VN2', 'available', 'Tài khoản Dota Underlords #6', 437, '7 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (368, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 50, giá tốt.', NULL, NULL, 50, 146292, 4.5, 4, 102022, 'VN2', 'pending', 'Tài khoản Dota Underlords #8', 367, '3 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (369, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 22, giá tốt.', NULL, NULL, 22, 449972, 3.5, 36, 430455, 'Global', 'pending', 'Tài khoản Dota Underlords #9', 103, '7 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (370, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 35, giá tốt.', NULL, NULL, 35, 316780, 4.2, 35, 294232, 'Global', 'available', 'Tài khoản Dota Underlords #10', 239, '30 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (371, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 35, giá tốt.', NULL, NULL, 35, 466301, 4.3, 31, 436751, 'Asia', 'available', 'Tài khoản Dota Underlords #11', 159, '7 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (372, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 24, giá tốt.', NULL, NULL, 24, 213289, 3.9, 29, 194464, 'VN1', 'pending', 'Tài khoản Dota Underlords #12', 143, '3 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (374, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 24, giá tốt.', NULL, NULL, 24, 150609, 4, 43, 123840, 'VN2', 'pending', 'Tài khoản Dota Underlords #14', 331, '30 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (375, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 47, giá tốt.', NULL, NULL, 47, 461158, 4.4, 3, 419147, 'VN1', 'pending', 'Tài khoản Dota Underlords #15', 344, '3 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (376, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 29, giá tốt.', NULL, NULL, 29, 441499, 4.9, 31, 426152, 'Global', 'available', 'Tài khoản Dota Underlords #16', 154, '30 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (377, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 36, giá tốt.', NULL, NULL, 36, 252932, 4.2, 10, 209598, 'VN2', 'available', 'Tài khoản Dota Underlords #17', 342, '3 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (379, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 10, giá tốt.', NULL, NULL, 10, 125301, 3.3, 0, 95094, 'Global', 'pending', 'Tài khoản Dota Underlords #19', 427, '30 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (416, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 27, giá tốt.', NULL, NULL, 27, 285992, 4.8, 10, 244544, 'Global', 'available', 'Tài khoản NBA 2K #16', 485, '30 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (381, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 16, giá tốt.', NULL, NULL, 16, 134773, 4.2, 42, 84893, 'VN2', 'sold', 'Tài khoản FIFA Online 4 #1', 267, '7 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (382, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 32, giá tốt.', NULL, NULL, 32, 103920, 3.9, 1, 82245, 'VN1', 'sold', 'Tài khoản FIFA Online 4 #2', 420, '7 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (383, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 38, giá tốt.', NULL, NULL, 38, 258917, 3.1, 15, 220302, 'VN2', 'pending', 'Tài khoản FIFA Online 4 #3', 445, '3 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (385, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 39, giá tốt.', NULL, NULL, 39, 110446, 4.8, 7, 97536, 'Global', 'sold', 'Tài khoản FIFA Online 4 #5', 70, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (359, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 31, giá tốt.', NULL, NULL, 31, 278266, 4.1, 11, 256155, 'Global', 'pending', 'Tài khoản Total War #19', 39, '30 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (360, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 41, giá tốt.', NULL, NULL, 41, 198887, 3.4, 39, 185672, 'Global', 'pending', 'Tài khoản Total War #20', 364, '3 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (373, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 28, giá tốt.', NULL, NULL, 28, 428032, 5, 9, 378428, 'Global', 'available', 'Tài khoản Dota Underlords #13', 495, '7 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (380, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 26, giá tốt.', NULL, NULL, 26, 207494, 4.9, 39, 158765, 'Global', 'pending', 'Tài khoản Dota Underlords #20', 396, '7 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (384, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 11, giá tốt.', NULL, NULL, 11, 401566, 3.5, 38, 351870, 'VN2', 'sold', 'Tài khoản FIFA Online 4 #4', 458, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (364, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 37, giá tốt.', NULL, NULL, 37, 127149, 4.2, 34, 112844, 'VN1', 'sold', 'Tài khoản Dota Underlords #4', 257, '30 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (365, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 14, giá tốt.', NULL, NULL, 14, 476862, 3.9, 12, 457282, 'Asia', 'sold', 'Tài khoản Dota Underlords #5', 396, '30 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (367, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 19, giá tốt.', NULL, NULL, 19, 414730, 3.8, 27, 393640, 'Asia', 'pending', 'Tài khoản Dota Underlords #7', 293, '7 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (362, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 29, giá tốt.', NULL, NULL, 29, 321819, 4.2, 42, 297739, 'VN1', 'available', 'Tài khoản Dota Underlords #2', 62, '3 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (363, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 34, giá tốt.', NULL, NULL, 34, 423328, 3.4, 50, 379040, 'VN1', 'available', 'Tài khoản Dota Underlords #3', 236, '3 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (361, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 25, giá tốt.', NULL, NULL, 25, 105046, 3.2, 40, 78112, 'VN1', 'pending', 'Tài khoản Dota Underlords #1', 475, '3 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (394, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 43, giá tốt.', NULL, NULL, 43, 370864, 4.5, 7, 321437, 'Global', 'sold', 'Tài khoản FIFA Online 4 #14', 404, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (395, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 27, giá tốt.', NULL, NULL, 27, 174539, 4.9, 8, 130416, 'VN2', 'sold', 'Tài khoản FIFA Online 4 #15', 361, '3 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (396, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 24, giá tốt.', NULL, NULL, 24, 227848, 3.8, 20, 181262, 'VN1', 'sold', 'Tài khoản FIFA Online 4 #16', 498, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (397, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 22, giá tốt.', NULL, NULL, 22, 181212, 4.9, 24, 144459, 'VN1', 'sold', 'Tài khoản FIFA Online 4 #17', 261, '7 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (398, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 11, giá tốt.', NULL, NULL, 11, 451605, 4.5, 10, 411320, 'VN2', 'pending', 'Tài khoản FIFA Online 4 #18', 229, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (399, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 33, giá tốt.', NULL, NULL, 33, 453119, 4.1, 5, 412429, 'VN2', 'sold', 'Tài khoản FIFA Online 4 #19', 364, '7 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (400, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 37, giá tốt.', NULL, NULL, 37, 383695, 3.6, 10, 367033, 'Global', 'pending', 'Tài khoản FIFA Online 4 #20', 165, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (401, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 29, giá tốt.', NULL, NULL, 29, 189009, 4.5, 38, 173636, 'VN1', 'sold', 'Tài khoản NBA 2K #1', 481, '30 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (402, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 17, giá tốt.', NULL, NULL, 17, 362973, 3, 47, 346475, 'VN1', 'sold', 'Tài khoản NBA 2K #2', 91, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (403, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 28, giá tốt.', NULL, NULL, 28, 499267, 4.7, 33, 475157, 'Global', 'pending', 'Tài khoản NBA 2K #3', 27, '30 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (404, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 30, giá tốt.', NULL, NULL, 30, 243318, 4, 25, 197646, 'Asia', 'available', 'Tài khoản NBA 2K #4', 399, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (405, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 42, giá tốt.', NULL, NULL, 42, 224668, 4.8, 11, 178386, 'Global', 'pending', 'Tài khoản NBA 2K #5', 402, '30 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (406, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 40, giá tốt.', NULL, NULL, 40, 193705, 4, 27, 168026, 'Global', 'sold', 'Tài khoản NBA 2K #6', 152, '7 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (408, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 24, giá tốt.', NULL, NULL, 24, 265699, 3.4, 50, 235214, 'VN2', 'available', 'Tài khoản NBA 2K #8', 459, '30 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (409, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 32, giá tốt.', NULL, NULL, 32, 219805, 3.8, 2, 190697, 'VN1', 'pending', 'Tài khoản NBA 2K #9', 177, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (410, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 31, giá tốt.', NULL, NULL, 31, 256018, 3.2, 22, 223336, 'Asia', 'sold', 'Tài khoản NBA 2K #10', 196, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (411, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 46, giá tốt.', NULL, NULL, 46, 317071, 3.7, 34, 269713, 'Asia', 'sold', 'Tài khoản NBA 2K #11', 312, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (413, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 36, giá tốt.', NULL, NULL, 36, 233120, 4.5, 35, 190563, 'Asia', 'available', 'Tài khoản NBA 2K #13', 321, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (414, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 46, giá tốt.', NULL, NULL, 46, 354899, 4.2, 20, 329852, 'VN1', 'sold', 'Tài khoản NBA 2K #14', 232, '7 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (387, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 22, giá tốt.', NULL, NULL, 22, 325641, 4.2, 41, 309268, 'VN2', 'available', 'Tài khoản FIFA Online 4 #7', 317, '3 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (388, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 48, giá tốt.', NULL, NULL, 48, 226957, 4.1, 9, 208761, 'Global', 'pending', 'Tài khoản FIFA Online 4 #8', 264, '3 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (407, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 12, giá tốt.', NULL, NULL, 12, 412186, 3.3, 17, 386999, 'Global', 'pending', 'Tài khoản NBA 2K #7', 482, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (412, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 40, giá tốt.', NULL, NULL, 40, 372393, 3.7, 41, 361435, 'Global', 'pending', 'Tài khoản NBA 2K #12', 404, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (391, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 44, giá tốt.', NULL, NULL, 44, 344551, 3.8, 23, 316142, 'Global', 'available', 'Tài khoản FIFA Online 4 #11', 316, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (392, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 46, giá tốt.', NULL, NULL, 46, 144792, 4.5, 26, 104100, 'Global', 'available', 'Tài khoản FIFA Online 4 #12', 101, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (393, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 33, giá tốt.', NULL, NULL, 33, 236644, 3.5, 12, 199654, 'VN2', 'sold', 'Tài khoản FIFA Online 4 #13', 108, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (389, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 47, giá tốt.', NULL, NULL, 47, 284178, 3.7, 35, 236186, 'Global', 'available', 'Tài khoản FIFA Online 4 #9', 410, '7 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (390, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 25, giá tốt.', NULL, NULL, 25, 219096, 3.3, 3, 173994, 'Global', 'sold', 'Tài khoản FIFA Online 4 #10', 86, '7 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (415, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 27, giá tốt.', NULL, NULL, 27, 146333, 4.1, 46, 99633, 'VN1', 'sold', 'Tài khoản NBA 2K #15', 200, '7 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (423, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 12, giá tốt.', NULL, NULL, 12, 289844, 3.6, 49, 256897, 'VN2', 'available', 'Tài khoản PES #3', 310, '7 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (426, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 40, giá tốt.', NULL, NULL, 40, 378898, 3.9, 9, 353970, 'VN2', 'available', 'Tài khoản PES #6', 149, '7 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (427, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 33, giá tốt.', NULL, NULL, 33, 180538, 3.1, 18, 139262, 'Asia', 'sold', 'Tài khoản PES #7', 317, '30 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (428, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 17, giá tốt.', NULL, NULL, 17, 327984, 3.7, 4, 299823, 'VN1', 'available', 'Tài khoản PES #8', 251, '7 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (429, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 27, giá tốt.', NULL, NULL, 27, 419318, 4, 45, 394098, 'Global', 'pending', 'Tài khoản PES #9', 345, '3 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (430, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 18, giá tốt.', NULL, NULL, 18, 196964, 3.9, 25, 149449, 'Asia', 'available', 'Tài khoản PES #10', 453, '3 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (431, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 29, giá tốt.', NULL, NULL, 29, 465246, 4.2, 31, 431450, 'Asia', 'available', 'Tài khoản PES #11', 296, '3 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (433, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 18, giá tốt.', NULL, NULL, 18, 346847, 4.8, 29, 329347, 'VN1', 'sold', 'Tài khoản PES #13', 146, '30 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (434, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 15, giá tốt.', NULL, NULL, 15, 220203, 4.2, 10, 198603, 'VN2', 'pending', 'Tài khoản PES #14', 468, '7 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (435, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 21, giá tốt.', NULL, NULL, 21, 323122, 3.4, 40, 306252, 'Asia', 'available', 'Tài khoản PES #15', 40, '3 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (436, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 24, giá tốt.', NULL, NULL, 24, 228946, 4.1, 7, 207844, 'VN1', 'pending', 'Tài khoản PES #16', 346, '3 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (437, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 19, giá tốt.', NULL, NULL, 19, 201770, 4.5, 7, 182065, 'Global', 'pending', 'Tài khoản PES #17', 113, '30 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (438, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 17, giá tốt.', NULL, NULL, 17, 284296, 3.7, 27, 249279, 'Global', 'pending', 'Tài khoản PES #18', 388, '30 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (440, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 37, giá tốt.', NULL, NULL, 37, 323137, 3.7, 44, 273784, 'Global', 'available', 'Tài khoản PES #20', 333, '3 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (441, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 13, giá tốt.', NULL, NULL, 13, 398280, 3.2, 5, 357871, 'VN2', 'available', 'Tài khoản Golf It #1', 376, '3 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (442, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 37, giá tốt.', NULL, NULL, 37, 273180, 3.8, 19, 233089, 'Global', 'available', 'Tài khoản Golf It #2', 482, '3 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (443, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 26, giá tốt.', NULL, NULL, 26, 120819, 4.5, 19, 92369, 'Asia', 'sold', 'Tài khoản Golf It #3', 426, '7 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (444, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 16, giá tốt.', NULL, NULL, 16, 459990, 3.8, 49, 416571, 'VN2', 'sold', 'Tài khoản Golf It #4', 293, '7 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (445, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 30, giá tốt.', NULL, NULL, 30, 137726, 4.9, 22, 103171, 'Global', 'pending', 'Tài khoản Golf It #5', 108, '30 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (447, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 29, giá tốt.', NULL, NULL, 29, 496488, 3.2, 10, 471858, 'Asia', 'pending', 'Tài khoản Golf It #7', 308, '30 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (448, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 17, giá tốt.', NULL, NULL, 17, 155127, 3.7, 28, 116926, 'Asia', 'pending', 'Tài khoản Golf It #8', 491, '3 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (418, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 35, giá tốt.', NULL, NULL, 35, 261714, 4.1, 38, 249727, 'Global', 'pending', 'Tài khoản NBA 2K #18', 383, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (439, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 16, giá tốt.', NULL, NULL, 16, 368310, 3.8, 44, 329314, 'VN2', 'available', 'Tài khoản PES #19', 76, '30 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (446, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 18, giá tốt.', NULL, NULL, 18, 424440, 3.8, 43, 391849, 'Global', 'sold', 'Tài khoản Golf It #6', 299, '30 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (422, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 24, giá tốt.', NULL, NULL, 24, 147280, 3.1, 4, 108783, 'Global', 'pending', 'Tài khoản PES #2', 325, '3 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (424, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 35, giá tốt.', NULL, NULL, 35, 168285, 3.2, 4, 126662, 'Asia', 'sold', 'Tài khoản PES #4', 252, '7 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (425, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 50, giá tốt.', NULL, NULL, 50, 273361, 3.5, 27, 231698, 'VN2', 'available', 'Tài khoản PES #5', 129, '7 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (420, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 37, giá tốt.', NULL, NULL, 37, 261355, 4.1, 39, 229429, 'Global', 'pending', 'Tài khoản NBA 2K #20', 362, '30 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (421, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 27, giá tốt.', NULL, NULL, 27, 194488, 4, 18, 169715, 'Asia', 'sold', 'Tài khoản PES #1', 61, '3 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (419, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 31, giá tốt.', NULL, NULL, 31, 249254, 4.7, 30, 216206, 'Asia', 'sold', 'Tài khoản NBA 2K #19', 298, '30 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (455, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 49, giá tốt.', NULL, NULL, 49, 456252, 4.9, 6, 425512, 'Asia', 'pending', 'Tài khoản Golf It #15', 283, '30 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (458, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 39, giá tốt.', NULL, NULL, 39, 224248, 5, 17, 191928, 'Global', 'available', 'Tài khoản Golf It #18', 460, '3 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (459, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 49, giá tốt.', NULL, NULL, 49, 203191, 3.9, 41, 175714, 'VN1', 'pending', 'Tài khoản Golf It #19', 360, '30 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (461, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 19, giá tốt.', NULL, NULL, 19, 292037, 3.9, 41, 242627, 'Global', 'sold', 'Tài khoản F1 Racing #1', 187, '30 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (462, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 23, giá tốt.', NULL, NULL, 23, 469887, 5, 46, 431039, 'VN1', 'available', 'Tài khoản F1 Racing #2', 234, '30 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (463, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 23, giá tốt.', NULL, NULL, 23, 422491, 3.3, 3, 384618, 'VN1', 'available', 'Tài khoản F1 Racing #3', 300, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (464, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 46, giá tốt.', NULL, NULL, 46, 128950, 5, 46, 115900, 'Asia', 'sold', 'Tài khoản F1 Racing #4', 189, '30 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (465, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 19, giá tốt.', NULL, NULL, 19, 346328, 4.1, 15, 316743, 'VN1', 'available', 'Tài khoản F1 Racing #5', 287, '3 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (466, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 27, giá tốt.', NULL, NULL, 27, 429469, 4.8, 14, 396968, 'Asia', 'sold', 'Tài khoản F1 Racing #6', 272, '3 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (467, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 50, giá tốt.', NULL, NULL, 50, 228442, 3.3, 48, 203328, 'VN2', 'available', 'Tài khoản F1 Racing #7', 268, '3 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (468, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 29, giá tốt.', NULL, NULL, 29, 255357, 4.6, 36, 209485, 'Global', 'sold', 'Tài khoản F1 Racing #8', 99, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (469, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 19, giá tốt.', NULL, NULL, 19, 308674, 3.8, 22, 283489, 'VN2', 'sold', 'Tài khoản F1 Racing #9', 189, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (471, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 25, giá tốt.', NULL, NULL, 25, 271291, 4.4, 36, 252699, 'Asia', 'pending', 'Tài khoản F1 Racing #11', 387, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (472, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 34, giá tốt.', NULL, NULL, 34, 328089, 4.1, 9, 290114, 'Global', 'available', 'Tài khoản F1 Racing #12', 419, '30 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (473, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 25, giá tốt.', NULL, NULL, 25, 485793, 3.7, 27, 451105, 'VN1', 'available', 'Tài khoản F1 Racing #13', 50, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (474, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 47, giá tốt.', NULL, NULL, 47, 215706, 3.1, 5, 195822, 'VN2', 'available', 'Tài khoản F1 Racing #14', 297, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (475, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 27, giá tốt.', NULL, NULL, 27, 107264, 3, 35, 59476, 'Global', 'sold', 'Tài khoản F1 Racing #15', 191, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (476, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 17, giá tốt.', NULL, NULL, 17, 211913, 4.9, 9, 167683, 'VN2', 'sold', 'Tài khoản F1 Racing #16', 195, '3 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (478, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 41, giá tốt.', NULL, NULL, 41, 490194, 3.1, 46, 469421, 'VN1', 'sold', 'Tài khoản F1 Racing #18', 292, '30 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (479, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 27, giá tốt.', NULL, NULL, 27, 477279, 3.8, 37, 445488, 'Asia', 'pending', 'Tài khoản F1 Racing #19', 150, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (450, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 22, giá tốt.', NULL, NULL, 22, 378188, 3.8, 46, 338129, 'VN1', 'pending', 'Tài khoản Golf It #10', 38, '3 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (451, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 11, giá tốt.', NULL, NULL, 11, 232765, 4.4, 2, 206954, 'Asia', 'pending', 'Tài khoản Golf It #11', 273, '3 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (470, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 44, giá tốt.', NULL, NULL, 44, 209905, 4.8, 45, 160613, 'Asia', 'pending', 'Tài khoản F1 Racing #10', 43, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (477, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 22, giá tốt.', NULL, NULL, 22, 274908, 4.1, 33, 246997, 'VN1', 'pending', 'Tài khoản F1 Racing #17', 194, '3 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (454, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 50, giá tốt.', NULL, NULL, 50, 310306, 4.3, 45, 290752, 'VN1', 'available', 'Tài khoản Golf It #14', 354, '7 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (456, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 32, giá tốt.', NULL, NULL, 32, 368097, 4.8, 43, 339586, 'Asia', 'sold', 'Tài khoản Golf It #16', 19, '30 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (457, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 23, giá tốt.', NULL, NULL, 23, 276293, 4.2, 21, 256655, 'Asia', 'sold', 'Tài khoản Golf It #17', 22, '30 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (452, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 28, giá tốt.', NULL, NULL, 28, 422029, 3.3, 34, 411280, 'Global', 'pending', 'Tài khoản Golf It #12', 113, '3 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (453, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 17, giá tốt.', NULL, NULL, 17, 106768, 3.4, 36, 70356, 'Asia', 'sold', 'Tài khoản Golf It #13', 78, '30 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (480, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản F1 Racing cấp 31, giá tốt.', NULL, NULL, 31, 455135, 4.1, 32, 423272, 'Global', 'sold', 'Tài khoản F1 Racing #20', 172, '7 ngày', 36, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (14, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 25, giá tốt.', NULL, NULL, 25, 264422, 4.8, 37, 242381, 'VN1', 'pending', 'Tài khoản Liên Minh Huyền Thoại #14', 377, '7 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (29, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Mobile Legends cấp 23, giá tốt.', NULL, NULL, 23, 338283, 4.8, 24, 323941, 'VN1', 'available', 'Tài khoản Mobile Legends #9', 29, '7 ngày', 10, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (59, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 28, giá tốt.', NULL, NULL, 28, 252366, 4.6, 20, 221952, 'VN1', 'sold', 'Tài khoản DOTA 2 #19', 445, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (417, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản NBA 2K cấp 30, giá tốt.', NULL, NULL, 30, 184417, 4.1, 2, 146923, 'VN1', 'sold', 'Tài khoản NBA 2K #17', 159, '3 ngày', 33, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (1, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Liên Minh Huyền Thoại cấp 39, giá tốt.', NULL, NULL, 39, 122176, 3.6, 4, 106151, 'VN2', 'available', 'Tài khoản Liên Minh Huyền Thoại #1', 66, '7 ngày', 9, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (51, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản DOTA 2 cấp 41, giá tốt.', NULL, NULL, 41, 415502, 3.2, 19, 372773, 'Asia', 'available', 'Tài khoản DOTA 2 #11', 134, '3 ngày', 11, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (76, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Heroes of the Storm cấp 12, giá tốt.', NULL, NULL, 12, 115019, 3.5, 19, 93939, 'VN2', 'available', 'Tài khoản Heroes of the Storm #16', 352, '7 ngày', 12, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (87, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 20, giá tốt.', NULL, NULL, 20, 292149, 4.9, 28, 243365, 'VN2', 'sold', 'Tài khoản Arena of Valor #7', 77, '7 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (99, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Arena of Valor cấp 25, giá tốt.', NULL, NULL, 25, 232125, 3.3, 35, 182919, 'VN2', 'available', 'Tài khoản Arena of Valor #19', 352, '30 ngày', 13, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (119, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PUBG cấp 50, giá tốt.', NULL, NULL, 50, 305768, 3.7, 17, 273623, 'Asia', 'available', 'Tài khoản PUBG #19', 378, '3 ngày', 15, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (129, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Valorant cấp 47, giá tốt.', NULL, NULL, 47, 306661, 3.3, 13, 296532, 'Global', 'pending', 'Tài khoản Valorant #9', 347, '7 ngày', 16, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (150, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 12, giá tốt.', NULL, NULL, 12, 282280, 3.4, 37, 259886, 'VN2', 'pending', 'Tài khoản Call of Duty #10', 122, '7 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (156, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Call of Duty cấp 33, giá tốt.', NULL, NULL, 33, 129288, 4.3, 23, 82015, 'Global', 'sold', 'Tài khoản Call of Duty #16', 45, '7 ngày', 18, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (178, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Apex Legends cấp 34, giá tốt.', NULL, NULL, 34, 384529, 3.5, 39, 351018, 'VN2', 'sold', 'Tài khoản Apex Legends #18', 398, '3 ngày', 19, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (181, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 34, giá tốt.', NULL, NULL, 34, 472925, 4.3, 29, 446252, 'VN2', 'available', 'Tài khoản Genshin Impact #1', 235, '3 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (199, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Genshin Impact cấp 27, giá tốt.', NULL, NULL, 27, 315322, 4.2, 11, 291626, 'Global', 'pending', 'Tài khoản Genshin Impact #19', 190, '30 ngày', 22, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (210, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản World of Warcraft cấp 32, giá tốt.', NULL, NULL, 32, 274496, 4.1, 5, 262282, 'VN1', 'sold', 'Tài khoản World of Warcraft #10', 124, '7 ngày', 23, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (225, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 39, giá tốt.', NULL, NULL, 39, 479139, 4.3, 33, 460700, 'VN1', 'available', 'Tài khoản Final Fantasy XIV #5', 201, '3 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (239, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Final Fantasy XIV cấp 17, giá tốt.', NULL, NULL, 17, 223439, 4.2, 13, 209020, 'Global', 'sold', 'Tài khoản Final Fantasy XIV #19', 64, '7 ngày', 24, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (258, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Elder Scrolls Online cấp 10, giá tốt.', NULL, NULL, 10, 299135, 4.3, 13, 270734, 'Global', 'available', 'Tài khoản Elder Scrolls Online #18', 305, '7 ngày', 25, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (268, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Lost Ark cấp 45, giá tốt.', NULL, NULL, 45, 493607, 4.5, 23, 471268, 'VN1', 'pending', 'Tài khoản Lost Ark #8', 282, '3 ngày', 26, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (283, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 48, giá tốt.', NULL, NULL, 48, 301851, 3.7, 23, 256333, 'Asia', 'pending', 'Tài khoản Age of Empires #3', 431, '30 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (298, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Age of Empires cấp 15, giá tốt.', NULL, NULL, 15, 499370, 4.4, 17, 456453, 'Asia', 'available', 'Tài khoản Age of Empires #18', 112, '7 ngày', 27, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (328, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Civilization VI cấp 30, giá tốt.', NULL, NULL, 30, 269059, 3.8, 31, 253955, 'VN1', 'sold', 'Tài khoản Civilization VI #8', 273, '30 ngày', 29, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (343, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 44, giá tốt.', NULL, NULL, 44, 203361, 4.2, 14, 163170, 'Asia', 'pending', 'Tài khoản Total War #3', 342, '30 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (386, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản FIFA Online 4 cấp 15, giá tốt.', NULL, NULL, 15, 465241, 4.9, 21, 452438, 'Global', 'available', 'Tài khoản FIFA Online 4 #6', 378, '30 ngày', 32, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (358, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Total War cấp 36, giá tốt.', NULL, NULL, 36, 295235, 4.4, 12, 265677, 'Asia', 'pending', 'Tài khoản Total War #18', 244, '7 ngày', 30, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (378, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Dota Underlords cấp 17, giá tốt.', NULL, NULL, 17, 226169, 3.8, 1, 208465, 'VN2', 'available', 'Tài khoản Dota Underlords #18', 487, '30 ngày', 31, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (315, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản StarCraft II cấp 13, giá tốt.', NULL, NULL, 13, 294127, 4.6, 47, 258810, 'VN1', 'sold', 'Tài khoản StarCraft II #15', 122, '7 ngày', 28, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (432, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản PES cấp 39, giá tốt.', NULL, NULL, 39, 185016, 4.6, 8, 172211, 'Asia', 'sold', 'Tài khoản PES #12', 419, '30 ngày', 34, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (449, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 28, giá tốt.', NULL, NULL, 28, 388922, 4.3, 24, 347124, 'Global', 'pending', 'Tài khoản Golf It #9', 276, '3 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (460, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-14 11:00:00+00', 'Tài khoản Golf It cấp 24, giá tốt.', NULL, NULL, 24, 248953, 4, 12, 207731, 'Global', 'pending', 'Tài khoản Golf It #20', 415, '30 ngày', 35, NULL, NULL);
+INSERT INTO "public"."accounts" VALUES (22, '2025-05-14 04:07:15.112+00', NULL, NULL, 'f', '2025-05-27 22:21:34.960852+00', 'Tài khoản Mobile Legends cấp 39, giá tốt.', NULL, NULL, 39, 113266, 4.4, 14, 66049, 'VN1', 'available', 'Tài khoản Mobile Legends #2', 149, '30 ngày', 10, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for cart
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."cart";
+CREATE TABLE "public"."cart" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamp(6) NOT NULL DEFAULT now(),
+  "deleted_at" timestamp(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "is_deleted" bool NOT NULL DEFAULT false,
+  "updated_at" timestamp(6) NOT NULL DEFAULT now(),
+  "account_id" int8,
+  "user_id" int8,
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of cart
+-- ----------------------------
+INSERT INTO "public"."cart" VALUES (5, '2025-05-28 05:50:21.698746', NULL, NULL, 'f', '2025-05-28 05:50:21.698746', 22, 7, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for categories
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."categories";
+CREATE TABLE "public"."categories" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamp(6) NOT NULL DEFAULT now(),
+  "deleted_at" timestamp(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "is_deleted" bool NOT NULL DEFAULT false,
+  "updated_at" timestamp(6) NOT NULL DEFAULT now(),
+  "icon" varchar(255) COLLATE "pg_catalog"."default",
+  "name" varchar(255) COLLATE "pg_catalog"."default",
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of categories
+-- ----------------------------
+INSERT INTO "public"."categories" VALUES (1, '2025-05-13 11:23:12.364765', NULL, NULL, 'f', '2025-05-13 11:23:12.364799', '🎮', 'MOBA', NULL, NULL);
+INSERT INTO "public"."categories" VALUES (2, '2025-05-13 11:23:28.891147', NULL, NULL, 'f', '2025-05-13 11:23:28.891164', '🔫', 'FPS/Bắn Súng', NULL, NULL);
+INSERT INTO "public"."categories" VALUES (3, '2025-05-13 11:23:44.015748', NULL, NULL, 'f', '2025-05-13 11:23:44.015774', '⚔️', 'Nhập Vai/RPG', NULL, NULL);
+INSERT INTO "public"."categories" VALUES (4, '2025-05-13 11:23:55.59944', NULL, NULL, 'f', '2025-05-13 11:23:55.599453', '🧠', 'Chiến Thuật', NULL, NULL);
+INSERT INTO "public"."categories" VALUES (6, '2025-05-13 11:24:09.459668', NULL, NULL, 'f', '2025-05-13 11:24:09.459682', '⚽', 'Thể Thao', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for games
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."games";
+CREATE TABLE "public"."games" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamp(6) NOT NULL DEFAULT now(),
+  "deleted_at" timestamp(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "is_deleted" bool NOT NULL DEFAULT false,
+  "updated_at" timestamp(6) NOT NULL DEFAULT now(),
+  "name" varchar(255) COLLATE "pg_catalog"."default",
+  "category_id" int8,
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of games
+-- ----------------------------
+INSERT INTO "public"."games" VALUES (9, '2025-05-14 10:30:47.691197', NULL, NULL, 'f', '2025-05-14 10:30:47.691197', 'Liên Minh Huyền Thoại', 1, NULL, NULL);
+INSERT INTO "public"."games" VALUES (10, '2025-05-14 10:30:47.691197', NULL, NULL, 'f', '2025-05-14 10:30:47.691197', 'Mobile Legends', 1, NULL, NULL);
+INSERT INTO "public"."games" VALUES (11, '2025-05-14 10:30:47.691197', NULL, NULL, 'f', '2025-05-14 10:30:47.691197', 'DOTA 2', 1, NULL, NULL);
+INSERT INTO "public"."games" VALUES (12, '2025-05-14 10:30:47.691197', NULL, NULL, 'f', '2025-05-14 10:30:47.691197', 'Heroes of the Storm', 1, NULL, NULL);
+INSERT INTO "public"."games" VALUES (13, '2025-05-14 10:30:47.691197', NULL, NULL, 'f', '2025-05-14 10:30:47.691197', 'Arena of Valor', 1, NULL, NULL);
+INSERT INTO "public"."games" VALUES (15, '2025-05-14 10:41:00.240886', NULL, NULL, 'f', '2025-05-14 10:41:00.240886', 'PUBG', 2, NULL, NULL);
+INSERT INTO "public"."games" VALUES (16, '2025-05-14 10:41:00.240886', NULL, NULL, 'f', '2025-05-14 10:41:00.240886', 'Valorant', 2, NULL, NULL);
+INSERT INTO "public"."games" VALUES (18, '2025-05-14 10:41:00.240886', NULL, NULL, 'f', '2025-05-14 10:41:00.240886', 'Call of Duty', 2, NULL, NULL);
+INSERT INTO "public"."games" VALUES (19, '2025-05-14 10:41:00.240886', NULL, NULL, 'f', '2025-05-14 10:41:00.240886', 'Apex Legends', 2, NULL, NULL);
+INSERT INTO "public"."games" VALUES (22, '2025-05-14 10:46:26.999282', NULL, NULL, 'f', '2025-05-14 10:46:26.999282', 'Genshin Impact', 3, NULL, NULL);
+INSERT INTO "public"."games" VALUES (23, '2025-05-14 10:46:26.999282', NULL, NULL, 'f', '2025-05-14 10:46:26.999282', 'World of Warcraft', 3, NULL, NULL);
+INSERT INTO "public"."games" VALUES (24, '2025-05-14 10:46:26.999282', NULL, NULL, 'f', '2025-05-14 10:46:26.999282', 'Final Fantasy XIV', 3, NULL, NULL);
+INSERT INTO "public"."games" VALUES (25, '2025-05-14 10:46:26.999282', NULL, NULL, 'f', '2025-05-14 10:46:26.999282', 'Elder Scrolls Online', 3, NULL, NULL);
+INSERT INTO "public"."games" VALUES (26, '2025-05-14 10:46:26.999282', NULL, NULL, 'f', '2025-05-14 10:46:26.999282', 'Lost Ark', 3, NULL, NULL);
+INSERT INTO "public"."games" VALUES (27, '2025-05-14 10:47:53.225596', NULL, NULL, 'f', '2025-05-14 10:47:53.225596', 'Age of Empires', 4, NULL, NULL);
+INSERT INTO "public"."games" VALUES (28, '2025-05-14 10:47:53.225596', NULL, NULL, 'f', '2025-05-14 10:47:53.225596', 'StarCraft II', 4, NULL, NULL);
+INSERT INTO "public"."games" VALUES (29, '2025-05-14 10:47:53.225596', NULL, NULL, 'f', '2025-05-14 10:47:53.225596', 'Civilization VI', 4, NULL, NULL);
+INSERT INTO "public"."games" VALUES (30, '2025-05-14 10:47:53.225596', NULL, NULL, 'f', '2025-05-14 10:47:53.225596', 'Total War', 4, NULL, NULL);
+INSERT INTO "public"."games" VALUES (31, '2025-05-14 10:47:53.225596', NULL, NULL, 'f', '2025-05-14 10:47:53.225596', 'Dota Underlords', 4, NULL, NULL);
+INSERT INTO "public"."games" VALUES (32, '2025-05-14 10:49:21.80122', NULL, NULL, 'f', '2025-05-14 10:49:21.80122', 'FIFA Online 4', 6, NULL, NULL);
+INSERT INTO "public"."games" VALUES (33, '2025-05-14 10:49:21.80122', NULL, NULL, 'f', '2025-05-14 10:49:21.80122', 'NBA 2K', 6, NULL, NULL);
+INSERT INTO "public"."games" VALUES (34, '2025-05-14 10:49:21.80122', NULL, NULL, 'f', '2025-05-14 10:49:21.80122', 'PES', 6, NULL, NULL);
+INSERT INTO "public"."games" VALUES (35, '2025-05-14 10:49:21.80122', NULL, NULL, 'f', '2025-05-14 10:49:21.80122', 'Golf It', 6, NULL, NULL);
+INSERT INTO "public"."games" VALUES (36, '2025-05-14 10:49:21.80122', NULL, NULL, 'f', '2025-05-14 10:49:21.80122', 'F1 Racing', 6, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for order_details
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."order_details";
+CREATE TABLE "public"."order_details" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamp(6) NOT NULL,
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "deleted_at" timestamp(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "is_deleted" bool NOT NULL,
+  "updated_at" timestamp(6) NOT NULL,
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default",
+  "account_id" int8,
+  "order_id" int8
+)
+;
+
+-- ----------------------------
+-- Records of order_details
+-- ----------------------------
+INSERT INTO "public"."order_details" VALUES (1, '2025-05-28 04:41:43.235655', NULL, NULL, NULL, 'f', '2025-05-28 04:41:43.236167', NULL, 22, 1);
+INSERT INTO "public"."order_details" VALUES (2, '2025-05-28 04:41:43.237717', NULL, NULL, NULL, 'f', '2025-05-28 04:41:43.237717', NULL, 23, 1);
+INSERT INTO "public"."order_details" VALUES (3, '2025-05-28 05:25:31.030719', NULL, NULL, NULL, 'f', '2025-05-28 05:25:31.030719', NULL, 23, 2);
+INSERT INTO "public"."order_details" VALUES (4, '2025-05-28 05:30:40.802626', NULL, NULL, NULL, 'f', '2025-05-28 05:30:40.802626', NULL, 23, 3);
+INSERT INTO "public"."order_details" VALUES (5, '2025-05-28 05:50:31.179661', NULL, NULL, NULL, 'f', '2025-05-28 05:50:31.179661', NULL, 22, 4);
+
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."orders";
+CREATE TABLE "public"."orders" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamp(6) NOT NULL,
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "deleted_at" timestamp(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "is_deleted" bool NOT NULL,
+  "updated_at" timestamp(6) NOT NULL,
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default",
+  "order_code" int4 NOT NULL,
+  "payment_link_id" varchar(255) COLLATE "pg_catalog"."default",
+  "payment_method" varchar(255) COLLATE "pg_catalog"."default",
+  "status" varchar(255) COLLATE "pg_catalog"."default",
+  "total_price" float8,
+  "user_id" int8
+)
+;
+
+-- ----------------------------
+-- Records of orders
+-- ----------------------------
+INSERT INTO "public"."orders" VALUES (1, '2025-05-28 04:41:43.217699', NULL, NULL, NULL, 'f', '2025-05-28 04:58:23.671962', NULL, 0, 'hdshagjd21hdjk812djad892jd', 'VietQr', 'COMPLETED', 545848, 7);
+INSERT INTO "public"."orders" VALUES (2, '2025-05-28 05:25:31.028627', NULL, NULL, NULL, 'f', '2025-05-28 05:26:59.815412', NULL, 0, 'hdshagjd21hdjk812djad892jd', 'VietQr', 'COMPLETED', 432582, 7);
+INSERT INTO "public"."orders" VALUES (3, '2025-05-28 05:30:40.79899', NULL, NULL, NULL, 'f', '2025-05-28 05:31:01.638376', NULL, 0, 'hdshagjd21hdjk812djad892jd', 'VietQr', 'COMPLETED', 432582, 7);
+INSERT INTO "public"."orders" VALUES (4, '2025-05-28 05:50:31.1781', NULL, NULL, NULL, 'f', '2025-05-28 05:50:53.902735', NULL, 0, '', '', 'CANCELED', 113266, 7);
+
+-- ----------------------------
+-- Table structure for reviews
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."reviews";
+CREATE TABLE "public"."reviews" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "comment" varchar(255) COLLATE "pg_catalog"."default",
+  "stars" int4,
+  "username" varchar(255) COLLATE "pg_catalog"."default",
+  "account_id" int8
+)
+;
+
+-- ----------------------------
+-- Records of reviews
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for roles
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."roles";
+CREATE TABLE "public"."roles" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamp(6) NOT NULL DEFAULT now(),
+  "deleted_at" timestamp(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "is_deleted" bool NOT NULL DEFAULT false,
+  "updated_at" timestamp(6) NOT NULL DEFAULT now(),
+  "name" varchar(255) COLLATE "pg_catalog"."default",
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of roles
+-- ----------------------------
+INSERT INTO "public"."roles" VALUES (1, '2025-05-12 17:29:41.622689', NULL, NULL, 'f', '2025-05-12 17:29:41.622731', 'USER', NULL, NULL);
+INSERT INTO "public"."roles" VALUES (2, '2025-05-12 17:29:41.622689', NULL, NULL, 'f', '2025-05-12 17:29:41.622731', 'ADMIN', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for slugs
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."slugs";
+CREATE TABLE "public"."slugs" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "entity_id" int8,
+  "slug" varchar(255) COLLATE "pg_catalog"."default",
+  "type" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of slugs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for user_roles
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."user_roles";
+CREATE TABLE "public"."user_roles" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamp(6) NOT NULL,
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "deleted_at" timestamp(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "is_deleted" bool NOT NULL,
+  "updated_at" timestamp(6) NOT NULL,
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default",
+  "role_id" int8,
+  "user_id" int8
+)
+;
+
+-- ----------------------------
+-- Records of user_roles
+-- ----------------------------
+INSERT INTO "public"."user_roles" VALUES (2, '2025-05-28 03:34:07.235909', NULL, NULL, NULL, 'f', '2025-05-28 03:34:07.235909', NULL, 1, 7);
+INSERT INTO "public"."user_roles" VALUES (4, '2025-05-28 04:06:29.769922', NULL, NULL, NULL, 'f', '2025-05-28 04:06:29.769922', NULL, 1, 9);
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."users";
+CREATE TABLE "public"."users" (
+  "id" int8 NOT NULL GENERATED BY DEFAULT AS IDENTITY (
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 9223372036854775807
+START 1
+CACHE 1
+),
+  "created_at" timestamp(6) NOT NULL DEFAULT now(),
+  "is_deleted" bool NOT NULL DEFAULT false,
+  "updated_at" timestamp(6) NOT NULL DEFAULT now(),
+  "address" varchar(255) COLLATE "pg_catalog"."default",
+  "avatar" varchar(255) COLLATE "pg_catalog"."default",
+  "email" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "password" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "phone_number" varchar(255) COLLATE "pg_catalog"."default",
+  "refresh_token" varchar(255) COLLATE "pg_catalog"."default",
+  "username" varchar(255) COLLATE "pg_catalog"."default",
+  "deleted_at" timestamp(6),
+  "deleted_by" varchar(255) COLLATE "pg_catalog"."default",
+  "created_by" varchar(255) COLLATE "pg_catalog"."default",
+  "updated_by" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO "public"."users" VALUES (1, '2025-05-12 17:29:41.758048', 'f', '2025-05-14 10:27:38.68301', NULL, NULL, 'quangtho2306@gmail.com', '$2a$10$/YcLQyJDClIOdmamtlEhOOr6/cc1TEdVKmiElprCFuJjWoNHna5km', NULL, 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJxdWFuZ3RobzIzMDZAZ21haWwuY29tIiwiaWF0IjoxNzQ3MTkzMjU4LCJleHAiOjE3NzYyMjM2NTh9.4quIYY7DbjR__46j8H-ZQ1j4oW0R1LyWAcmHkfNvoBU', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."users" VALUES (9, '2025-05-28 04:06:29.767667', 'f', '2025-05-28 04:13:22.74318', NULL, NULL, 'hai@gmail.com', '$2a$10$l0DwR5bDQvngaxTTYxIBD.wQQJOGEb7/hgCWvJg7x4S.i/NCf7R..', NULL, 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYWlAZ21haWwuY29tIiwiaWF0IjoxNzQ4MzgwNDAyLCJleHAiOjE3Nzc0MTA4MDJ9.XQG4b3nuAZj7Z7zMQ9r0pBB9EhspeWnHKp1u3RsCyxc', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "public"."users" VALUES (7, '2025-05-28 03:34:07.233946', 'f', '2025-05-28 04:18:52.466352', NULL, NULL, '20130166@st.hcmuaf.edu.vn', '$2a$10$zzZU84/a7hghFFWKo6I0Iu00/oY5ttcdhq5xf5VkbOf78ZCsG9R5G', NULL, 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMDEzMDE2NkBzdC5oY211YWYuZWR1LnZuIiwiaWF0IjoxNzQ4MzgwNzMyLCJleHAiOjE3Nzc0MTExMzJ9.hgTXqn_h8CqxBglBGO1PzCVXje1zNZ5dREj2wZGyzGE', NULL, NULL, NULL, NULL, NULL);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."account_info_id_seq"
+OWNED BY "public"."account_info"."id";
+SELECT setval('"public"."account_info_id_seq"', 2, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."accounts_id_seq"
+OWNED BY "public"."accounts"."id";
+SELECT setval('"public"."accounts_id_seq"', 480, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."cart_id_seq"
+OWNED BY "public"."cart"."id";
+SELECT setval('"public"."cart_id_seq"', 5, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."categories_id_seq"
+OWNED BY "public"."categories"."id";
+SELECT setval('"public"."categories_id_seq"', 7, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."games_id_seq"
+OWNED BY "public"."games"."id";
+SELECT setval('"public"."games_id_seq"', 36, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."order_details_id_seq"
+OWNED BY "public"."order_details"."id";
+SELECT setval('"public"."order_details_id_seq"', 5, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."orders_id_seq"
+OWNED BY "public"."orders"."id";
+SELECT setval('"public"."orders_id_seq"', 4, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."reviews_id_seq"
+OWNED BY "public"."reviews"."id";
+SELECT setval('"public"."reviews_id_seq"', 1, false);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."roles_id_seq"
+OWNED BY "public"."roles"."id";
+SELECT setval('"public"."roles_id_seq"', 2, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."slugs_id_seq"
+OWNED BY "public"."slugs"."id";
+SELECT setval('"public"."slugs_id_seq"', 1, false);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."user_roles_id_seq"
+OWNED BY "public"."user_roles"."id";
+SELECT setval('"public"."user_roles_id_seq"', 4, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."users_id_seq"
+OWNED BY "public"."users"."id";
+SELECT setval('"public"."users_id_seq"', 9, true);
+
+-- ----------------------------
+-- Auto increment value for account_info
+-- ----------------------------
+SELECT setval('"public"."account_info_id_seq"', 2, true);
+
+-- ----------------------------
+-- Uniques structure for table account_info
+-- ----------------------------
+ALTER TABLE "public"."account_info" ADD CONSTRAINT "ukrgvpox2nifnul0el1gw1aqgoj" UNIQUE ("account_id");
+
+-- ----------------------------
+-- Primary Key structure for table account_info
+-- ----------------------------
+ALTER TABLE "public"."account_info" ADD CONSTRAINT "account_info_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for accounts
+-- ----------------------------
+SELECT setval('"public"."accounts_id_seq"', 480, true);
+
+-- ----------------------------
+-- Primary Key structure for table accounts
+-- ----------------------------
+ALTER TABLE "public"."accounts" ADD CONSTRAINT "accounts_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for cart
+-- ----------------------------
+SELECT setval('"public"."cart_id_seq"', 5, true);
+
+-- ----------------------------
+-- Uniques structure for table cart
+-- ----------------------------
+ALTER TABLE "public"."cart" ADD CONSTRAINT "uk26ecv6ko87yudi63wq62s3l50" UNIQUE ("user_id", "account_id");
+
+-- ----------------------------
+-- Primary Key structure for table cart
+-- ----------------------------
+ALTER TABLE "public"."cart" ADD CONSTRAINT "cart_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for categories
+-- ----------------------------
+SELECT setval('"public"."categories_id_seq"', 7, true);
+
+-- ----------------------------
+-- Primary Key structure for table categories
+-- ----------------------------
+ALTER TABLE "public"."categories" ADD CONSTRAINT "categories_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for games
+-- ----------------------------
+SELECT setval('"public"."games_id_seq"', 36, true);
+
+-- ----------------------------
+-- Primary Key structure for table games
+-- ----------------------------
+ALTER TABLE "public"."games" ADD CONSTRAINT "games_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for order_details
+-- ----------------------------
+SELECT setval('"public"."order_details_id_seq"', 5, true);
+
+-- ----------------------------
+-- Primary Key structure for table order_details
+-- ----------------------------
+ALTER TABLE "public"."order_details" ADD CONSTRAINT "order_details_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for orders
+-- ----------------------------
+SELECT setval('"public"."orders_id_seq"', 4, true);
+
+-- ----------------------------
+-- Primary Key structure for table orders
+-- ----------------------------
+ALTER TABLE "public"."orders" ADD CONSTRAINT "orders_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for reviews
+-- ----------------------------
+SELECT setval('"public"."reviews_id_seq"', 1, false);
+
+-- ----------------------------
+-- Primary Key structure for table reviews
+-- ----------------------------
+ALTER TABLE "public"."reviews" ADD CONSTRAINT "reviews_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for roles
+-- ----------------------------
+SELECT setval('"public"."roles_id_seq"', 2, true);
+
+-- ----------------------------
+-- Primary Key structure for table roles
+-- ----------------------------
+ALTER TABLE "public"."roles" ADD CONSTRAINT "roles_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for slugs
+-- ----------------------------
+SELECT setval('"public"."slugs_id_seq"', 1, false);
+
+-- ----------------------------
+-- Primary Key structure for table slugs
+-- ----------------------------
+ALTER TABLE "public"."slugs" ADD CONSTRAINT "slugs_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for user_roles
+-- ----------------------------
+SELECT setval('"public"."user_roles_id_seq"', 4, true);
+
+-- ----------------------------
+-- Primary Key structure for table user_roles
+-- ----------------------------
+ALTER TABLE "public"."user_roles" ADD CONSTRAINT "user_roles_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Auto increment value for users
+-- ----------------------------
+SELECT setval('"public"."users_id_seq"', 9, true);
+
+-- ----------------------------
+-- Uniques structure for table users
+-- ----------------------------
+ALTER TABLE "public"."users" ADD CONSTRAINT "ukr43af9ap4edm43mmtq01oddj6" UNIQUE ("username");
+
+-- ----------------------------
+-- Primary Key structure for table users
+-- ----------------------------
+ALTER TABLE "public"."users" ADD CONSTRAINT "users_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Foreign Keys structure for table account_entity_features
+-- ----------------------------
+ALTER TABLE "public"."account_entity_features" ADD CONSTRAINT "fkeex70x7g75wtuf052on673hbx" FOREIGN KEY ("account_entity_id") REFERENCES "public"."accounts" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table account_entity_image_gallery
+-- ----------------------------
+ALTER TABLE "public"."account_entity_image_gallery" ADD CONSTRAINT "fkey24fd0ui97dhqq1lca1xr2hk" FOREIGN KEY ("account_entity_id") REFERENCES "public"."accounts" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table account_entity_tags
+-- ----------------------------
+ALTER TABLE "public"."account_entity_tags" ADD CONSTRAINT "fkfkminw2cg3gbtta1wbrb97ru" FOREIGN KEY ("account_entity_id") REFERENCES "public"."accounts" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table account_info
+-- ----------------------------
+ALTER TABLE "public"."account_info" ADD CONSTRAINT "fkbeyh83h6g1mdnuqkuwow58ud1" FOREIGN KEY ("account_id") REFERENCES "public"."accounts" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table accounts
+-- ----------------------------
+ALTER TABLE "public"."accounts" ADD CONSTRAINT "fktqeepk1qmdspge3ym64c7l3ji" FOREIGN KEY ("game_id") REFERENCES "public"."games" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table cart
+-- ----------------------------
+ALTER TABLE "public"."cart" ADD CONSTRAINT "fkbr6lv4i6j8r65d4dcu8d29eq6" FOREIGN KEY ("account_id") REFERENCES "public"."accounts" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."cart" ADD CONSTRAINT "fkg5uhi8vpsuy0lgloxk2h4w5o6" FOREIGN KEY ("user_id") REFERENCES "public"."users" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table games
+-- ----------------------------
+ALTER TABLE "public"."games" ADD CONSTRAINT "fkgas7amj76041l6b8nqlx4mrvx" FOREIGN KEY ("category_id") REFERENCES "public"."categories" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table order_details
+-- ----------------------------
+ALTER TABLE "public"."order_details" ADD CONSTRAINT "fkjyu2qbqt8gnvno9oe9j2s2ldk" FOREIGN KEY ("order_id") REFERENCES "public"."orders" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."order_details" ADD CONSTRAINT "fkkmusmdymvqk9sckcpu3vy01km" FOREIGN KEY ("account_id") REFERENCES "public"."accounts" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table orders
+-- ----------------------------
+ALTER TABLE "public"."orders" ADD CONSTRAINT "fk32ql8ubntj5uh44ph9659tiih" FOREIGN KEY ("user_id") REFERENCES "public"."users" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table reviews
+-- ----------------------------
+ALTER TABLE "public"."reviews" ADD CONSTRAINT "fkpia3ckbv4qpt6ert2akln0x6l" FOREIGN KEY ("account_id") REFERENCES "public"."accounts" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- ----------------------------
+-- Foreign Keys structure for table user_roles
+-- ----------------------------
+ALTER TABLE "public"."user_roles" ADD CONSTRAINT "fkh8ciramu9cc9q3qcqiv4ue8a6" FOREIGN KEY ("role_id") REFERENCES "public"."roles" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "public"."user_roles" ADD CONSTRAINT "fkhfh9dx7w3ubf1co1vdev94g3f" FOREIGN KEY ("user_id") REFERENCES "public"."users" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

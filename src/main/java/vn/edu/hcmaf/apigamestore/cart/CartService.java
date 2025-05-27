@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.cart.dto.CartResponseDto;
+import vn.edu.hcmaf.apigamestore.order.OrderDetailEntity;
 import vn.edu.hcmaf.apigamestore.product.AccountEntity;
 import vn.edu.hcmaf.apigamestore.product.AccountService;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
+import vn.edu.hcmaf.apigamestore.redis.RedisService;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserService;
 
@@ -22,6 +24,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final UserService userService;
     private final AccountService accountService;
+    private final RedisService redisService;
 
 
     /* * Converts a list of CartEntity objects to a CartResponseDto.
@@ -40,6 +43,7 @@ public class CartService {
                 .totalItems(cartEntity.size())
                 .build();
     }
+
     /**
      * Adds an account to the user's cart.
      * This method checks if the user is authenticated and if the account exists.
@@ -59,6 +63,10 @@ public class CartService {
         AccountEntity account = accountService.findByIdAndIsDeletedFalseAndStatusEquals(accountId, "available");
         if (account == null) {
             throw new IllegalArgumentException("Account not found");
+        }
+        //check redis
+        if(redisService.isProductLocked(account.getId())) {
+            throw new IllegalArgumentException("Product " + account.getTitle() + " is not available, someone is buying it, please try again later");
         }
         boolean exists = cartRepository.existsByUserIdAndAccountId(user.getId(), account.getId());
         if (exists) {
@@ -113,26 +121,12 @@ public class CartService {
         return true;
     }
     /**
-     * Deletes all items in the user's cart.
-     * This method checks if the user is authenticated and retrieves all CartEntity objects for the user.
-     * If the cart is empty, an exception is thrown.
-     *
-     * @param accountId The ID of the account whose cart items will be deleted.
-     * @return true if all items were successfully deleted from the cart.
-     * @throws IllegalArgumentException if the user is not authenticated, the account is not found, or the cart is empty.
-     */
-    public boolean deleteAllItemInCart(Long accountId) {
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserEntity user = userService.getUserByEmail(userName);
-        AccountEntity account = accountService.findById(accountId);
-        if (account == null) {
-            throw new IllegalArgumentException("Account not found");
-        }
-        List<CartEntity> cartEntities = cartRepository.findByUserId(user.getId());
-        if (cartEntities.isEmpty()) {
-            throw new IllegalArgumentException("Cart is empty");
-        }
-        cartRepository.deleteAll(cartEntities);
-        return true;
+        * Deletes all items in the cart for the specified user ID.
+        * This method is typically used to clear the cart when the user decides to empty it.
+        *
+        * @param userId The ID of the user whose cart items will be deleted.
+        */
+    public void deleteAllItemInCart(long userId) {
+        cartRepository.deleteAllByUserId(userId);
     }
 }

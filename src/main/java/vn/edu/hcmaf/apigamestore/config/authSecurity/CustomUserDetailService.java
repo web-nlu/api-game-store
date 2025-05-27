@@ -26,7 +26,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     // This method is used by Spring Security to load user details by username (email in this case)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByEmail(username)
+        UserEntity user = userRepository.findByEmailAndIsDeletedFalse(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         List<RoleEntity> roles = user.getActiveRoles();
         return new User(user.getEmail(), user.getPassword(), getAuthorities(roles));

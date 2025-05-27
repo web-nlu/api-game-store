@@ -14,6 +14,7 @@ import vn.edu.hcmaf.apigamestore.role.RoleService;
 import vn.edu.hcmaf.apigamestore.role.UserRole.UserRoleEntity;
 import vn.edu.hcmaf.apigamestore.role.UserRole.UserRoleRepository;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
+import vn.edu.hcmaf.apigamestore.user.dto.UserResponseDto;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -30,6 +31,18 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    public UserResponseDto toUserResponseDto(UserEntity userEntity) {
+        if (userEntity == null) {
+            return null;
+        }
+        return UserResponseDto.builder()
+                .id(userEntity.getId())
+                .email(userEntity.getEmail())
+                .phoneNumber(userEntity.getPhoneNumber())
+                .address(userEntity.getAddress())
+                .numOfCartItem(userEntity.getCartItems().size())
+                .build();
+    }
 
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
@@ -37,7 +50,7 @@ public class UserService {
 
     public UserEntity getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserEntity userEntity = userRepository.findByEmail(username).orElse(null);
+        UserEntity userEntity = userRepository.findByEmailAndIsDeletedFalse(username).orElse(null);
         if (userEntity == null) {
             throw new IllegalArgumentException("user with email " + username + " not found");
         }

@@ -19,6 +19,7 @@ import vn.edu.hcmaf.apigamestore.common.util.JwtUtil;
 import vn.edu.hcmaf.apigamestore.role.RoleEntity;
 import vn.edu.hcmaf.apigamestore.role.RoleService;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
+import vn.edu.hcmaf.apigamestore.user.UserRepository;
 import vn.edu.hcmaf.apigamestore.user.UserService;
 
 @Slf4j
@@ -36,6 +37,7 @@ public class AuthController {
     private final AuthService authService;
     private final RoleService roleService;
     private final UserService userService;
+    private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
     /**
@@ -79,7 +81,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<BaseResponse> login(@RequestBody @Valid LoginRequestDto request) {
         log.info("Login attempt for user: {}", request);
-        UserEntity user = userService.getUserByEmail(request.getEmail());
+        UserEntity user = userRepository.findByEmailAndIsDeletedFalse(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + request.getEmail()));
         LoginResponseDto dto = authService.login(request, user);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Login success", dto));
     }

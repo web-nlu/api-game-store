@@ -31,15 +31,20 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final JwtUtil jwtUtil = new JwtUtil();
     private final PasswordEncoder passwordEncoder;
+
     /**
      * Register a new user with the provided registration details.
      * If the role "USER" does not exist, it will be created.
      *
      * @param requestDto The registration request containing user details (RegisterRequestDto).
-     * @param role The role to be assigned to the user (RoleEntity).
+     * @param role       The role to be assigned to the user (RoleEntity).
      * @return A response containing access and refresh tokens (LoginResponseDto).
      */
     public LoginResponseDto register(RegisterRequestDto requestDto, RoleEntity role) {
+        // Check if the user already exists
+        if (userRepository.existsByEmail(requestDto.getEmail())){
+            throw new IllegalArgumentException("User with this email already exists");
+        }
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(requestDto.getEmail());
         userEntity.setPassword(passwordEncoder.encode(requestDto.getPassword()));
@@ -60,6 +65,7 @@ public class AuthService {
                 .refreshToken(refreshToken)
                 .build();
     }
+
     /**
      * Authenticate user with email and password, generate access and refresh tokens.
      *
@@ -83,10 +89,11 @@ public class AuthService {
                 .refreshToken(refreshToken)
                 .build();
     }
-/**
+
+    /**
      * Refresh the access token using the provided refresh token.
      *
-     * @param userEntity The user entity for which to refresh the token.
+     * @param userEntity   The user entity for which to refresh the token.
      * @param refreshToken The refresh token to validate and use for generating a new access token.
      * @return A response containing the new access and refresh tokens (LoginResponseDto).
      */
@@ -97,6 +104,7 @@ public class AuthService {
                 .refreshToken(refreshToken)
                 .build();
     }
+
     /**
      * Logout the user by clearing the refresh token.
      *

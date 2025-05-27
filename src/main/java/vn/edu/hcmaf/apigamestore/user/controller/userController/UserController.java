@@ -1,6 +1,7 @@
 package vn.edu.hcmaf.apigamestore.user.controller.userController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +21,13 @@ import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
 @RequestMapping("/api/user")
 @Validated
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 /**
  * UserController handles requests related to user operations.
  * It provides endpoints to retrieve the current user's information,
  * update user details, and delete a user.
  */
 public class UserController {
-    @Autowired
     private final UserService userService;
 
     /**
@@ -35,10 +36,11 @@ public class UserController {
      * @return ResponseEntity containing the UserEntity wrapped in a SuccessResponse.
      */
     @GetMapping("/me")
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "Get current user", description = "Retrieve the current user's information.")
     public ResponseEntity<BaseResponse> getCurrentUser() {
         UserEntity userEntity = userService.getCurrentUser();
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get User info success", userEntity));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get User info success", userService.toUserResponseDto(userEntity)));
     }
 
     /**
@@ -51,7 +53,7 @@ public class UserController {
     @Operation(summary = "Update user", description = "Update the current user's information.")
     public ResponseEntity<BaseResponse> updateUser(@RequestBody @Valid UpdateUserDto updateUserDto, @PathVariable Long userId) {
         UserEntity userEntity = userService.updateUser(updateUserDto, userId);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Update User Id: " + userId + " success", userEntity));
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Update User Id: " + userId + " success", userService.toUserResponseDto(userEntity)));
     }
     /**
      * Changes the password of the current user.
