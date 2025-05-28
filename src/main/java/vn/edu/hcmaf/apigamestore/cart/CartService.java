@@ -88,9 +88,8 @@ public class CartService {
      * @return A list of CartEntity objects representing the current user's cart.
      * @throws IllegalArgumentException if the user is not authenticated.
      */
-    public List<CartEntity> getCurrentUserCart() {
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserEntity user = userService.getUserByEmail(userName);
+    public List<CartEntity> getCurrentUserCart(String email) {
+        UserEntity user = userService.getUserByEmail(email);
         if (user == null) {
             throw new IllegalArgumentException("User not authenticated");
         }

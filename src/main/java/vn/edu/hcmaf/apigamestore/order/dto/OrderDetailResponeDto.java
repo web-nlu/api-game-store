@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetailResponeDto {
-    private Long orderDetailId;
+    private Long id;
     private Long orderId; // ID of the associated order
     private Long productId;
     private String productName;

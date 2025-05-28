@@ -25,5 +25,4 @@ public class OrderEntity extends BaseEntity {
     private String paymentLinkId;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetailEntity> orderDetails;
-
 }

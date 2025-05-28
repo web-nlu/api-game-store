@@ -33,9 +33,10 @@ public class CartController {
     @Operation(summary = "Get current user cart", description = "Retrieve the current user's cart")
     @GetMapping("/me")
     public ResponseEntity<BaseResponse> getCurrentUserCart() {
-        List<CartEntity> cartEntities = cartService.getCurrentUserCart();
-        CartResponseDto cartResponseDto = cartService.toCartResponseDto(cartEntities);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get current user cart success", cartResponseDto));
+      String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+      List<CartEntity> cartEntities = cartService.getCurrentUserCart(userName);
+      CartResponseDto cartResponseDto = cartService.toCartResponseDto(cartEntities);
+      return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get current user cart success", cartResponseDto));
     }
 
     /**

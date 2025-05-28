@@ -45,13 +45,13 @@ public class OrderService {
                 .map(this::toDetailDto)
                 .toList();
         return OrderResponeDto.builder()
-                .orderId(orderEntity.getId())
+                .id(orderEntity.getId())
                 .orderCode(orderEntity.getOrderCode())
                 .status(orderEntity.getStatus())
                 .paymentMethod(orderEntity.getPaymentMethod())
                 .paymentLinkId(orderEntity.getPaymentLinkId())
-                .createdAt(orderEntity.getCreatedAt().getTime() + "") // Convert to epoch time in milliseconds
-                .updatedAt(orderEntity.getUpdatedAt().getTime() + "")
+                .createdAt(orderEntity.getCreatedAt().getTime() / 1000) // Convert to epoch time in milliseconds
+                .updatedAt(orderEntity.getUpdatedAt().getTime() / 1000)
                 .orderDetails(orderDetailDtos)
                 .totalPrice(orderEntity.getTotalPrice())
                 .build();
@@ -63,7 +63,7 @@ public class OrderService {
             return null;
         }
         return OrderDetailResponeDto.builder()
-                .orderDetailId(orderDetailEntity.getId())
+                .id(orderDetailEntity.getId())
                 .orderId(orderDetailEntity.getOrder().getId())
                 .productId(orderDetailEntity.getAccount().getId())
                 .productName(orderDetailEntity.getAccount().getTitle())
@@ -87,7 +87,7 @@ public class OrderService {
         }
 
         // Get the current user's cart
-        List<CartEntity> cartEntities = cartService.getCurrentUserCart();
+        List<CartEntity> cartEntities = cartService.getCurrentUserCart(user.getEmail());
 
         if (cartEntities.isEmpty()) {
             throw new IllegalArgumentException("Cart is empty");
@@ -128,7 +128,7 @@ public class OrderService {
         OrderEntity existingOrder = getOrderById(id);
         UserEntity userEntity = existingOrder.getUser();
         // Get the current user's cart
-        List<CartEntity> cartEntities = cartService.getCurrentUserCart();
+        List<CartEntity> cartEntities = cartService.getCurrentUserCart(userEntity.getEmail());
 
         if (updateOrderRequestDto.getStatus().equals(OrderConstants.ORDER_STATUS_CANCELLED)) {
             existingOrder.setStatus(updateOrderRequestDto.getStatus());
@@ -143,10 +143,12 @@ public class OrderService {
 
             // send mail
             List<AccountInfoEntity> accountInfoEntities = accountInfoService.findAllByOrder(existingOrder);
-            List<AccountInfoDto> accountInfoDtos = accountInfoEntities.stream()
-                    .map(accountInfoService::toDto)
-                    .toList();
-            emailService.sendOrderConfirmationEmail(userEntity.getEmail(), userEntity.getEmail(), String.valueOf(existingOrder.getOrderCode()), accountInfoDtos);
+            if(!accountInfoEntities.isEmpty()) {
+              List<AccountInfoDto> accountInfoDtos = accountInfoEntities.stream()
+                      .map(accountInfoService::toDto)
+                      .toList();
+              emailService.sendOrderConfirmationEmail(userEntity.getEmail(), userEntity.getEmail(), String.valueOf(existingOrder.getOrderCode()), accountInfoDtos);
+            }
             System.out.println("Order completed for user: " + userEntity.getEmail() + " with order code: " + updateOrderRequestDto.getOrderCode());
 
             // update status of products in cart

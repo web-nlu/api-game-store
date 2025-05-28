@@ -12,14 +12,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponeDto {
-    private Long orderId;
+    private Long id;
     private int orderCode;
     private Double totalPrice;
     private String status;
     private String paymentMethod;
     private String paymentLinkId;
-    private String createdAt; //epoch time in milliseconds
-    private String updatedAt; //epoch time in milliseconds
+    private long createdAt; //epoch time in milliseconds
+    private long updatedAt; //epoch time in milliseconds
     List<OrderDetailResponeDto> orderDetails; // List of order details
     // Additional fields can be added as needed
 }

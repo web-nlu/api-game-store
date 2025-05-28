@@ -1,11 +1,13 @@
 package vn.edu.hcmaf.apigamestore.product.accountInfo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.order.OrderEntity;
 
 import java.util.List;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class AccountInfoService {
@@ -69,7 +71,7 @@ public class AccountInfoService {
                 .toList();
         List<AccountInfoEntity> accountInfoEntities = accountInfoRepository.findAllByAccount_IdIn(accountId);
         if (accountInfoEntities.isEmpty()) {
-            throw new IllegalArgumentException("Account info not found for order ID: " + orderEntity.getId());
+            log.info("Account info not found for order ID: {}", orderEntity.getId());
         }
         return accountInfoEntities;
     }
