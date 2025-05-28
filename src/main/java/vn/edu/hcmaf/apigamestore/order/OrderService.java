@@ -154,7 +154,6 @@ public class OrderService {
             // update status of products in cart
             for (CartEntity cartEntity : cartEntities) {
                 accountService.updateAccountStatus(cartEntity.getAccount().getId(), OrderConstants.ACCOUNT_STATUS_SOLD);
-                accountInfoService.updateAccountInfoStatus(cartEntity.getAccount().getId(), OrderConstants.ACCOUNT_STATUS_SOLD);
             }
             // Clear the user's cart after completing the order
             cartService.deleteAllItemInCart(existingOrder.getUser().getId());
