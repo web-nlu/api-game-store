@@ -7,9 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.edu.hcmaf.apigamestore.cart.CartEntity;
 import vn.edu.hcmaf.apigamestore.cart.CartService;
 import vn.edu.hcmaf.apigamestore.email.EmailService;
-import vn.edu.hcmaf.apigamestore.order.dto.OrderDetailResponeDto;
-import vn.edu.hcmaf.apigamestore.order.dto.OrderResponeDto;
-import vn.edu.hcmaf.apigamestore.order.dto.UpdateOrderRequestDto;
+import vn.edu.hcmaf.apigamestore.order.dto.*;
 import vn.edu.hcmaf.apigamestore.order.repo.OrderDetailRepository;
 import vn.edu.hcmaf.apigamestore.order.repo.OrderRepository;
 import vn.edu.hcmaf.apigamestore.product.AccountService;
@@ -34,6 +32,10 @@ public class OrderService {
     private final AccountInfoService accountInfoService;
     private final EmailService emailService;
 
+    public List<OrderUserDTO> getUserOrders(OrderFilterRequestDto request, Long userId) {
+      int offset = (request.getPage() - 1) * request.getSize();
+      return orderRepository.filterOrders(request.getCreatedAt(), userId, request.getSearch(), request.getStatus(), request.getSize(), offset);
+    }
 
     // Method to create a OrderResponeDto
     public OrderResponeDto toDto(OrderEntity orderEntity) {
@@ -41,7 +43,7 @@ public class OrderService {
             return null;
         }
         List<OrderDetailEntity> orderDetails = orderDetailRepository.findAllByOrderId(orderEntity.getId());
-        List<OrderDetailResponeDto> orderDetailDtos = orderDetails.stream()
+        List<OrderDetailResponseDto> orderDetailDtos = orderDetails.stream()
                 .map(this::toDetailDto)
                 .toList();
         return OrderResponeDto.builder()
@@ -58,11 +60,11 @@ public class OrderService {
 
     }
 
-    public OrderDetailResponeDto toDetailDto(OrderDetailEntity orderDetailEntity) {
+    public OrderDetailResponseDto toDetailDto(OrderDetailEntity orderDetailEntity) {
         if (orderDetailEntity == null) {
             return null;
         }
-        return OrderDetailResponeDto.builder()
+        return OrderDetailResponseDto.builder()
                 .id(orderDetailEntity.getId())
                 .orderId(orderDetailEntity.getOrder().getId())
                 .productId(orderDetailEntity.getAccount().getId())
@@ -73,11 +75,16 @@ public class OrderService {
 
 
     public OrderEntity getOrderById(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + id));
+        return orderRepository.findById(id).orElse(null);
     }
 
-    public OrderEntity createOrder() {
+  public OrderEntity findOrderById(Long id) {
+    return orderRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + id));
+  }
+
+
+  public OrderEntity createOrder() {
         // Check if the user is authenticated
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userService.getUserByEmail(userName);
@@ -126,6 +133,7 @@ public class OrderService {
     @Transactional
     public OrderEntity updateOrder(Long id, UpdateOrderRequestDto updateOrderRequestDto) {
         OrderEntity existingOrder = getOrderById(id);
+        if (existingOrder == null) return null;
         UserEntity userEntity = existingOrder.getUser();
         // Get the current user's cart
         List<CartEntity> cartEntities = cartService.getCurrentUserCart(userEntity.getEmail());

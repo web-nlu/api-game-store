@@ -20,6 +20,6 @@ public class OrderResponeDto {
     private String paymentLinkId;
     private long createdAt; //epoch time in milliseconds
     private long updatedAt; //epoch time in milliseconds
-    List<OrderDetailResponeDto> orderDetails; // List of order details
+    List<OrderDetailResponseDto> orderDetails; // List of order details
     // Additional fields can be added as needed
 }

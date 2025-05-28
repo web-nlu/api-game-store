@@ -8,7 +8,7 @@ import vn.edu.hcmaf.apigamestore.user.UserEntity;
 
 import java.util.List;
 
-@Entity
+@Entity(name = "Order")
 @Data
 @Table(name = "orders")
 public class OrderEntity extends BaseEntity {
@@ -20,7 +20,7 @@ public class OrderEntity extends BaseEntity {
     @JsonIgnore
     private UserEntity user;
     private Double totalPrice;
-    private String status; // e.g., "PENDING", "COMPLETED", "CANCELED"
+    private String status; // e.g., "PENDING", "COMPLETED", "CANCELLED"
     private String paymentMethod; // e.g., "CREDIT_CARD", "PAYPAL"
     private String paymentLinkId;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
