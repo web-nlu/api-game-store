@@ -19,6 +19,7 @@ import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserService;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -128,6 +129,29 @@ public class OrderService {
 
         return orderRepository.save(orderEntity);
 
+    }
+
+    public OrderEntity changeStatus(Long id, UpdateStatusOrderDTO updateStatusOrderDTO) {
+      OrderEntity orderEntity = findOrderById(id);
+      String paymentMethod = updateStatusOrderDTO.getPaymentMethod();
+      String paymentLinkId = updateStatusOrderDTO.getPaymentLinkId();
+      switch (updateStatusOrderDTO.getStatus().toUpperCase()) {
+        case OrderConstants.ORDER_STATUS_COMPLETED:
+          if(paymentMethod == null || paymentLinkId == null || paymentMethod.isEmpty() || paymentLinkId.isEmpty()) {
+            throw new IllegalArgumentException("PaymentLinkId and PaymentLinkId cannot be empty");
+          }
+          orderEntity.setStatus(OrderConstants.ORDER_STATUS_COMPLETED);
+          orderEntity.setPaymentMethod(paymentMethod);
+          orderEntity.setPaymentLinkId(paymentLinkId);
+          break;
+        case OrderConstants.ORDER_STATUS_CANCELLED:
+          if (orderEntity.getStatus().equals(OrderConstants.ORDER_STATUS_PENDING)) {
+            orderEntity.setStatus(OrderConstants.ORDER_STATUS_CANCELLED);
+          }
+          break;
+      }
+
+      return orderRepository.save(orderEntity);
     }
 
     @Transactional

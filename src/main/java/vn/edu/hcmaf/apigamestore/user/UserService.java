@@ -13,11 +13,13 @@ import vn.edu.hcmaf.apigamestore.role.RoleRepository;
 import vn.edu.hcmaf.apigamestore.role.RoleService;
 import vn.edu.hcmaf.apigamestore.role.UserRole.UserRoleEntity;
 import vn.edu.hcmaf.apigamestore.role.UserRole.UserRoleRepository;
+import vn.edu.hcmaf.apigamestore.role.dto.RoleDto;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
 import vn.edu.hcmaf.apigamestore.user.dto.UserResponseDto;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +43,7 @@ public class UserService {
                 .phoneNumber(userEntity.getPhoneNumber())
                 .address(userEntity.getAddress())
                 .numOfCartItem(userEntity.getCartItems().size())
+                .activeRoles(userEntity.getActiveRoles())
                 .build();
     }
 

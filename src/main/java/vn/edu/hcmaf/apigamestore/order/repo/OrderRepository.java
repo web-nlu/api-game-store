@@ -17,8 +17,7 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     List<OrderEntity> findAllByUserId(Long id);
 
-  @NativeQuery(value =
-          """
+  @NativeQuery(value = """
     SELECT
       o.id,
       o.order_code,
@@ -47,6 +46,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     ORDER BY o.created_at DESC
     LIMIT :limit OFFSET :offset
     """)
+
   List<OrderUserDTO> filterOrders(
           @Param("createdAt") Long createdAt,
           @Param("userId") Long userId,

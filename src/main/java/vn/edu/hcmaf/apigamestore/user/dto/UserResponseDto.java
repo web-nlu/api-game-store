@@ -1,6 +1,10 @@
 package vn.edu.hcmaf.apigamestore.user.dto;
 
 import lombok.*;
+import vn.edu.hcmaf.apigamestore.role.RoleEntity;
+import vn.edu.hcmaf.apigamestore.role.dto.RoleDto;
+
+import java.util.List;
 
 
 @Builder
@@ -16,4 +20,5 @@ public class UserResponseDto {
     private String avatarUrl;
     private Boolean isActive;
     private int numOfCartItem;
+    List<RoleEntity> activeRoles;
 }
