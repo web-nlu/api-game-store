@@ -7,7 +7,7 @@ import vn.edu.hcmaf.apigamestore.product.AccountEntity;
 import java.util.List;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<CategoryEntity, String> {
+public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
     boolean existsByIdAndIsDeletedFalse(long categoryId);
 

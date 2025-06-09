@@ -15,6 +15,7 @@ public class AccountDto {
     private Double price;
     private String category;
     private Long categoryId;
+    private Double salePrice;
     private Long gameId;
     private String image;
     private String info;

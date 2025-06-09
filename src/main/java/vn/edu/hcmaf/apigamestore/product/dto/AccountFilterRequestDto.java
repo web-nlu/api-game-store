@@ -11,4 +11,5 @@ public class AccountFilterRequestDto extends LazyLoadingRequestDto {
     private String lowPrice;
     private String highPrice;
     private String sortBy;
+    private String status;
 }

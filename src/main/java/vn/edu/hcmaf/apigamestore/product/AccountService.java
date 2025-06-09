@@ -7,10 +7,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import vn.edu.hcmaf.apigamestore.category.CategoryEntity;
+import vn.edu.hcmaf.apigamestore.category.CategoryRepository;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameRepository;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
+import vn.edu.hcmaf.apigamestore.order.OrderConstants;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountFilterRequestDto;
@@ -29,8 +32,9 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final GameRepository gameRepository;
+  private final CategoryRepository categoryRepository;
 
-    public List<AccountDto> getAllAccounts() {
+  public List<AccountDto> getAllAccounts() {
         return accountRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
     }
 
@@ -46,6 +50,7 @@ public class AccountService {
                 .id(entity.getId())
                 .title(entity.getTitle())
                 .price(entity.getPrice())
+                .salePrice(entity.getSalePrice() > entity.getPrice() ? 0 : entity.getSalePrice())
                 .categoryId(entity.getGame().getCategory().getId())
                 .category(entity.getGame().getCategory().getName())
                 .gameId(entity.getGame().getId())
@@ -60,13 +65,14 @@ public class AccountService {
                 .id(entity.getId())
                 .title(entity.getTitle())
                 .price(entity.getPrice())
-                .salePrice(entity.getSalePrice())
+                .salePrice(entity.getSalePrice() > entity.getPrice() ? 0 : entity.getSalePrice())
                 .category(entity.getGame().getCategory().getName())
                 .image(entity.getImage())
                 .info(entity.getInfo())
                 .game(entity.getGame().getName())
+                .categoryId(entity.getGame().getCategory().getId())
+                .gameId(entity.getGame().getId())
                 .server(entity.getServer())
-                .imageGallery(entity.getImageGallery())
                 .description(entity.getDescription())
                 .features(entity.getFeatures())
                 .level(entity.getLevel())
@@ -129,23 +135,44 @@ public class AccountService {
         account.setImage(dto.getImage());
         account.setInfo(dto.getInfo());
         account.setServer(dto.getServer());
-        account.setImageGallery(dto.getImageGallery());
         account.setDescription(dto.getDescription());
         account.setFeatures(dto.getFeatures());
         account.setLevel(dto.getLevel());
-        account.setStatus(dto.getStatus());
         account.setWarranty(dto.getWarranty());
+        account.setTags(dto.getTags());
+//        account.setImageGallery(dto.getImageGallery());
+        account.setStatus("available");
         account.setViewCount(dto.getViewCount() != null ? dto.getViewCount() : 0);
         account.setSaleCount(dto.getSaleCount() != null ? dto.getSaleCount() : 0);
-        account.setTags(dto.getTags());
         account.setRating(dto.getRating() != null ? dto.getRating() : 0.0);
 
-        if (dto.getGame() != null) {
-            GameEntity game = gameRepository.findByName(dto.getGame())
-                    .orElseThrow(() -> new IllegalArgumentException("Game not found: " + dto.getGame()));
-            account.setGame(game);
-        }
+        GameEntity game = gameRepository.findById(dto.getGameId())
+                .orElseThrow(() -> new IllegalArgumentException("Game not found: " + dto.getGameId()));
+        account.setGame(game);
         return accountRepository.save(account);
+    }
+
+    public AccountEntity updateAccount(Long id, AccountDetailDto dto) {
+      AccountEntity account = accountRepository.findById(id)
+              .orElseThrow(() -> new RuntimeException("Account not found"));
+      account.setTitle(dto.getTitle());
+      account.setPrice(dto.getPrice());
+      account.setSalePrice(dto.getSalePrice());
+      account.setImage(dto.getImage());
+      account.setInfo(dto.getInfo());
+      account.setServer(dto.getServer());
+      account.setDescription(dto.getDescription());
+      account.setFeatures(dto.getFeatures());
+      account.setLevel(dto.getLevel());
+      account.setWarranty(dto.getWarranty());
+      account.setTags(dto.getTags());
+      if(!account.getGame().getId().equals(dto.getGameId())) {
+        GameEntity game = gameRepository.findById(dto.getGameId())
+                .orElseThrow(() -> new IllegalArgumentException("Game not found: " + dto.getGameId()));
+        account.setGame(game);
+        return accountRepository.save(account);
+      }
+      return accountRepository.save(account);
     }
 
     public void updateAccountStatus(Long id, String status) {
@@ -155,7 +182,12 @@ public class AccountService {
         account.setStatus(status);
         account.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         accountRepository.save(account);
+    }
 
-
+    public void delete(Long accountId) {
+      AccountEntity account = accountRepository.findById(accountId)
+              .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+      account.setDeleted(true);
+      accountRepository.save(account);
     }
 }
