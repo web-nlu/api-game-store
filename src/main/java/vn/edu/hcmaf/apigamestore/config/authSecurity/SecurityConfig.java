@@ -1,8 +1,7 @@
 package vn.edu.hcmaf.apigamestore.config.authSecurity;
 
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,12 +22,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-    CustomUserDetailService customUserDetailService;
-    @Autowired
-    public SecurityConfig(CustomUserDetailService customUserDetailService) {
-        this.customUserDetailService = customUserDetailService;
-    }
+    final CustomUserDetailService customUserDetailService;
+
     /**
      * This method configures the security filter chain for the application.
      * It sets up CORS, CSRF, session management, and authorization rules.
@@ -44,12 +41,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                                .requestMatchers("/ping").permitAll()
-                                .requestMatchers("/api/*/u/**").permitAll()
-                                .requestMatchers("/api/accounts/**").permitAll()
-                                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-                                .anyRequest().authenticated()
+                        .requestMatchers("/callback").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/ping").permitAll()
+                        .requestMatchers("/api/*/u/**").permitAll()
+                        .requestMatchers("/api/accounts/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .exceptionHandling(ex -> ex
@@ -121,14 +119,14 @@ public class SecurityConfig {
      * @return The UrlBasedCorsConfigurationSource with the configured CORS settings
      */
     UrlBasedCorsConfigurationSource corsConfigurationSource() {
-      CorsConfiguration corsConfiguration = new CorsConfiguration();
-      corsConfiguration.addAllowedOriginPattern("*");
-      corsConfiguration.addAllowedMethod("*");
-      corsConfiguration.addAllowedHeader("*");
-      corsConfiguration.setAllowCredentials(true);
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOriginPattern("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.setAllowCredentials(true);
 
-      UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-      source.registerCorsConfiguration("/**", corsConfiguration);
-      return source;
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
     }
 }
