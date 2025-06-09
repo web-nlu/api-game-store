@@ -2,8 +2,12 @@ package vn.edu.hcmaf.apigamestore.product;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Where;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
 import vn.edu.hcmaf.apigamestore.common.BaseEntity;
+import vn.edu.hcmaf.apigamestore.common.constants.EntityConstant;
+import vn.edu.hcmaf.apigamestore.images.ImagesEntity;
 import vn.edu.hcmaf.apigamestore.product.accountInfo.AccountInfoEntity;
 import vn.edu.hcmaf.apigamestore.review.ReviewEntity;
 
@@ -25,9 +29,6 @@ public class AccountEntity extends BaseEntity {
     private String info;
 
     private String server;
-
-    @ElementCollection
-    private List<String> imageGallery;
 
     @Column(columnDefinition = "TEXT")
     private String description;

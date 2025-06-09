@@ -7,21 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import vn.edu.hcmaf.apigamestore.common.constants.EntityConstant;
+import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
+import vn.edu.hcmaf.apigamestore.images.ImagesEntity;
+import vn.edu.hcmaf.apigamestore.images.ImagesService;
+import vn.edu.hcmaf.apigamestore.images.dto.ImagesDTO;
 import vn.edu.hcmaf.apigamestore.product.AccountEntity;
 import vn.edu.hcmaf.apigamestore.product.AccountService;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/accounts")
 @Validated
+@RequiredArgsConstructor
 /**
  * This controller handles administrative operations related to accounts.
  * It provides endpoints for adding, updating, and deleting accounts.
  */
 public class AdminAccountController {
-    @Autowired
-    private  AccountService accountService;
-
+    private final AccountService accountService;
+    private final ImagesService imagesService;
     /**
      * Adds a new account based on the provided account details.
      *
@@ -32,18 +40,21 @@ public class AdminAccountController {
     @PostMapping
     public ResponseEntity<?> addAccount(@RequestBody @Valid AccountDetailDto dto) {
         AccountEntity saved = accountService.addAccount(dto);
-        return ResponseEntity.ok(saved.getId()); // hoặc trả dto lại nếu muốn
+        return ResponseEntity.ok().body(
+                new SuccessResponse<>("SUCCESS","Tạo thành công", accountService.toDto(saved))
+        );
     }
     /**
      * Updates an existing account.
      * The logic for updating the account should be implemented in the service layer.
      */
     @Operation(summary = "Update Account", description = "Updates an existing account")
-    @PutMapping("/update-account")
-    public void updateAccount() {
-        // Logic to update an account
-        // You can call the accountService to perform the necessary operations
-        // Example: accountService.updateAccount(existingAccount);
+    @PutMapping("/update-account/{id}")
+    public ResponseEntity<?> updateAccount(@PathVariable Long id, @RequestBody @Valid AccountDetailDto dto ) {
+      AccountEntity updated = accountService.updateAccount(id, dto);
+      return ResponseEntity.ok().body(
+              new SuccessResponse<>("SUCCESS","Cập nhật thành công", accountService.toDto(updated))
+      );
     }
     /**
      * Deletes an account by its ID.
@@ -52,12 +63,18 @@ public class AdminAccountController {
      */
     @Operation(summary = "Delete Account", description = "Deletes an account by its ID")
     @DeleteMapping("/delete-account/{accountId}")
-    public void deleteAccount(@PathVariable Long accountId) {
-        // Logic to delete an account
-        // You can call the accountService to perform the necessary operations
-        // Example: accountService.deleteAccount(accountId);
+    public ResponseEntity<?> deleteAccount(@PathVariable Long accountId) {
+      accountService.delete(accountId);
+      return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Xoá thành công", accountId));
     }
 
+    @PutMapping("/images/{id}")
+    public ResponseEntity<?> uploadImages(@PathVariable Long id, @RequestBody List<ImagesDTO> imagesDTO) {
+      AccountEntity account = this.accountService.findById(id);
+      List<ImagesEntity> images = imagesService.setImages(EntityConstant.ACCOUNT, account.getId(), imagesDTO);
 
-
+      return ResponseEntity.ok().body(
+              new SuccessResponse<>("SUCCESS", "Cập nhật thành công", images)
+      );
+    }
 }

@@ -52,6 +52,7 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
                 case "title_desc" -> cq.orderBy(cb.desc(account.get("title")));
             }
         }
+        cq.orderBy(cb.desc(account.get("createdAt")));
 
         // Truy vấn phân trang
         TypedQuery<AccountEntity> query = entityManager.createQuery(cq);
@@ -78,6 +79,7 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
                                             Join<?, ?> game, Join<?, ?> category,
                                             AccountFilterRequestDto filter) {
         List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.isFalse(account.get("isDeleted")));
 
         if (filter.getKeyword() != null && !filter.getKeyword().isEmpty()) {
             String kw = "%" + filter.getKeyword().toLowerCase() + "%";
@@ -101,6 +103,10 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
 
         if (filter.getHighPrice() != null && !filter.getHighPrice().isEmpty()) {
             predicates.add(cb.lessThanOrEqualTo(account.get("price"), Double.valueOf(filter.getHighPrice())));
+        }
+
+        if(filter.getStatus() != null && !filter.getStatus().isEmpty()) {
+          predicates.add(cb.equal(account.get("status"), filter.getStatus()));
         }
 
         return predicates;

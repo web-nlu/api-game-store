@@ -9,9 +9,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameService;
+import vn.edu.hcmaf.apigamestore.common.constants.EntityConstant;
 import vn.edu.hcmaf.apigamestore.common.response.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
+import vn.edu.hcmaf.apigamestore.images.ImagesService;
 import vn.edu.hcmaf.apigamestore.product.AccountService;
+import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountFilterRequestDto;
 
@@ -30,7 +33,9 @@ public class AccountPublicController {
 
     private final AccountService accountService;
     private final GameService gameService;
-    /**
+  private final ImagesService imagesService;
+
+  /**
      * Retrieves a list of all accounts.
      *
      * @return ResponseEntity containing a list of AccountDto objects.
@@ -49,8 +54,10 @@ public class AccountPublicController {
     @GetMapping("/{id}")
     @Operation(summary = "Get account by ID", description = "Retrieve account details by account ID")
     public ResponseEntity<BaseResponse> getAccountDetail(@PathVariable Long id) {
-        return ResponseEntity.ok().body(
-                new SuccessResponse<>("SUCCESS", "Get Account Id : " + id + " success", accountService.getAccountDetail(id)));
+      AccountDetailDto accountDetail = accountService.getAccountDetail(id);
+      accountDetail.setImageGallery(imagesService.getImagesByEntity(EntityConstant.ACCOUNT, accountDetail.getId()));
+      return ResponseEntity.ok().body(
+              new SuccessResponse<>("SUCCESS", "Get Account Id : " + id + " success", accountDetail));
     }
     /**
      * Retrieves accounts associated with a specific category ID.

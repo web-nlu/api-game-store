@@ -1,9 +1,11 @@
 package vn.edu.hcmaf.apigamestore.product.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vn.edu.hcmaf.apigamestore.images.ImagesEntity;
 import vn.edu.hcmaf.apigamestore.review.dto.ReviewDto;
 
 import java.time.LocalDateTime;
@@ -19,11 +21,14 @@ public class AccountDetailDto {
     private Double price;
     private Double salePrice;
     private String category;
+    private Long categoryId;
     private String image;
     private String info;
     private String game;
+    @NotNull(message = "Game không được bỏ trống")
+    private Long gameId;
     private String server;
-    private List<String> imageGallery;
+    private List<ImagesEntity> imageGallery;
     private String description;
     private List<String> features;
     private Integer level;

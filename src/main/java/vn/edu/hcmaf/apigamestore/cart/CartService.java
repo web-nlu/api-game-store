@@ -39,7 +39,13 @@ public class CartService {
                 .toList();
         return CartResponseDto.builder()
                 .accounts(accounts)
-                .totalPrice(cartEntity.stream().mapToDouble(cartEntity1 -> cartEntity1.getAccount().getPrice()).sum())
+                .totalPrice(cartEntity.stream().mapToDouble(
+                        cartEntity1 -> (
+                                cartEntity1.getAccount().getSalePrice() > 0) ?
+                                Math.min(cartEntity1.getAccount().getSalePrice(), cartEntity1.getAccount().getPrice()) :
+                                cartEntity1.getAccount().getPrice()
+
+                ).sum())
                 .totalItems(cartEntity.size())
                 .build();
     }
