@@ -76,6 +76,7 @@ public class SecurityConfig {
                                 })
                 );
         // Add custom JWT authentication filter before the UsernamePasswordAuthenticationFilter
+        http.addFilterBefore(oAuth2Filter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -112,7 +113,13 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter();
     }
 
-    /**
+    @Bean
+    public OAuth2Filter oAuth2Filter() {
+      return new OAuth2Filter();
+    }
+
+
+  /**
      * This method configures CORS for the application.
      * It allows all origins, methods, and headers, and allows credentials.
      *

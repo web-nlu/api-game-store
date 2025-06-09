@@ -39,6 +39,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Extract the JWT token from the request header
         String jwtToken = getTokenFromRequest(request);
 
+        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+          filterChain.doFilter(request, response);
+          return; // Đã xác thực, bỏ qua JWT filter
+        }
+
+
         if (jwtToken != null && jwtUtil.validateToken(jwtToken) ) {
             String username = jwtUtil.getEmailFromToken(jwtToken);
             // Set user in requset context

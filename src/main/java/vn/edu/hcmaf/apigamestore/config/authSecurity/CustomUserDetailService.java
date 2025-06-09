@@ -22,6 +22,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
+
+    @Transactional()
+    public UserDetails getUserByEmail(String email) {
+      UserEntity user = userRepository.findByEmail(email).orElse(null);
+      if (user == null) return null;
+      List<RoleEntity> roles = user.getActiveRoles();
+      return new User(user.getEmail(), user.getPassword(),  getAuthorities(roles));
+    }
+
     @Transactional
     @Override
     // This method is used by Spring Security to load user details by username (email in this case)
@@ -37,7 +46,7 @@ public class CustomUserDetailService implements UserDetailsService {
      * @param roles The list of RoleEntity objects to convert.
      * @return A collection of GrantedAuthority objects representing the user's roles.
      */
-    private Collection<? extends GrantedAuthority> getAuthorities(List<RoleEntity> roles) {
+    public Collection<? extends GrantedAuthority> getAuthorities(List<RoleEntity> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());

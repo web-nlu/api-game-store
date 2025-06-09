@@ -28,6 +28,7 @@ public class UserEntity extends BaseEntity {
     private String address;
     private String refreshToken;
     private String avatar;
+    private boolean google;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
