@@ -52,7 +52,7 @@ public class AccountRepositoryImpl implements AccountRepositoryCustom {
                 case "title_desc" -> cq.orderBy(cb.desc(account.get("title")));
             }
         }
-        cq.orderBy(cb.desc(account.get("createdAt")));
+        cq.orderBy(cb.desc(account.get("updatedAt")));
 
         // Truy vấn phân trang
         TypedQuery<AccountEntity> query = entityManager.createQuery(cq);
