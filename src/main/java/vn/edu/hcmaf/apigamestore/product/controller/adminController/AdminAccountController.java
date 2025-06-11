@@ -15,7 +15,9 @@ import vn.edu.hcmaf.apigamestore.images.ImagesService;
 import vn.edu.hcmaf.apigamestore.images.dto.ImagesDTO;
 import vn.edu.hcmaf.apigamestore.product.AccountEntity;
 import vn.edu.hcmaf.apigamestore.product.AccountService;
+import vn.edu.hcmaf.apigamestore.product.accountInfo.AccountInfoDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
+import vn.edu.hcmaf.apigamestore.product.dto.UpdateStatusAccountRequest;
 
 import java.util.List;
 
@@ -56,6 +58,15 @@ public class AdminAccountController {
               new SuccessResponse<>("SUCCESS","Cập nhật thành công", accountService.toDto(updated))
       );
     }
+
+  @Operation(summary = "Update Account", description = "Updates an existing account")
+  @PutMapping("/status/{id}")
+  public ResponseEntity<?> updateStatusAccount(@PathVariable Long id, @RequestBody @Valid UpdateStatusAccountRequest dto ) {
+    accountService.updateAccountStatus(id, dto.getStatus());
+    return ResponseEntity.ok().body(
+            new SuccessResponse<>("SUCCESS","Cập nhật thành công", null)
+    );
+  }
     /**
      * Deletes an account by its ID.
      *

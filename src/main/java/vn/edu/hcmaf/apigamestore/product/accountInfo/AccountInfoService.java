@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.order.OrderEntity;
+import vn.edu.hcmaf.apigamestore.product.AccountEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -34,7 +36,12 @@ public class AccountInfoService {
         return accountInfoEntity;
     }
 
-    /**
+  public AccountInfoEntity getByAccountId(long accountId) {
+    return accountInfoRepository.findByAccount_Id(accountId).orElse(null);
+  }
+
+
+  /**
      * Saves the provided account information entity.
      *
      * @param accountInfoEntity The account information entity to save.
@@ -75,5 +82,31 @@ public class AccountInfoService {
         }
         return accountInfoEntities;
     }
+
+  public AccountInfoEntity createAccount(AccountEntity accountEntity, AccountInfoDto accountInfoDto) {
+    AccountInfoEntity account = AccountInfoEntity.builder()
+            .username(accountInfoDto.getUsername())
+            .email(accountInfoDto.getEmail())
+            .password(accountInfoDto.getPassword())
+            .account(accountEntity)
+            .build();
+    return accountInfoRepository.save(account);
+  }
+
+  public AccountInfoEntity updateAccount(Long id, AccountInfoDto accountInfoDto) {
+    Optional<AccountInfoEntity> existingAccountOptional = accountInfoRepository.findById(id);
+
+    if (existingAccountOptional.isPresent()) {
+      AccountInfoEntity existingAccount = existingAccountOptional.get();
+      existingAccount.setUsername(accountInfoDto.getUsername());
+      existingAccount.setEmail(accountInfoDto.getEmail());
+      if (accountInfoDto.getPassword() != null && !accountInfoDto.getPassword().isEmpty()) {
+        existingAccount.setRawPassword(accountInfoDto.getPassword());
+      }
+      return accountInfoRepository.save(existingAccount);
+    } else {
+      throw new IllegalArgumentException("Account with ID " + id + " not found.");
+    }
+  }
 
 }
