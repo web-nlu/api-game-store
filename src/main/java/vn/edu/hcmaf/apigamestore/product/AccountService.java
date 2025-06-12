@@ -18,6 +18,7 @@ import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountFilterRequestDto;
 import vn.edu.hcmaf.apigamestore.review.ReviewEntity;
+import vn.edu.hcmaf.apigamestore.review.ReviewService;
 import vn.edu.hcmaf.apigamestore.review.dto.ReviewDto;
 
 import java.sql.Timestamp;
@@ -32,9 +33,10 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final GameRepository gameRepository;
-  private final CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+    private final ReviewService reviewService;
 
-  public List<AccountDto> getAllAccounts() {
+    public List<AccountDto> getAllAccounts() {
         return accountRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
     }
 
@@ -84,17 +86,10 @@ public class AccountService {
                 .saleCount(entity.getSaleCount())
                 .tags(entity.getTags())
                 .rating(entity.getRating())
-                .reviews(entity.getReviews().stream().map(this::toReviewDto).collect(Collectors.toList()))
+                .reviews(entity.getReviews().stream().map(reviewService::toDto).collect(Collectors.toList()))
                 .build();
     }
 
-    private ReviewDto toReviewDto(ReviewEntity review) {
-        return ReviewDto.builder()
-                .username(review.getUsername())
-                .comment(review.getComment())
-                .stars(review.getStars())
-                .build();
-    }
 
     public List<AccountEntity> getAccountsByCategory(String categoryId) {
         return accountRepository.findByCategoryId(categoryId);
@@ -153,26 +148,26 @@ public class AccountService {
     }
 
     public AccountEntity updateAccount(Long id, AccountDetailDto dto) {
-      AccountEntity account = accountRepository.findById(id)
-              .orElseThrow(() -> new RuntimeException("Account not found"));
-      account.setTitle(dto.getTitle());
-      account.setPrice(dto.getPrice());
-      account.setSalePrice(dto.getSalePrice());
-      account.setImage(dto.getImage());
-      account.setInfo(dto.getInfo());
-      account.setServer(dto.getServer());
-      account.setDescription(dto.getDescription());
-      account.setFeatures(dto.getFeatures());
-      account.setLevel(dto.getLevel());
-      account.setWarranty(dto.getWarranty());
-      account.setTags(dto.getTags());
-      if(!account.getGame().getId().equals(dto.getGameId())) {
-        GameEntity game = gameRepository.findById(dto.getGameId())
-                .orElseThrow(() -> new IllegalArgumentException("Game not found: " + dto.getGameId()));
-        account.setGame(game);
+        AccountEntity account = accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        account.setTitle(dto.getTitle());
+        account.setPrice(dto.getPrice());
+        account.setSalePrice(dto.getSalePrice());
+        account.setImage(dto.getImage());
+        account.setInfo(dto.getInfo());
+        account.setServer(dto.getServer());
+        account.setDescription(dto.getDescription());
+        account.setFeatures(dto.getFeatures());
+        account.setLevel(dto.getLevel());
+        account.setWarranty(dto.getWarranty());
+        account.setTags(dto.getTags());
+        if (!account.getGame().getId().equals(dto.getGameId())) {
+            GameEntity game = gameRepository.findById(dto.getGameId())
+                    .orElseThrow(() -> new IllegalArgumentException("Game not found: " + dto.getGameId()));
+            account.setGame(game);
+            return accountRepository.save(account);
+        }
         return accountRepository.save(account);
-      }
-      return accountRepository.save(account);
     }
 
     public void updateAccountStatus(Long id, String status) {
@@ -185,9 +180,9 @@ public class AccountService {
     }
 
     public void delete(Long accountId) {
-      AccountEntity account = accountRepository.findById(accountId)
-              .orElseThrow(() -> new IllegalArgumentException("Account not found"));
-      account.setDeleted(true);
-      accountRepository.save(account);
+        AccountEntity account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
+        account.setDeleted(true);
+        accountRepository.save(account);
     }
 }

@@ -1,7 +1,10 @@
 package vn.edu.hcmaf.apigamestore.product;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Where;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.GameEntity;
@@ -16,6 +19,9 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "accounts")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AccountEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

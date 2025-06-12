@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDto {
+    private Long id;
     private String username;
     private String comment;
     private Integer stars;
+    private Long OldReviewId;
 }
