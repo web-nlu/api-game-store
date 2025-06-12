@@ -89,7 +89,7 @@ public class OrderUserController {
 
   @PostMapping("/u/receive-hook")
   public ResponseEntity<BaseResponse> receiveHook(@RequestBody WebhookResponse webhookResponse) {
-    long id = webhookResponse.getData().getOrderCode();
+    long id = Integer.parseInt(webhookResponse.getData().getDescription());
     UpdateOrderRequestDto updateOrderRequestDto = new UpdateOrderRequestDto();
     updateOrderRequestDto.setStatus(OrderConstants.ORDER_STATUS_CANCELLED);
     if(webhookResponse.isSuccess()) {
