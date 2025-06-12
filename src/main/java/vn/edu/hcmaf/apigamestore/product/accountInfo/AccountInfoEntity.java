@@ -2,9 +2,7 @@ package vn.edu.hcmaf.apigamestore.product.accountInfo;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import vn.edu.hcmaf.apigamestore.common.BaseEntity;
 import vn.edu.hcmaf.apigamestore.common.util.AesUtil;
 import vn.edu.hcmaf.apigamestore.product.AccountEntity;
@@ -13,6 +11,9 @@ import vn.edu.hcmaf.apigamestore.product.AccountEntity;
 @Entity
 @Table(name = "account_info")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccountInfoEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
