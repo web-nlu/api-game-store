@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +13,7 @@ import vn.edu.hcmaf.apigamestore.common.response.ErrorResponse;
 import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserService;
+import vn.edu.hcmaf.apigamestore.user.dto.ChangePasswordDto;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
 
 @Slf4j
@@ -66,7 +66,7 @@ public class UserController {
      */
     @PutMapping("/{userId}/change-password")
     @Operation(summary = "Change user password", description = "Change the password of the current user.")
-    public ResponseEntity<BaseResponse> changePassword(@RequestBody @Valid UpdateUserDto updateUserDto, @PathVariable Long userId) {
+    public ResponseEntity<BaseResponse> changePassword(@RequestBody @Valid ChangePasswordDto updateUserDto, @PathVariable Long userId) {
         // check if userId is current user or admin
         UserEntity userEntity = userService.getCurrentUser();
         if (!userEntity.getId().equals(userId) && !userEntity.getActiveRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {

@@ -17,7 +17,7 @@ public class UserResponseDto {
     private String email;
     private String phoneNumber;
     private String address;
-    private String avatarUrl;
+    private String avatar;
     private Boolean isActive;
     private int numOfCartItem;
     List<RoleEntity> activeRoles;

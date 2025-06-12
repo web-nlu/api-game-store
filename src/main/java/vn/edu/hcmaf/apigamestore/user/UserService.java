@@ -40,6 +40,7 @@ public class UserService {
         return UserResponseDto.builder()
                 .id(userEntity.getId())
                 .email(userEntity.getEmail())
+                .avatar(userEntity.getAvatar())
                 .phoneNumber(userEntity.getPhoneNumber())
                 .address(userEntity.getAddress())
                 .numOfCartItem(userEntity.getCartItems().size())
@@ -114,15 +115,12 @@ public class UserService {
                 authority -> authority.getAuthority().equals("ADMIN"))) {
             throw new IllegalArgumentException("");
         }
-        if (updateUserDto.getEmail() != null) {
-            user.setEmail(updateUserDto.getEmail());
-        }
         if (updateUserDto.getPhoneNumber() != null) {
             user.setPhoneNumber(updateUserDto.getPhoneNumber());
         }
-        if (updateUserDto.getAddress() != null) {
-            user.setAddress(updateUserDto.getAddress());
-        }
+//        if (updateUserDto.getAddress() != null) {
+//            user.setAddress(updateUserDto.getAddress());
+//        }
         if (updateUserDto.getAvatar() != null) {
             user.setAvatar(updateUserDto.getAvatar());
         }
