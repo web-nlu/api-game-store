@@ -2,7 +2,10 @@ package vn.edu.hcmaf.apigamestore.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import vn.edu.hcmaf.apigamestore.cart.CartEntity;
 import vn.edu.hcmaf.apigamestore.common.BaseEntity;
 import vn.edu.hcmaf.apigamestore.order.OrderEntity;
@@ -15,6 +18,9 @@ import java.util.stream.Collectors;
 @Entity
 @Data
 @Table(name = "users")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

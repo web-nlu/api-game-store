@@ -2,7 +2,10 @@ package vn.edu.hcmaf.apigamestore.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import vn.edu.hcmaf.apigamestore.common.BaseEntity;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
 
@@ -10,6 +13,9 @@ import java.util.List;
 
 @Entity(name = "Order")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "orders")
 public class OrderEntity extends BaseEntity {
     @Id
