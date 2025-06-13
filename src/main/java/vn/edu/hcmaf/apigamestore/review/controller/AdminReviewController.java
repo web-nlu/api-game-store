@@ -2,6 +2,7 @@ package vn.edu.hcmaf.apigamestore.review.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,14 +17,14 @@ public class AdminReviewController {
     private final ReviewService reviewService;
 
     @PutMapping("/hide-review/{reviewId}")
-    public ResponseEntity<BaseResponse> hideReview(Long reviewId) {
+    public ResponseEntity<BaseResponse> hideReview(@PathVariable Long reviewId) {
         reviewService.hideReview(reviewId);
         return ResponseEntity.ok().body(
                 new SuccessResponse<>("SUCCESS", "Review with ID: " + reviewId + " has been hidden successfully.", null)
         );
     }
     @PutMapping("/delete/{reviewId}")
-    public ResponseEntity<BaseResponse> deleteReview(Long reviewId) {
+    public ResponseEntity<BaseResponse> deleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.ok().body(
                 new SuccessResponse<>("SUCCESS", "Review with ID: " + reviewId + " has been deleted successfully.", null)

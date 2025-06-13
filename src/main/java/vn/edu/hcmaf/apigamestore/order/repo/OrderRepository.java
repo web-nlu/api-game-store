@@ -13,6 +13,7 @@ import vn.edu.hcmaf.apigamestore.order.OrderEntity;
 import vn.edu.hcmaf.apigamestore.order.dto.OrderUserDTO;
 
 import vn.edu.hcmaf.apigamestore.sale_report.dto.RevenueProjection;
+import vn.edu.hcmaf.apigamestore.user.UserEntity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -115,4 +116,14 @@ List<RevenueProjection> getRevenueByMonth(@Param("startDate") LocalDateTime star
                                         @Param("endDate") LocalDateTime endDate);
 
 
+  @NativeQuery(value = """
+    SELECT COUNT(o.id)
+    FROM orders o
+    INNER JOIN order_details od on o.id = od.order_id
+    WHERE o.status = 'COMPLETED'
+      AND o.is_deleted = false
+      AND o.user_id = :userId
+      AND od.account_id = :accountId
+  """)
+  int checkHaveOrder(@Param("userId") long userId, @Param("accountId") long accountId);
 }

@@ -8,12 +8,7 @@ public class CreateReviewDto {
     @NotNull
     private String comment;
     @NotNull
-    private Integer stars;
+    private Integer rating;
     @NotNull
     private Long accountId;
-    @NotNull
-    private Long orderId;
-    @NotNull
-    private Long userId;
-    private Long OldReviewId;
 }

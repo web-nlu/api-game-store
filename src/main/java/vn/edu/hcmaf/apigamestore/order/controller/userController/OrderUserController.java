@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.common.response.BaseResponse;
@@ -101,6 +102,16 @@ public class OrderUserController {
     orderService.updateOrder(id, updateOrderRequestDto);
     return ResponseEntity.ok().body(
             new SuccessResponse<>("SUCCESS", "Order updated successfully", null));
+  }
+
+  @GetMapping("/check/{accountId}")
+  public ResponseEntity<BaseResponse> checkOrder(@PathVariable Long accountId) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UserEntity user = userService.getUserByEmail(authentication.getName());
+    boolean result = orderService.checkHaveOrder(user, accountId);
+    return ResponseEntity.ok().body(
+            new SuccessResponse<>("SUCCESS", "Order check successful", result)
+    );
   }
 
 }

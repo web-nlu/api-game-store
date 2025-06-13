@@ -1,13 +1,12 @@
 package vn.edu.hcmaf.apigamestore.review.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.common.response.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
+import vn.edu.hcmaf.apigamestore.review.dto.FilterReviewRequestDTO;
 import vn.edu.hcmaf.apigamestore.review.ReviewService;
 
 @RestController
@@ -16,10 +15,10 @@ import vn.edu.hcmaf.apigamestore.review.ReviewService;
 public class ReviewPublicController {
     private final ReviewService reviewService;
 
-    @GetMapping("/get-reviews")
-    public ResponseEntity<BaseResponse> getReviews() {
+    @GetMapping("/get-reviews/{accountId}")
+    public ResponseEntity<BaseResponse> getReviews(@ModelAttribute() @Valid FilterReviewRequestDTO filterReviewRequestDTO, @PathVariable Long accountId) {
         return ResponseEntity.ok().body(
-                new SuccessResponse<>("SUCCESS", "Lấy thành công", reviewService.getAllReviews())
+                new SuccessResponse<>("SUCCESS", "Lấy thành công", reviewService.filter(filterReviewRequestDTO, accountId))
         );
     }
 

@@ -206,4 +206,9 @@ public class OrderService {
         // Retrieve all orders for the authenticated user
         return orderRepository.findAllByUserId(user.getId());
     }
+
+    public boolean checkHaveOrder(UserEntity user, Long accountId) {
+      int orders = orderRepository.checkHaveOrder(user.getId(), accountId);
+      return orders > 0;
+    }
 }

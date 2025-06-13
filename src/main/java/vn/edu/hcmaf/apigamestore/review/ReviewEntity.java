@@ -16,21 +16,16 @@ public class ReviewEntity extends BaseEntity {
     private Long id;
 
     private String comment;
-    private Integer stars;
+    private Integer rating;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
     private AccountEntity account;
 
     @OneToOne
-    @JoinColumn(name = "order_id")
-    private OrderEntity order;
-
-    @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    private Long OldReviewId;
-    private Boolean isHide;
-
+    @Column(name = "is_hide")
+    private boolean isHide;
 }
