@@ -67,18 +67,16 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 @NativeQuery(value = """
     SELECT
       CONCAT('Tháng ', TO_CHAR(DATE_TRUNC('month', created_at), 'MM/YYYY')) AS label,
-      DATE_TRUNC('month', created_at) AS time,
-      EXTRACT(EPOCH FROM DATE_TRUNC('month', created_at)) AS epoch,
       ROUND(SUM(total_price)::numeric, 2) AS totalRevenue
     FROM orders
     WHERE status = 'COMPLETED'
       AND is_deleted = false
-      AND created_at BETWEEN :startDate AND :endDate
+      AND created_at BETWEEN to_timestamp(:startDate) AND to_timestamp(:endDate)
     GROUP BY DATE_TRUNC('month', created_at)
     ORDER BY DATE_TRUNC('month', created_at)
 """)
-List<RevenueProjection> getRevenueByMonth(@Param("startDate") LocalDateTime startDate,
-                                          @Param("endDate") LocalDateTime endDate);
+List<RevenueProjection> getRevenueByMonth(@Param("startDate") long startDate,
+                                          @Param("endDate") long endDate);
 
 
 
@@ -86,34 +84,30 @@ List<RevenueProjection> getRevenueByMonth(@Param("startDate") LocalDateTime star
   @NativeQuery(value = """
     SELECT
       CONCAT('Tuần ', TO_CHAR(DATE_TRUNC('week', created_at), 'IW/YYYY')) AS label,
-      DATE_TRUNC('week', created_at) AS time,
-      EXTRACT(EPOCH FROM DATE_TRUNC('week', created_at)) AS epoch,
       ROUND(SUM(total_price)::numeric, 2) AS totalRevenue
     FROM orders
     WHERE status = 'COMPLETED'
       AND is_deleted = false
-      AND created_at BETWEEN :startDate AND :endDate
+      AND created_at BETWEEN to_timestamp(:startDate) AND to_timestamp(:endDate)
     GROUP BY DATE_TRUNC('week', created_at)
     ORDER BY DATE_TRUNC('week', created_at)
     """)
-  List<RevenueProjection> getRevenueByWeek(@Param("startDate") LocalDateTime startDate,
-                                          @Param("endDate") LocalDateTime endDate);
+  List<RevenueProjection> getRevenueByWeek(@Param("startDate") long startDate,
+                                          @Param("endDate") long endDate);
 
   @NativeQuery(value = """
     SELECT
       TO_CHAR(created_at, 'DD/MM/YYYY') AS label,
-      DATE_TRUNC('day', created_at) AS time,
-      EXTRACT(EPOCH FROM DATE_TRUNC('day', created_at)) AS epoch,
       ROUND(SUM(total_price)::numeric, 2) AS totalRevenue
     FROM orders
     WHERE status = 'COMPLETED'
       AND is_deleted = false
-      AND created_at BETWEEN :startDate AND :endDate
+      AND created_at BETWEEN to_timestamp(:startDate) AND to_timestamp(:endDate)
     GROUP BY DATE_TRUNC('day', created_at), TO_CHAR(created_at, 'DD/MM/YYYY')
     ORDER BY DATE_TRUNC('day', created_at)
     """)
-  List<RevenueProjection> getRevenueByDay(@Param("startDate") LocalDateTime startDate,
-                                        @Param("endDate") LocalDateTime endDate);
+  List<RevenueProjection> getRevenueByDay(@Param("startDate") long startDate,
+                                        @Param("endDate") long endDate);
 
 
   @NativeQuery(value = """

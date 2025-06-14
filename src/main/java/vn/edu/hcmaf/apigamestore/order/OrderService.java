@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.edu.hcmaf.apigamestore.cart.CartEntity;
 import vn.edu.hcmaf.apigamestore.cart.CartService;
+import vn.edu.hcmaf.apigamestore.common.util.Utils;
 import vn.edu.hcmaf.apigamestore.email.EmailService;
 import vn.edu.hcmaf.apigamestore.order.dto.*;
 import vn.edu.hcmaf.apigamestore.order.repo.OrderDetailRepository;
@@ -15,11 +16,13 @@ import vn.edu.hcmaf.apigamestore.product.accountInfo.AccountInfoDto;
 import vn.edu.hcmaf.apigamestore.product.accountInfo.AccountInfoEntity;
 import vn.edu.hcmaf.apigamestore.product.accountInfo.AccountInfoService;
 import vn.edu.hcmaf.apigamestore.redis.RedisService;
+import vn.edu.hcmaf.apigamestore.sale_report.dto.RevenueProjection;
+import vn.edu.hcmaf.apigamestore.sale_report.dto.StatisticFilterRequest;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -210,5 +213,13 @@ public class OrderService {
     public boolean checkHaveOrder(UserEntity user, Long accountId) {
       int orders = orderRepository.checkHaveOrder(user.getId(), accountId);
       return orders > 0;
+    }
+
+    public List<RevenueProjection> getRevenue(StatisticFilterRequest statisticFilterRequest) {
+      return switch (statisticFilterRequest.getType().toLowerCase()) {
+        case "month" -> orderRepository.getRevenueByMonth(statisticFilterRequest.getStartDate(), statisticFilterRequest.getEndDate());
+        case "week" -> orderRepository.getRevenueByWeek(statisticFilterRequest.getStartDate(), statisticFilterRequest.getEndDate());
+        default -> orderRepository.getRevenueByDay(statisticFilterRequest.getStartDate(), statisticFilterRequest.getEndDate());
+      };
     }
 }

@@ -1,13 +1,15 @@
 package vn.edu.hcmaf.apigamestore.sale_report.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.math.BigDecimal;
 
 import java.time.LocalDateTime;
 
-
-public interface RevenueProjection {
-    String getLabel();
-    LocalDateTime getTime();
-    Double getEpoch();
-    BigDecimal getTotalRevenue();
+@Data
+@AllArgsConstructor
+public class RevenueProjection {
+    String label;
+    BigDecimal TotalRevenue;
 }

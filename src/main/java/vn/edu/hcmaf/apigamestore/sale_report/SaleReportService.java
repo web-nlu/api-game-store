@@ -15,10 +15,8 @@ import java.util.Objects;
 public class SaleReportService {
     private final OrderRepository orderRepository;
 
-    public List<RevenueProjection> getRevenue(LocalDateTime startDate, LocalDateTime endDate, String type) {
+    public List<RevenueProjection> getRevenue(long startDate, long endDate, String type) {
         return switch (type.toUpperCase()) {
-            case "MONTH" -> orderRepository.getRevenueByMonth(startDate, endDate);
-            case "WEEK" -> orderRepository.getRevenueByWeek(startDate, endDate);
             case "DAY" -> orderRepository.getRevenueByDay(startDate, endDate);
             default -> throw new IllegalStateException("Unexpected value: " + type.toUpperCase());
         };

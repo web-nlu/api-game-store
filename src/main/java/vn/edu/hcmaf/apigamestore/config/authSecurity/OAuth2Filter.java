@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 import vn.edu.hcmaf.apigamestore.auth.AuthService;
@@ -103,7 +104,7 @@ public class OAuth2Filter extends OncePerRequestFilter {
 
       // Continue with the filter chain
       filterChain.doFilter(request, response);
-    } catch (HttpClientErrorException e) {
+    } catch (RestClientException e) {
       filterChain.doFilter(request, response);
     }
   }
