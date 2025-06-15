@@ -216,6 +216,9 @@ public class OrderService {
     }
 
     public List<RevenueProjection> getRevenue(StatisticFilterRequest statisticFilterRequest) {
+        System.out.println("Fetching revenue data for type: " + statisticFilterRequest.getType() +
+                ", start date: " + statisticFilterRequest.getStartDate() +
+                ", end date: " + statisticFilterRequest.getEndDate());
       return switch (statisticFilterRequest.getType().toLowerCase()) {
         case "month" -> orderRepository.getRevenueByMonth(statisticFilterRequest.getStartDate(), statisticFilterRequest.getEndDate());
         case "week" -> orderRepository.getRevenueByWeek(statisticFilterRequest.getStartDate(), statisticFilterRequest.getEndDate());

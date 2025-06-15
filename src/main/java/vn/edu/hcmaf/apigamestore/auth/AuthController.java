@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.auth.dto.LoginRequestDto;
@@ -65,6 +66,20 @@ public class AuthController {
         RoleEntity roleEntity = roleService.getByName("USER");
         if (roleEntity == null) {
             roleEntity = roleService.save("USER");
+        }
+        LoginResponseDto loginResponseDto = authService.register(request, roleEntity);
+
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reregister success", loginResponseDto));
+    }
+
+    @Operation(summary = "Register", description = "Register a new Staff")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/register-staff")
+    public ResponseEntity<BaseResponse> registerStaff(@RequestBody @Valid RegisterRequestDto request) {
+        log.info("Register attempt for user: {}", request);
+        RoleEntity roleEntity = roleService.getByName("STAFF");
+        if (roleEntity == null) {
+            roleEntity = roleService.save("STAFF");
         }
         LoginResponseDto loginResponseDto = authService.register(request, roleEntity);
 
