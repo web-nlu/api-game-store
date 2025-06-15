@@ -29,4 +29,11 @@ public class TestController {
         return code;
     }
 
+    public static void main(String[] args) {
+        float f1[] , f2[];
+        f1 = new float[]{1, 2, 3};
+        f2 = f1;
+        System.out.println(f2[1]);
+    }
+
 }
