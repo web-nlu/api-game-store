@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/ping").permitAll()
                         .requestMatchers("/api/*/u/**").permitAll()
                         .requestMatchers("/api/accounts/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN", "STAFF")
                         .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))

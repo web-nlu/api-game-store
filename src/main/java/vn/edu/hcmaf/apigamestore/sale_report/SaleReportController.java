@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.common.response.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
@@ -23,10 +24,11 @@ public class SaleReportController {
     private final SaleReportService saleReportService;
     private final ExportExcelService exportExcelService;
     private final OrderService orderService;
-    //GET http://localhost:8080/api/admin/sale-reports/revenue?type=DAY&startEpoch=1704067200&endEpoch=1746115199
-    //GET http://localhost:8080/api/admin/sale-reports/revenue?type=WEEK&startEpoch=1704067200&endEpoch=1746115199
-    //GET http://localhost:8080/api/admin/sale-reports/revenue?type=MONTH&startEpoch=1704067200&endEpoch=1746115199
+    //GET http://localhost:8080/api/admin/sale-reports/revenue?type=DAY&startDate=1704067200&endDate=1746115199
+    //GET http://localhost:8080/api/admin/sale-reports/revenue?type=WEEK&startDate=1704067200&endDate=1746115199
+    //GET http://localhost:8080/api/admin/sale-reports/revenue?type=MONTH&startDate=1704067200&endDate=1746115199
     @Operation(summary = "statistic", description = "Get Statistic Order")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/revenue")
     public ResponseEntity<BaseResponse> getStatistic(@ModelAttribute @Valid StatisticFilterRequest request) {
       List<RevenueProjection> statistic = orderService.getRevenue(request);
