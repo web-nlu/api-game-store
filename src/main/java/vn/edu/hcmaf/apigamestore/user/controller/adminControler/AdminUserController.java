@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.auth.AuthService;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/user")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('ADMIN')")
 @Validated
 /**
  * AdminUserController handles requests related to user management for administrators.
