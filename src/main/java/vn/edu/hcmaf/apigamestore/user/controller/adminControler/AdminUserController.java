@@ -7,14 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import vn.edu.hcmaf.apigamestore.auth.AuthService;
+import vn.edu.hcmaf.apigamestore.auth.dto.LoginResponseDto;
+import vn.edu.hcmaf.apigamestore.auth.dto.request.RegisterRequestDto;
 import vn.edu.hcmaf.apigamestore.common.response.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingResponseDto;
 import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
+import vn.edu.hcmaf.apigamestore.role.RoleEntity;
+import vn.edu.hcmaf.apigamestore.role.RoleService;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserService;
+import vn.edu.hcmaf.apigamestore.user.dto.FilterUserRequestDTO;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateRoleUserDto;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
+import vn.edu.hcmaf.apigamestore.user.dto.UserResponseDto;
 
 import java.util.List;
 
@@ -28,30 +35,29 @@ import java.util.List;
  */
 public class AdminUserController {
     private final UserService userService;
+    private final RoleService roleService;
 
     /**
      * Retrieves all users in the system.
      *
      * @return ResponseEntity containing a list of UserEntity objects wrapped in a SuccessResponse.
      */
-    @GetMapping("/all")
-    @Operation(summary = "Get all users", description = "Retrieve a list of all users in the system.")
-    public ResponseEntity<BaseResponse> getAllUsers() {
-        List<UserEntity> users = userService.getAllUsers();
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all User info success", users));
+    @GetMapping()
+    @Operation(summary = "Filter users", description = "Retrieve a list of all users in the system.")
+    public ResponseEntity<BaseResponse> getAllUsers(@ModelAttribute @Valid FilterUserRequestDTO requestDTO) {
+      LazyLoadingResponseDto<List<UserResponseDto>> users = userService.filter(requestDTO);
+      return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all User info success", users));
     }
 
-    /**
-     * Retrieves all users with lazy loading support.
-     *
-     * @param lazyLoadingRequestDto LazyLoadingRequestDto containing pagination and sorting information.
-     * @return ResponseEntity containing a LazyLoadingResponseDto with a list of UserEntity objects wrapped in a SuccessResponse.
-     */
-    @PostMapping("/all-lazyloading")
-    @Operation(summary = "Get all users with lazy loading", description = "Retrieve a list of all users in the system with lazy loading support.")
-    public ResponseEntity<BaseResponse> getAllUsersLazyLoading(@RequestBody @Valid LazyLoadingRequestDto lazyLoadingRequestDto) {
-        LazyLoadingResponseDto<List<UserEntity>> users = userService.getAllUsersLazyLoading(lazyLoadingRequestDto);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get all User info success (lazyloading)", users));
+    @PostMapping()
+    public ResponseEntity<BaseResponse> create(@RequestBody @Valid RegisterRequestDto requestDTO) {
+      RoleEntity roleEntity = roleService.getByName("STAFF");
+      if (roleEntity == null) {
+        roleEntity = roleService.save("STAFF");
+      }
+
+      UserEntity userEntity = userService.create(requestDTO, roleEntity);
+      return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reregister success", userService.toUserResponseDto(userEntity)));
     }
 
     /**
@@ -66,6 +72,8 @@ public class AdminUserController {
         UserEntity userEntity = userService.getUserById(userId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get User Id : " + userId + " info success", userEntity));
     }
+
+
 
     /**
      * Retrieves user information by username (email).
