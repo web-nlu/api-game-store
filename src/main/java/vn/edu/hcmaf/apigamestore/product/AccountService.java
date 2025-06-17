@@ -185,4 +185,16 @@ public class AccountService {
         account.setDeleted(true);
         accountRepository.save(account);
     }
+
+    public List<AccountDto> getTop5Accounts() {
+        return accountRepository.findTop5ByOrderByCreatedAtDesc().stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+    public List<AccountDto> getTopAccountAllGames() {
+        return accountRepository.getTop5AccountsByGame().stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

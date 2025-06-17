@@ -72,19 +72,7 @@ public class AuthController {
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reregister success", loginResponseDto));
     }
 
-    @Operation(summary = "Register", description = "Register a new Staff")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/register-staff")
-    public ResponseEntity<BaseResponse> registerStaff(@RequestBody @Valid RegisterRequestDto request) {
-        log.info("Register attempt for user: {}", request);
-        RoleEntity roleEntity = roleService.getByName("STAFF");
-        if (roleEntity == null) {
-            roleEntity = roleService.save("STAFF");
-        }
-        LoginResponseDto loginResponseDto = authService.register(request, roleEntity);
 
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reregister success", loginResponseDto));
-    }
     /**
      * Login a user with the provided email and password.
      * If the user does not exist, it will return an error response.

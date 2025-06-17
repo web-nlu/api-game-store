@@ -8,9 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import vn.edu.hcmaf.apigamestore.auth.AuthService;
 import vn.edu.hcmaf.apigamestore.common.response.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.response.ErrorResponse;
 import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
+import vn.edu.hcmaf.apigamestore.product.AccountService;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserService;
 import vn.edu.hcmaf.apigamestore.user.dto.ChangePasswordDto;
@@ -29,6 +31,8 @@ import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
  */
 public class UserController {
     private final UserService userService;
+    private final AuthService authService;
+    private final AccountService accountService;
 
     /**
      * Retrieves the current user's information.
@@ -42,6 +46,8 @@ public class UserController {
         UserEntity userEntity = userService.getCurrentUser();
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get User info success", userService.toUserResponseDto(userEntity)));
     }
+
+
 
     /**
      * Updates the current user's information.
@@ -69,7 +75,7 @@ public class UserController {
     public ResponseEntity<BaseResponse> changePassword(@RequestBody @Valid ChangePasswordDto updateUserDto, @PathVariable Long userId) {
         // check if userId is current user or admin
         UserEntity userEntity = userService.getCurrentUser();
-        if (!userEntity.getId().equals(userId) && !userEntity.getActiveRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"))) {
+        if (!userEntity.getId().equals(userId) ) {
             return ResponseEntity.badRequest().body(new ErrorResponse("ERROR", "You can only change your own password", null));
         }
         userService.updatePassUser(updateUserDto.getPassword(), userId);
@@ -88,6 +94,13 @@ public class UserController {
         System.out.println("deleteUser = " + userId);
         boolean result = userService.deleteUser(userId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Delete User Id: " + userId + " success", result));
+    }
+    @PutMapping("/reset-pass")
+    @Operation(summary = "Reset password", description = "Reset the password of a user by user ID.")
+    public ResponseEntity<BaseResponse> resetPassword() {
+        UserEntity currentUser = userService.getCurrentUser();
+        authService.resetPassword(currentUser);
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reset password for User Id: " + currentUser.getId(), null));
     }
 
 }

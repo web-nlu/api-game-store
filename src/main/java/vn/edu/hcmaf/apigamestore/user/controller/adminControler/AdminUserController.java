@@ -5,12 +5,18 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import vn.edu.hcmaf.apigamestore.auth.AuthService;
+import vn.edu.hcmaf.apigamestore.auth.dto.LoginResponseDto;
+import vn.edu.hcmaf.apigamestore.auth.dto.request.RegisterRequestDto;
 import vn.edu.hcmaf.apigamestore.common.response.BaseResponse;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingRequestDto;
 import vn.edu.hcmaf.apigamestore.common.dto.LazyLoadingResponseDto;
 import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
+import vn.edu.hcmaf.apigamestore.role.RoleEntity;
+import vn.edu.hcmaf.apigamestore.role.RoleService;
 import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserService;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateRoleUserDto;
@@ -28,7 +34,8 @@ import java.util.List;
  */
 public class AdminUserController {
     private final UserService userService;
-
+    private final AuthService authService;
+    private final RoleService roleService;
     /**
      * Retrieves all users in the system.
      *
@@ -94,5 +101,26 @@ public class AdminUserController {
     public ResponseEntity<BaseResponse> updateUserRole(@RequestBody UpdateRoleUserDto updateRoleUserDto, @PathVariable Long userId) {
         UserEntity userEntity = userService.updateRolesUser(updateRoleUserDto.getRoleUpdateMap(), userId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Update User Id: " + userId, userEntity.getActiveRoles()));
+    }
+    @Operation(summary = "Register", description = "Register a new Staff")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/register-staff")
+    public ResponseEntity<BaseResponse> registerStaff(@RequestBody @Valid RegisterRequestDto request) {
+        RoleEntity roleEntity = roleService.getByName("STAFF");
+        if (roleEntity == null) {
+            roleEntity = roleService.save("STAFF");
+        }
+         authService.register(request, roleEntity);
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reregister success", null));
+    }
+    @PutMapping("/id/{userId}/reset-pass")
+    @Operation(summary = "Reset password", description = "Reset the password of a user by user ID.")
+    public ResponseEntity<BaseResponse> resetPassword(@PathVariable Long userId) {
+        UserEntity userEntity = userService.getUserById(userId);
+        if (userEntity == null) {
+            return ResponseEntity.badRequest().body(new SuccessResponse<>("ERROR", "User not found with ID: " + userId, null));
+        }
+        authService.resetPassword(userEntity);
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reset password for User Id: " + userId, null));
     }
 }

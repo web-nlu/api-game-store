@@ -51,6 +51,27 @@ public class EmailService {
             throw new RuntimeException("Gửi email thất bại: " + e.getMessage(), e);
         }
     }
+    public void sendResetPass(String toEmail, String customerName, String resetLink) {
+        String subject = "Yêu cầu đặt lại mật khẩu";
+        String htmlContent = String.format(
+                "<p>Xin chào %s,</p>" +
+                "<p>Bạn đã yêu cầu đặt lại mật khẩu.</p>" +
+                "<p>Đây là mật khẩu mới: %s .</p>",
+                escapeFormat(customerName), escapeFormat(resetLink));
+
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true); // true = HTML content
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Gửi email thất bại: " + e.getMessage(), e);
+        }
+    }
 
     private String generateHtmlContent(String customerName, String orderNumber, List<AccountInfoDto> accounts) {
         System.out.println(accounts);

@@ -17,6 +17,7 @@ import vn.edu.hcmaf.apigamestore.product.AccountService;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountFilterRequestDto;
+import vn.edu.hcmaf.apigamestore.product.dto.UserHomeDataDto;
 
 import java.util.List;
 
@@ -58,6 +59,23 @@ public class AccountPublicController {
       accountDetail.setImageGallery(imagesService.getImagesByEntity(EntityConstant.ACCOUNT, accountDetail.getId()));
       return ResponseEntity.ok().body(
               new SuccessResponse<>("SUCCESS", "Get Account Id : " + id + " success", accountDetail));
+    }
+    /**
+     * Retrieves home data for the current user, including new accounts and top accounts across all games.
+     *
+     * @return ResponseEntity containing UserHomeDataDto with new accounts and top accounts.
+     */
+    @GetMapping("/user/home-data")
+    @Operation(summary = "Get home data", description = "Retrieve the current user's home data.")
+    public ResponseEntity<BaseResponse> getHomeData() {
+        List<AccountDto> newAccounts = accountService.getTop5Accounts();
+        List<AccountDto> topAccountAllGames = accountService.getTopAccountAllGames();
+        System.out.println("newAccounts = " + newAccounts);
+        UserHomeDataDto userHomeDataDto = UserHomeDataDto.builder()
+                .newAccounts(newAccounts)
+                .topAccountAllGames(topAccountAllGames)
+                .build();
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Get home data success", userHomeDataDto));
     }
     /**
      * Retrieves accounts associated with a specific category ID.

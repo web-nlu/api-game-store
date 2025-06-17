@@ -14,6 +14,7 @@ import vn.edu.hcmaf.apigamestore.auth.dto.LoginRequestDto;
 import vn.edu.hcmaf.apigamestore.auth.dto.LoginResponseDto;
 import vn.edu.hcmaf.apigamestore.auth.dto.request.RegisterRequestDto;
 import vn.edu.hcmaf.apigamestore.common.util.JwtUtil;
+import vn.edu.hcmaf.apigamestore.email.EmailService;
 import vn.edu.hcmaf.apigamestore.role.RoleEntity;
 import vn.edu.hcmaf.apigamestore.role.RoleRepository;
 import vn.edu.hcmaf.apigamestore.role.UserRole.UserRoleEntity;
@@ -21,6 +22,7 @@ import vn.edu.hcmaf.apigamestore.user.UserEntity;
 import vn.edu.hcmaf.apigamestore.user.UserRepository;
 
 import java.util.Collections;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -28,7 +30,7 @@ import java.util.Collections;
 public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final EmailService emailService;
     private final JwtUtil jwtUtil = new JwtUtil();
     private final PasswordEncoder passwordEncoder;
 
@@ -42,7 +44,7 @@ public class AuthService {
      */
     public LoginResponseDto register(RegisterRequestDto requestDto, RoleEntity role) {
         // Check if the user already exists
-        if (userRepository.existsByEmail(requestDto.getEmail())){
+        if (userRepository.existsByEmail(requestDto.getEmail())) {
             throw new IllegalArgumentException("User with this email already exists");
         }
         UserEntity userEntity = new UserEntity();
@@ -118,5 +120,23 @@ public class AuthService {
         userEntity.setRefreshToken(null);
         userRepository.save(userEntity);
         return true;
+    }
+
+    /**
+     * Reset pass
+     *
+     * @param userEntity The user entity to reset password for.
+     */
+    public void resetPassword(UserEntity userEntity) {
+        if (userEntity == null) {
+            throw new NullPointerException("User cannot be null");
+        }
+        // Reset password to ramdom value
+        String randompass = UUID.randomUUID().toString().substring(0, 8);
+        userEntity.setPassword(passwordEncoder.encode(randompass));
+        // Send email with new password
+        emailService.sendResetPass(userEntity.getEmail(), userEntity.getUsername(), randompass);
+
+        userRepository.save(userEntity);
     }
 }
