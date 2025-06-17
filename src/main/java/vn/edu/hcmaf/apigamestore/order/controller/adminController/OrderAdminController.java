@@ -51,13 +51,4 @@ public class OrderAdminController {
                 new SuccessResponse<>("SUCCESS", "Order updated successfully", orderService.toDto(updatedOrder)));
     }
 
-    //Get Admin home Data
-    @Operation(summary = "Get Admin Home Data", description = "Get admin home data including revenue projections and order statistics")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/home-data")
-    public ResponseEntity<BaseResponse> getAdminHomeData() {
-        OrderAdminDataProjection orderStatistics = orderService.getAdminOrderData();
-        return ResponseEntity.ok().body(
-                new SuccessResponse<>("SUCCESS", "Get Admin Home Data success", orderStatistics));
-    }
 }
