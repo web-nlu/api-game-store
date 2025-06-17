@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import vn.edu.hcmaf.apigamestore.auth.dto.request.RegisterRequestDto;
 import vn.edu.hcmaf.apigamestore.common.dto.*;
 import vn.edu.hcmaf.apigamestore.role.RoleEntity;
 import vn.edu.hcmaf.apigamestore.role.RoleRepository;
@@ -14,15 +15,13 @@ import vn.edu.hcmaf.apigamestore.role.RoleService;
 import vn.edu.hcmaf.apigamestore.role.UserRole.UserRoleEntity;
 import vn.edu.hcmaf.apigamestore.role.UserRole.UserRoleRepository;
 import vn.edu.hcmaf.apigamestore.role.dto.RoleDto;
+import vn.edu.hcmaf.apigamestore.user.dto.FilterUserRequestDTO;
 import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
 import vn.edu.hcmaf.apigamestore.user.dto.UserResponseDto;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,7 +42,7 @@ public class UserService {
                 .avatar(userEntity.getAvatar())
                 .phoneNumber(userEntity.getPhoneNumber())
                 .address(userEntity.getAddress())
-                .numOfCartItem(userEntity.getCartItems().size())
+                .numOfCartItem(userEntity.getCartItems() == null ? 0 : userEntity.getCartItems().size())
                 .activeRoles(userEntity.getActiveRoles())
                 .build();
     }
@@ -62,28 +61,37 @@ public class UserService {
         return userEntity;
     }
 
-    /**
-     * Get all users with lazy loading support.
-     *
-     * @param lazyLoadingRequestDto
-     * @return LazyLoadingResponseDto containing a list of UserEntity objects and pagination information.
-     */
-    public LazyLoadingResponseDto<List<UserEntity>> getAllUsersLazyLoading(LazyLoadingRequestDto lazyLoadingRequestDto) {
-        int page = lazyLoadingRequestDto.getPage();
-        int size = lazyLoadingRequestDto.getSize();
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        List<UserEntity> userEntities = userRepository.findAllByIsDeletedFalse(pageable);
+    public UserEntity create(RegisterRequestDto requestDto, RoleEntity role) {
+      if (userRepository.existsByEmail(requestDto.getEmail())){
+        throw new IllegalArgumentException("User with this email already exists");
+      }
+      UserEntity userEntity = new UserEntity();
+      userEntity.setEmail(requestDto.getEmail());
+      userEntity.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+
+      UserRoleEntity userRoleEntity = new UserRoleEntity();
+      userRoleEntity.setUser(userEntity);
+      userRoleEntity.setRole(role);
+      userEntity.setUserRoles(Collections.singletonList(userRoleEntity));
+      return userRepository.save(userEntity);
+    }
+
+    public LazyLoadingResponseDto<List<UserResponseDto>> filter(FilterUserRequestDTO requestDTO) {
+        int page = requestDTO.getPage();
+        int size = requestDTO.getSize();
+        Pageable pageable = PageRequest.of(Math.max(page - 1, 0), size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        List<UserEntity> userEntities = userRepository.filter(requestDTO.getEmail(), requestDTO.getRole(), pageable);
         if (!userEntities.isEmpty()) {
             for (UserEntity user : userEntities) {
                 user.setPassword(null);
             }
         }
-        return LazyLoadingResponseDto.<List<UserEntity>>builder()
+        return LazyLoadingResponseDto.<List<UserResponseDto>>builder()
                 .page(page)
                 .size(size)
-                .totalElements(userRepository.countByIsDeletedFalse())
-                .totalPages((int) Math.ceil((double) userRepository.countByIsDeletedFalse() / size))
-                .data(userEntities)
+                .totalElements((long) userEntities.size())
+                .totalPages((int) Math.ceil((double) userEntities.size() / size))
+                .data(userEntities.stream().map(this::toUserResponseDto).toList())
                 .build();
     }
 
