@@ -11,6 +11,7 @@ import vn.edu.hcmaf.apigamestore.common.response.SuccessResponse;
 import vn.edu.hcmaf.apigamestore.product.AccountService;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
 import vn.edu.hcmaf.apigamestore.product.dto.UserHomeDataDto;
+import vn.edu.hcmaf.apigamestore.product.dto.WrapDataUserHome;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserHomeController {
     private final AccountService accountService;
+
     /**
      * Retrieves home data for the current user, including new accounts and top accounts across all games.
      *
@@ -28,7 +30,7 @@ public class UserHomeController {
     @Operation(summary = "Get home data", description = "Retrieve the current user's home data.")
     public ResponseEntity<BaseResponse> getHomeData() {
         List<AccountDto> newAccounts = accountService.getTop5Accounts();
-        List<AccountDto> topAccountAllGames = accountService.getTopAccountAllGames();
+        List<WrapDataUserHome> topAccountAllGames = accountService.getTopAccountAllGames();
         System.out.println("newAccounts = " + newAccounts);
         UserHomeDataDto userHomeDataDto = UserHomeDataDto.builder()
                 .newAccounts(newAccounts)

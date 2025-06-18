@@ -1,5 +1,7 @@
 package vn.edu.hcmaf.apigamestore.product;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
@@ -53,6 +55,9 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long>, A
                
             """)
     List<AccountEntity> getTop5AccountsByGame();
+
+    Page<AccountEntity> findByGameIdAndIsDeletedFalseOrderByUpdatedAtDesc(Long gameId, Pageable pageable);
+
 
 
 }
