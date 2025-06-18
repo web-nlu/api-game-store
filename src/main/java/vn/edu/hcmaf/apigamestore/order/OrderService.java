@@ -166,6 +166,10 @@ public class OrderService {
         List<CartEntity> cartEntities = cartService.getCurrentUserCart(userEntity.getEmail());
 
         if (updateOrderRequestDto.getStatus().equals(OrderConstants.ORDER_STATUS_CANCELLED)) {
+            // clear redis -> cartiteam
+            for (CartEntity cartEntity : cartEntities) {
+                redisService.unlockProduct(cartEntity.getAccount().getId());
+            }
             existingOrder.setStatus(updateOrderRequestDto.getStatus());
             existingOrder.setPaymentMethod(updateOrderRequestDto.getPaymentMethod());
             existingOrder.setPaymentLinkId(updateOrderRequestDto.getPaymentLinkId());
@@ -224,5 +228,9 @@ public class OrderService {
         case "week" -> orderRepository.getRevenueByWeek(statisticFilterRequest.getStartDate(), statisticFilterRequest.getEndDate());
         default -> orderRepository.getRevenueByDay(statisticFilterRequest.getStartDate(), statisticFilterRequest.getEndDate());
       };
+    }
+
+    public OrderAdminDataProjection getAdminOrderData() {
+        return orderRepository.getAdminOrderData();
     }
 }

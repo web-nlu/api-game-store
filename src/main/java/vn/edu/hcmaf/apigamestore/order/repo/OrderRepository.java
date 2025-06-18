@@ -1,26 +1,15 @@
 package vn.edu.hcmaf.apigamestore.order.repo;
 
-import jakarta.persistence.ColumnResult;
-import jakarta.persistence.ConstructorResult;
-import jakarta.persistence.SqlResultSetMapping;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.NativeQuery;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import vn.edu.hcmaf.apigamestore.order.OrderEntity;
+import vn.edu.hcmaf.apigamestore.order.dto.OrderAdminDataProjection;
 import vn.edu.hcmaf.apigamestore.order.dto.OrderUserDTO;
 
 import vn.edu.hcmaf.apigamestore.sale_report.dto.RevenueProjection;
-import vn.edu.hcmaf.apigamestore.user.UserEntity;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     List<OrderEntity> findAllByUserId(Long id);
@@ -120,4 +109,15 @@ List<RevenueProjection> getRevenueByMonth(@Param("startDate") long startDate,
       AND od.account_id = :accountId
   """)
   int checkHaveOrder(@Param("userId") long userId, @Param("accountId") long accountId);
+
+
+  @NativeQuery(value = """
+    SELECT
+      COUNT(*) AS total_orders,
+      COUNT(*) FILTER (WHERE LOWER(status) = 'completed') AS completed_orders,
+      COUNT(*) FILTER (WHERE LOWER(status) = 'pending') AS pending_orders,
+      COUNT(*) FILTER (WHERE LOWER(status) = 'cancelled') AS cancelled_orders
+    FROM orders;
+    """)
+  OrderAdminDataProjection getAdminOrderData();
 }

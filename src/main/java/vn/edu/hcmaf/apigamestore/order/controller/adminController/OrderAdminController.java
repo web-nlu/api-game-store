@@ -24,30 +24,31 @@ import java.util.Objects;
 @RequestMapping("/api/admin/orders/")
 @RequiredArgsConstructor
 public class OrderAdminController {
-  private final OrderService orderService;
+    private final OrderService orderService;
 
-  @Operation(summary = "Get Order Detail", description = "Get order detail by order ID")
-  @GetMapping("/{id}")
-  public ResponseEntity<BaseResponse> getOrderDetail(@PathVariable Long id) {
-    OrderEntity orderEntity = orderService.findOrderById(id);
-    return ResponseEntity.ok().body(
-            new SuccessResponse<>("SUCCESS", "Get Order Id : " + id + " success", orderService.toDto(orderEntity)));
-  }
+    @Operation(summary = "Get Order Detail", description = "Get order detail by order ID")
+    @GetMapping("/{id}")
+    public ResponseEntity<BaseResponse> getOrderDetail(@PathVariable Long id) {
+        OrderEntity orderEntity = orderService.findOrderById(id);
+        return ResponseEntity.ok().body(
+                new SuccessResponse<>("SUCCESS", "Get Order Id : " + id + " success", orderService.toDto(orderEntity)));
+    }
 
-  @Operation(summary = "Get All Orders", description = "Get all orders for the user")
-  @GetMapping("/filter")
-  public ResponseEntity<BaseResponse> getAllOrders(@ModelAttribute @Valid OrderFilterRequestDto request) {
-    List<OrderUserDTO> orders = orderService.getUserOrders(request, null);
-    return ResponseEntity.ok().body(
-            new SuccessResponse<>("SUCCESS", "Get all orders success", orders));
-  }
+    @Operation(summary = "Get All Orders", description = "Get all orders for the user")
+    @GetMapping("/filter")
+    public ResponseEntity<BaseResponse> getAllOrders(@ModelAttribute @Valid OrderFilterRequestDto request) {
+        List<OrderUserDTO> orders = orderService.getUserOrders(request, null);
+        return ResponseEntity.ok().body(
+                new SuccessResponse<>("SUCCESS", "Get all orders success", orders));
+    }
 
-  @Operation(summary = "Update Order", description = "Update an existing order by ID")
-  @PreAuthorize("hasAuthority('ADMIN')")
-  @PutMapping("/status/{id}")
-  public ResponseEntity<BaseResponse> cancel(@PathVariable Long id, @RequestBody @Valid UpdateStatusOrderDTO request) {
-    OrderEntity updatedOrder = orderService.changeStatus(id, request);
-    return ResponseEntity.ok().body(
-            new SuccessResponse<>("SUCCESS", "Order updated successfully", orderService.toDto(updatedOrder)));
-  }
+    @Operation(summary = "Update Order", description = "Update an existing order by ID")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/status/{id}")
+    public ResponseEntity<BaseResponse> cancel(@PathVariable Long id, @RequestBody @Valid UpdateStatusOrderDTO request) {
+        OrderEntity updatedOrder = orderService.changeStatus(id, request);
+        return ResponseEntity.ok().body(
+                new SuccessResponse<>("SUCCESS", "Order updated successfully", orderService.toDto(updatedOrder)));
+    }
+
 }

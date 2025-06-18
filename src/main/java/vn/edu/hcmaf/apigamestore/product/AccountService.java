@@ -17,6 +17,7 @@ import vn.edu.hcmaf.apigamestore.order.OrderConstants;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDetailDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountDto;
 import vn.edu.hcmaf.apigamestore.product.dto.AccountFilterRequestDto;
+import vn.edu.hcmaf.apigamestore.product.dto.WrapDataUserHome;
 import vn.edu.hcmaf.apigamestore.review.ReviewEntity;
 import vn.edu.hcmaf.apigamestore.review.ReviewService;
 import vn.edu.hcmaf.apigamestore.review.dto.ReviewDto;
@@ -24,7 +25,9 @@ import vn.edu.hcmaf.apigamestore.review.dto.ReviewDto;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -185,4 +188,28 @@ public class AccountService {
         account.setDeleted(true);
         accountRepository.save(account);
     }
+
+    public List<AccountDto> getTop5Accounts() {
+        return accountRepository.findTop5ByOrderByCreatedAtDesc().stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<WrapDataUserHome> getTopAccountAllGames() {
+        List<GameEntity> games = gameRepository.findByIsDeletedFalse();
+        return games.stream().map(game -> {
+            List<AccountEntity> top5Accounts = accountRepository.findByGameIdAndIsDeletedFalseOrderByUpdatedAtDesc(
+                    game.getId(), PageRequest.of(0, 5)
+            ).getContent();
+
+            return WrapDataUserHome.builder()
+                    .gameId(game.getId())
+                    .gameName(game.getName())
+                    .categoryId(game.getCategory().getId())
+                    .top5Accounts(top5Accounts.stream().map(this::toDto).collect(Collectors.toList()))
+                    .build();
+        }).toList();
+    }
+
+
 }
