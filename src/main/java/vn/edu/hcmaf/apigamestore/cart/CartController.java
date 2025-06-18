@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import vn.edu.hcmaf.apigamestore.cart.dto.CartResponseDto;
 import vn.edu.hcmaf.apigamestore.common.response.BaseResponse;
@@ -70,6 +71,7 @@ public class CartController {
      */
     @Operation(summary = "Delete all items in cart", description = "Delete all items in the cart for the specified account ID")
     @DeleteMapping("/remove-all")
+    @Transactional
     public ResponseEntity<BaseResponse> deleteAllItemInCart() {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userService.getUserByEmail(userName);
