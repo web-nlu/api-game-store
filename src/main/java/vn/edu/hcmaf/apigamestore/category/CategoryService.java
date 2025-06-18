@@ -55,7 +55,7 @@ public class CategoryService {
      * @return A CategoryEntity representing the category with the specified ID, or null if not found.
      */
     public CategoryEntity getCategoryById(long categoryId) {
-        return categoryRepository.findByIdAndIsDeletedFalse(categoryId);
+        return categoryRepository.findByIdAndIsDeletedFalse(categoryId).orElse(null);
     }
     /**
      * Adds a new category.
@@ -78,10 +78,8 @@ public class CategoryService {
      */
     public CategoryEntity updateCategory(AddCategoryRequestDto addCategoryRequestDto, long categoryId) {
         // Check if the category exists before updating
-        if (!categoryRepository.existsByIdAndIsDeletedFalse(categoryId)) {
-            throw new RuntimeException("Category not found with id: " + categoryId);
-        }
-        CategoryEntity existingCategory = categoryRepository.findByIdAndIsDeletedFalse(categoryId);
+        CategoryEntity existingCategory = categoryRepository.findByIdAndIsDeletedFalse(categoryId).orElseThrow(() ->
+                new RuntimeException("Category not found with id: " + categoryId));
         existingCategory.setName(addCategoryRequestDto.getName());
         existingCategory.setIcon(addCategoryRequestDto.getIcon());
         return categoryRepository.save(existingCategory);
@@ -98,7 +96,7 @@ public class CategoryService {
         if (!categoryRepository.existsByIdAndIsDeletedFalse(categoryId)) {
             throw new RuntimeException("Category not found with id: " + categoryId);
         }
-        CategoryEntity categoryEntity = categoryRepository.findByIdAndIsDeletedFalse(categoryId);
+        CategoryEntity categoryEntity = categoryRepository.findByIdAndIsDeletedFalse(categoryId).orElse(null);
         if (categoryEntity != null) {
             categoryEntity.setDeleted(true);
             categoryEntity.setDeletedAt(Timestamp.valueOf(java.time.LocalDateTime.now()));
