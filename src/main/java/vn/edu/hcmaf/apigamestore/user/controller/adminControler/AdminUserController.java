@@ -25,6 +25,7 @@ import vn.edu.hcmaf.apigamestore.user.dto.UpdateUserDto;
 import vn.edu.hcmaf.apigamestore.user.dto.UserResponseDto;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/user")
@@ -126,5 +127,20 @@ public class AdminUserController {
         }
         authService.resetPassword(userEntity);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reset password for User Id: " + userId, null));
+    }
+    @PutMapping("/gmail/{gmail}/set-staff")
+    @Operation(summary = "Set user as staff", description = "Set a user as staff by their email.")
+    public ResponseEntity<BaseResponse> setStaff(@PathVariable String gmail) {
+        UserEntity userEntity = userService.getUserByEmail(gmail);
+        if (userEntity == null) {
+            return ResponseEntity.badRequest().body(new SuccessResponse<>("ERROR", "User not found with email: " + gmail, null));
+        }
+        RoleEntity roleEntity = roleService.getByName("STAFF");
+        if (roleEntity == null) {
+            roleEntity = roleService.save("STAFF");
+        }
+        Map<Long, Boolean> roleUpdateMap = Map.of(roleEntity.getId(), true);
+         userEntity = userService.updateRolesUser(roleUpdateMap, userEntity.getId());
+        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Set User : " + gmail + " as Staff success", userService.toUserResponseDto(userEntity)));
     }
 }
