@@ -31,6 +31,7 @@ public class ReviewService {
                 .comment(reviewEntity.getComment())
                 .rating(reviewEntity.getRating())
                 .createdAt(reviewEntity.getCreatedAt().getTime() / 1000)
+                .isHide(reviewEntity.isHide())
                 .build();
     }
 
@@ -109,10 +110,10 @@ public class ReviewService {
     }
 
 
-    public void hideReview(Long reviewId) {
+    public void hideReview(Long reviewId, boolean hidden) {
         ReviewEntity reviewEntity = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("Review not found"));
-        reviewEntity.setHide(true);
+        reviewEntity.setHide(hidden);
         reviewRepository.save(reviewEntity);
     }
 }

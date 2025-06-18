@@ -32,7 +32,7 @@ public class GameEntity extends BaseEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "game")
     private List<AccountEntity> accounts;
 
     //mapper

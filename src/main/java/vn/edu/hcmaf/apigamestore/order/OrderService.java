@@ -126,7 +126,8 @@ public class OrderService {
 
         orderEntity.setStatus(OrderConstants.ORDER_STATUS_PENDING);
         orderEntity.setTotalPrice(cartEntities.stream()
-                .mapToDouble(cartEntity -> cartEntity.getAccount().getPrice()).sum());
+                .mapToDouble(cartEntity ->
+                        cartEntity.getAccount().getSalePrice() > 0 ? (Math.min(cartEntity.getAccount().getPrice(), cartEntity.getAccount().getSalePrice())) : cartEntity.getAccount().getPrice()).sum());
         orderEntity.setOrderDetails(orderDetails);
         orderEntity.setUser(user);
 

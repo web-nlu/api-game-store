@@ -1,21 +1,18 @@
 package vn.edu.hcmaf.apigamestore.category.gameEntity;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.category.CategoryEntity;
 import vn.edu.hcmaf.apigamestore.category.CategoryRepository;
-import vn.edu.hcmaf.apigamestore.category.CategoryService;
-import vn.edu.hcmaf.apigamestore.category.dto.CategoryResponseDto;
-import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.AddGameRequestDto;
+import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.SetGameRequestDto;
 import vn.edu.hcmaf.apigamestore.category.gameEntity.dto.GameResponseDto;
 import vn.edu.hcmaf.apigamestore.product.AccountService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,34 +53,27 @@ public class GameService {
         return gameEntity;
     }
 
-    public GameEntity addGame(AddGameRequestDto gameRequestDto) {
+    public GameEntity addGame(SetGameRequestDto gameRequestDto, CategoryEntity categoryEntity) {
         GameEntity gameEntity = new GameEntity();
         gameEntity.setName(gameRequestDto.getName());
-        // check category
-        CategoryEntity categoryEntity = categoryRepository.findByIdAndIsDeletedFalse(gameRequestDto.getCategoryId());
-        if (categoryEntity == null) {
-            throw new IllegalArgumentException("Category not found with id: " + gameRequestDto.getCategoryId());
-        }
-        gameEntity.setCategory(categoryEntity);
         return gameRepository.save(gameEntity);
     }
 
-    public GameEntity updateGame(AddGameRequestDto gameRequestDto, long gameId) {
+    public List<GameResponseDto> updateGame(List<SetGameRequestDto> gameRequestDto, long categoryId) {
         // Check if the game exists before updating
-        if (!gameRepository.existsByIdAndIsDeletedFalse(gameId)) {
-            throw new IllegalArgumentException("Game not found with id: " + gameId);
+      CategoryEntity category = categoryRepository.findByIdAndIsDeletedFalse(categoryId).orElseThrow(() ->
+              new IllegalArgumentException("Category not found with id: " + categoryId));
+      List<GameEntity> updatedGames = gameRequestDto.stream().map((dto) -> {
+        GameEntity gameEntity = new GameEntity();
+        if(dto.getId() != null) {
+          gameEntity.setId(dto.getId());
         }
-        GameEntity existingGame = gameRepository.findByIdAndIsDeletedFalse(gameId);
-        existingGame.setName(gameRequestDto.getName());
-        // check category
-        CategoryEntity categoryEntity = categoryRepository.findByIdAndIsDeletedFalse(gameRequestDto.getCategoryId());
-        if (categoryEntity == null) {
-            throw new IllegalArgumentException("Category not found with id: " + gameRequestDto.getCategoryId());
-        }
-        existingGame.setCategory(categoryEntity);
-        return gameRepository.save(existingGame);
-
-
+        gameEntity.setName(dto.getName());
+        gameEntity.setCategory(category);
+        return gameEntity;
+      }).toList();
+      List<GameEntity> savedGames = gameRepository.saveAll(updatedGames);
+      return savedGames.stream().map((entity) -> toGameResponseDto(entity, false)).toList();
     }
 
     public void deleteGame(long gameId) {

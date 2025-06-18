@@ -16,4 +16,5 @@ public class ReviewDto {
     private String comment;
     private Integer rating;
     private long createdAt;
+    private boolean isHide;
 }
