@@ -121,22 +121,4 @@ public class AuthService {
         userRepository.save(userEntity);
         return true;
     }
-
-    /**
-     * Reset pass
-     *
-     * @param userEntity The user entity to reset password for.
-     */
-    public void resetPassword(UserEntity userEntity) {
-        if (userEntity == null) {
-            throw new NullPointerException("User cannot be null");
-        }
-        // Reset password to ramdom value
-        String randompass = UUID.randomUUID().toString().substring(0, 8);
-        userEntity.setPassword(passwordEncoder.encode(randompass));
-        // Send email with new password
-        emailService.sendResetPass(userEntity.getEmail(), userEntity.getUsername(), randompass);
-
-        userRepository.save(userEntity);
-    }
 }

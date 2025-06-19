@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vn.edu.hcmaf.apigamestore.auth.dto.request.RegisterRequestDto;
 import vn.edu.hcmaf.apigamestore.common.dto.*;
+import vn.edu.hcmaf.apigamestore.email.EmailService;
 import vn.edu.hcmaf.apigamestore.role.RoleEntity;
 import vn.edu.hcmaf.apigamestore.role.RoleRepository;
 import vn.edu.hcmaf.apigamestore.role.RoleService;
@@ -31,7 +32,7 @@ public class UserService {
     private final UserRoleRepository userRoleRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final EmailService emailService;
     public UserResponseDto toUserResponseDto(UserEntity userEntity) {
         if (userEntity == null) {
             return null;
@@ -235,4 +236,22 @@ public class UserService {
         userRepository.save(userEntity);
         return true;
     }
+
+  /**
+   * Reset pass
+   *
+   * @param userEntity The user entity to reset password for.
+   */
+  public void resetPassword(UserEntity userEntity) {
+    if (userEntity == null) {
+      throw new NullPointerException("User cannot be null");
+    }
+    // Reset password to ramdom value
+    String randompass = UUID.randomUUID().toString().substring(0, 8);
+    userEntity.setPassword(passwordEncoder.encode(randompass));
+    // Send email with new password
+    emailService.sendResetPass(userEntity.getEmail(), userEntity.getUsername(), randompass);
+
+    userRepository.save(userEntity);
+  }
 }

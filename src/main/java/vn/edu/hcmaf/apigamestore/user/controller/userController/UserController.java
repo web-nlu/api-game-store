@@ -95,12 +95,4 @@ public class UserController {
         boolean result = userService.deleteUser(userId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Delete User Id: " + userId + " success", result));
     }
-    @PutMapping("/reset-pass")
-    @Operation(summary = "Reset password", description = "Reset the password of a user by user ID.")
-    public ResponseEntity<BaseResponse> resetPassword() {
-        UserEntity currentUser = userService.getCurrentUser();
-        authService.resetPassword(currentUser);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reset password for User Id: " + currentUser.getId(), null));
-    }
-
 }

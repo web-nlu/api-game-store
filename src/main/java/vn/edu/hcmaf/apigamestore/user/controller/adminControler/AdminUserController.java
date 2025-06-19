@@ -106,25 +106,14 @@ public class AdminUserController {
         UserEntity userEntity = userService.updateRolesUser(updateRoleUserDto.getRoleUpdateMap(), userId);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Update User Id: " + userId, userEntity.getActiveRoles()));
     }
-    @Operation(summary = "Register", description = "Register a new Staff")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/register-staff")
-    public ResponseEntity<BaseResponse> registerStaff(@RequestBody @Valid RegisterRequestDto request) {
-        RoleEntity roleEntity = roleService.getByName("STAFF");
-        if (roleEntity == null) {
-            roleEntity = roleService.save("STAFF");
-        }
-         authService.register(request, roleEntity);
-        return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reregister success", null));
-    }
-    @PutMapping("/id/{userId}/reset-pass")
+    @PutMapping("/reset-pass/{userId}")
     @Operation(summary = "Reset password", description = "Reset the password of a user by user ID.")
     public ResponseEntity<BaseResponse> resetPassword(@PathVariable Long userId) {
         UserEntity userEntity = userService.getUserById(userId);
         if (userEntity == null) {
             return ResponseEntity.badRequest().body(new SuccessResponse<>("ERROR", "User not found with ID: " + userId, null));
         }
-        authService.resetPassword(userEntity);
+        userService.resetPassword(userEntity);
         return ResponseEntity.ok().body(new SuccessResponse<>("SUCCESS", "Reset password for User Id: " + userId, null));
     }
 }
