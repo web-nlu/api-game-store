@@ -26,12 +26,11 @@ public class UserHomeController {
      *
      * @return ResponseEntity containing UserHomeDataDto with new accounts and top accounts.
      */
-    @GetMapping("/home-data")
+    @GetMapping()
     @Operation(summary = "Get home data", description = "Retrieve the current user's home data.")
     public ResponseEntity<BaseResponse> getHomeData() {
         List<AccountDto> newAccounts = accountService.getTop5Accounts();
         List<WrapDataUserHome> topAccountAllGames = accountService.getTopAccountAllGames();
-        System.out.println("newAccounts = " + newAccounts);
         UserHomeDataDto userHomeDataDto = UserHomeDataDto.builder()
                 .newAccounts(newAccounts)
                 .topAccountAllGames(topAccountAllGames)

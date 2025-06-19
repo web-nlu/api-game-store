@@ -190,23 +190,23 @@ public class AccountService {
     }
 
     public List<AccountDto> getTop5Accounts() {
-        return accountRepository.findTop5ByOrderByCreatedAtDesc().stream()
+        return accountRepository.findTop5ByStatusOrderByCreatedAtDesc("available").stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     public List<WrapDataUserHome> getTopAccountAllGames() {
-        List<GameEntity> games = gameRepository.findByIsDeletedFalse();
+        List<GameEntity> games = gameRepository.findByIsDeletedFalseOrderByUpdatedAtDesc(PageRequest.of(0, 10));
         return games.stream().map(game -> {
-            List<AccountEntity> top5Accounts = accountRepository.findByGameIdAndIsDeletedFalseOrderByUpdatedAtDesc(
-                    game.getId(), PageRequest.of(0, 5)
+            List<AccountEntity> top5Accounts = accountRepository.findByGameIdAndStatusAndIsDeletedFalseOrderByUpdatedAtDesc(
+                    game.getId(), "available", PageRequest.of(0, 5)
             ).getContent();
 
             return WrapDataUserHome.builder()
                     .gameId(game.getId())
                     .gameName(game.getName())
                     .categoryId(game.getCategory().getId())
-                    .top5Accounts(top5Accounts.stream().map(this::toDto).collect(Collectors.toList()))
+                    .accounts(top5Accounts.stream().map(this::toDto).collect(Collectors.toList()))
                     .build();
         }).toList();
     }

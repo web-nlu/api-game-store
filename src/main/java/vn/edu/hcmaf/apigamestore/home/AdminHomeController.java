@@ -22,7 +22,7 @@ public class AdminHomeController {
     //Get Admin home Data
     @Operation(summary = "Get Admin Home Data", description = "Get admin home data including revenue projections and order statistics")
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/home-data")
+    @GetMapping()
     public ResponseEntity<BaseResponse> getAdminHomeData() {
         OrderAdminDataProjection orderStatistics = orderService.getAdminOrderData();
         return ResponseEntity.ok().body(

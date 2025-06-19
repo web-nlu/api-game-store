@@ -14,5 +14,5 @@ public class WrapDataUserHome {
     private Long gameId;
     private String gameName;
     private Long categoryId;
-    private List<AccountDto> top5Accounts;
+    private List<AccountDto> accounts;
 }

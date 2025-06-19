@@ -23,41 +23,11 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long>, A
     @Query("SELECT a FROM AccountEntity a JOIN a.game g WHERE g.category.id = :categoryId")
     List<AccountEntity> findByCategoryId(String categoryId);
 
-    @Query("SELECT a FROM AccountEntity a JOIN a.game g WHERE a.title LIKE %:keyword% AND g.category.id = :categoryId")
-    List<AccountEntity> findByTitleContainingIgnoreCaseAndCategoryId(@Param("keyword") String keyword, @Param("categoryId") String categoryId);
-
-    @Query("SELECT a FROM AccountEntity a JOIN a.game g WHERE a.title LIKE %:keyword% AND g.id = :gameId")
-    List<AccountEntity> findByTitleContainingIgnoreCaseAndGameId(String keyword, String gameId);
-
     Optional<AccountEntity> findByIdAndIsDeletedFalseAndStatusEquals(Long accountId, String available);
 
     Optional<AccountEntity> findByIdAndIsDeletedFalse(Long accountId);
 
-    List<AccountEntity> findTop5ByOrderByCreatedAtDesc();
+    List<AccountEntity> findTop5ByStatusOrderByCreatedAtDesc(String status);
 
-    @NativeQuery(value = """
-               WITH ranked_accounts AS (
-                   SELECT
-                       a.*,
-                       g.name AS game_name,
-                       c.name AS category_name,
-                       ROW_NUMBER() OVER (
-                           PARTITION BY a.game_id
-                           ORDER BY a.created_at DESC
-                       ) AS rn
-                   FROM accounts a
-                   JOIN games g ON a.game_id = g.id
-                   JOIN categories c ON g.category_id = c.id
-               )
-               SELECT *
-               FROM ranked_accounts
-               WHERE rn <= 5;
-               
-            """)
-    List<AccountEntity> getTop5AccountsByGame();
-
-    Page<AccountEntity> findByGameIdAndIsDeletedFalseOrderByUpdatedAtDesc(Long gameId, Pageable pageable);
-
-
-
+    Page<AccountEntity> findByGameIdAndStatusAndIsDeletedFalseOrderByUpdatedAtDesc(Long gameId, String status, Pageable pageable);
 }
